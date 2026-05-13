@@ -32,7 +32,8 @@ h1 { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; col
 .photo-box span { font-size: 11px; color: rgba(255,255,255,0.85); }
 #fileInput { display: none; }
 .narrativa { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 14px; color: #fff; line-height: 1.8; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
-.inline-select { background: rgba(255,255,255,0.15); border: none; border-bottom: 2px solid rgba(255,255,255,0.7); color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; outline: none; padding: 2px 4px; border-radius: 4px; cursor: pointer; max-width: 220px; }
+.narrativa span { vertical-align: middle; line-height: 1; }
+.inline-select { background: rgba(255,255,255,0.15); border: none; border-bottom: 2px solid rgba(255,255,255,0.7); color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; outline: none; padding: 2px 4px; border-radius: 4px; cursor: pointer; max-width: 220px; vertical-align: middle; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 6px center; background-color: rgba(255,255,255,0.15); padding-right: 24px; }
 .inline-select option { background: #F5A623; color: #fff; }
 .inline-anio { background: rgba(255,255,255,0.25); border: none; border-bottom: 2px solid rgba(255,255,255,0.7); color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; outline: none; padding: 1px 4px; width: 52px; text-align: center; }
 .integ-label { font-size: 13px; font-weight: 900; color: #fff; margin-bottom: 4px; }
@@ -57,18 +58,22 @@ h1 { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; col
 .valores-titulo { font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.8px; text-align: center; margin-bottom: 12px; }
 .valores-bloque { margin-bottom: 14px; }
 .valores-pregunta { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: #F5C842; margin-bottom: 8px; }
-.val-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+.valores-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
 .val-opt { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.18); border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s; user-select: none; }
 .val-opt:hover:not(.blocked) { background: rgba(255,255,255,0.15); }
 .val-opt.blocked { opacity: 0.3; cursor: not-allowed; border-color: transparent; }
-.val-opt.sel-rep { background: #F5C842; border-color: #C8A020; }
-.val-opt.sel-rep .vname { color: #1A3A5C; }
-.val-opt.sel-dev { background: #3BB8D4; border-color: #2A9AB0; }
+.val-opt.selected-rep { background: #F5C842; border-color: #C8A020; }
+.val-opt.selected-rep .vname { color: #1A3A5C; }
+.val-opt.selected-dev { background: #3BB8D4; border-color: #2A9AB0; }
 .val-opt .vicon { font-size: 18px; display: block; margin-bottom: 3px; }
 .val-opt .vname { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 11px; color: #fff; display: block; line-height: 1.2; }
 .val-counter { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 6px; text-align: right; }
 .val-counter span { font-weight: 700; color: #3BB8D4; }
-.print-btn { margin-top: 1.4rem; background: #1A3A5C; color: #fff; border: none; border-radius: 10px; padding: 10px 28px; font-size: 14px; font-family: 'Nunito', sans-serif; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: auto; }
+.print-btn { margin-top: 1.4rem; background: #1A3A5C; color: #fff; border: none; border-radius: 10px; padding: 10px 28px; font-size: 14px; font-family: 'Nunito', sans-serif; font-weight: 700; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: auto; }
+.print-btn:hover { background: #0F2540; }
+.print-btn:disabled { background: #7A9AB0; cursor: not-allowed; opacity: 0.7; }
+.print-btn.enviando { background: #2E7D32; }
+.print-btn.error { background: #C62828; }
 @media print { .print-btn,.add-row,.add-row-small,.btn-cerrar,.tapa-abierta{display:none!important} .view-closed{display:none!important} .view-open{display:block!important;opacity:1!important} .maleta-interior{box-shadow:none} .val-opt.blocked{display:none} .val-counter{display:none} }
 </style>
 </head>
@@ -178,69 +183,35 @@ h1 { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; col
         <div class="valores-titulo">Valores institucionales</div>
         <div class="valores-bloque">
           <div class="valores-pregunta">🏆 ¿Qué valor representa a su equipo? <span style="font-weight:400;font-size:12px;opacity:0.7">(escojan 1)</span></div>
-          <div class="val-grid" id="gridRepresenta"></div>
+          <div class="valores-grid" id="gridRepresenta"></div>
         </div>
         <div class="valores-bloque">
           <div class="valores-pregunta">🌱 ¿Qué valores quieren desarrollar en el nuevo edificio? <span style="font-weight:400;font-size:12px;opacity:0.7">(escojan 2)</span></div>
-          <div class="val-grid" id="gridDesarrollar"></div>
+          <div class="valores-grid" id="gridDesarrollar"></div>
           <div class="val-counter">Seleccionados: <span id="devCount">0</span> / 2</div>
         </div>
       </div>
     </div>
-    <button class="print-btn" onclick="window.print()">🖨 Imprimir / Guardar PDF</button>
+    <button class="print-btn" id="btnEnviar" onclick="enviarMaleta()">📤 Enviar y guardar PDF</button>
   </div>
 </div>
 <script>
 const VALORES=[{id:'gentileza',icon:'🤝',name:'Gentileza'},{id:'excelencia',icon:'⭐',name:'Excelencia'},{id:'mejora',icon:'🔄',name:'Mejora Continua'},{id:'adaptabilidad',icon:'🌱',name:'Adaptabilidad'},{id:'colaboracion',icon:'🫂',name:'Colaboración'},{id:'responsabilidad',icon:'✅',name:'Responsabilidad'}];
-let valorRep=null,valoresDev=[];
-function buildGrids(){
-  const gR=document.getElementById('gridRepresenta'),gD=document.getElementById('gridDesarrollar');
-  gR.innerHTML='';gD.innerHTML='';
-  VALORES.forEach(v=>{
-    const eR=document.createElement('div');eR.className='val-opt';eR.dataset.id=v.id;
-    eR.innerHTML=`<span class="vicon">${v.icon}</span><span class="vname">${v.name}</span>`;
-    eR.onclick=()=>selectRep(v.id);gR.appendChild(eR);
-    const eD=document.createElement('div');eD.className='val-opt';eD.dataset.id=v.id;
-    eD.innerHTML=`<span class="vicon">${v.icon}</span><span class="vname">${v.name}</span>`;
-    eD.onclick=()=>selectDev(v.id);gD.appendChild(eD);
-  });
-}
-function selectRep(id){valorRep=valorRep===id?null:id;refresh();}
-function selectDev(id){
-  if(id===valorRep)return;
-  const i=valoresDev.indexOf(id);
-  if(i>=0){valoresDev.splice(i,1);}
-  else{if(valoresDev.length>=2)return;valoresDev.push(id);}
-  refresh();
-}
-function refresh(){
-  document.querySelectorAll('#gridRepresenta .val-opt').forEach(el=>{el.className='val-opt';if(el.dataset.id===valorRep)el.classList.add('sel-rep');});
-  document.querySelectorAll('#gridDesarrollar .val-opt').forEach(el=>{el.className='val-opt';if(el.dataset.id===valorRep){el.classList.add('blocked');return;}if(valoresDev.includes(el.dataset.id))el.classList.add('sel-dev');});
-  document.getElementById('devCount').textContent=valoresDev.length;
-}
-function abrirMaleta(){
-  const lid=document.getElementById('lidLayer'),pinI=document.getElementById('brochePinIzq'),pinD=document.getElementById('brochePinDer'),cpoI=document.getElementById('brocheCuerpoIzq'),cpoD=document.getElementById('brocheCuerpoDer');
-  pinI.classList.add('opening');pinD.classList.add('opening');
-  document.getElementById('openHint').style.display='none';
-  setTimeout(()=>{cpoI.classList.add('opening');cpoD.classList.add('opening');},150);
-  setTimeout(()=>lid.classList.add('opening'),320);
-  setTimeout(()=>{
-    document.getElementById('viewClosed').style.display='none';
-    const vo=document.getElementById('viewOpen');vo.style.display='block';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>vo.classList.add('visible')));
-    lid.classList.remove('opening');pinI.classList.remove('opening');pinD.classList.remove('opening');cpoI.classList.remove('opening');cpoD.classList.remove('opening');
-  },950);
-}
-function cerrarMaleta(){
-  const vo=document.getElementById('viewOpen');vo.classList.remove('visible');
-  setTimeout(()=>{vo.style.display='none';document.getElementById('viewClosed').style.display='block';document.getElementById('openHint').style.display='block';},420);
-}
+let valorRepresenta=null,valoresDev=[];
+function buildGrids(){const gR=document.getElementById('gridRepresenta'),gD=document.getElementById('gridDesarrollar');gR.innerHTML='';gD.innerHTML='';VALORES.forEach(v=>{const eR=document.createElement('div');eR.className='val-opt';eR.dataset.id=v.id;eR.innerHTML=`<span class="vicon">${v.icon}</span><span class="vname">${v.name}</span>`;eR.onclick=()=>selectRep(v.id);gR.appendChild(eR);const eD=document.createElement('div');eD.className='val-opt';eD.dataset.id=v.id;eD.innerHTML=`<span class="vicon">${v.icon}</span><span class="vname">${v.name}</span>`;eD.onclick=()=>selectDev(v.id);gD.appendChild(eD);});}
+function selectRep(id){valorRepresenta=valorRepresenta===id?null:id;refresh();}
+function selectDev(id){if(id===valorRepresenta)return;const i=valoresDev.indexOf(id);if(i>=0){valoresDev.splice(i,1);}else{if(valoresDev.length>=2)return;valoresDev.push(id);}refresh();}
+function refresh(){document.querySelectorAll('#gridRepresenta .val-opt').forEach(el=>{el.className='val-opt';if(el.dataset.id===valorRepresenta)el.classList.add('selected-rep');});document.querySelectorAll('#gridDesarrollar .val-opt').forEach(el=>{el.className='val-opt';if(el.dataset.id===valorRepresenta){el.classList.add('blocked');return;}if(valoresDev.includes(el.dataset.id))el.classList.add('selected-dev');});document.getElementById('devCount').textContent=valoresDev.length;}
+function abrirMaleta(){const lid=document.getElementById('lidLayer'),pinI=document.getElementById('brochePinIzq'),pinD=document.getElementById('brochePinDer'),cpoI=document.getElementById('brocheCuerpoIzq'),cpoD=document.getElementById('brocheCuerpoDer');pinI.classList.add('opening');pinD.classList.add('opening');document.getElementById('openHint').style.display='none';setTimeout(()=>{cpoI.classList.add('opening');cpoD.classList.add('opening');},150);setTimeout(()=>lid.classList.add('opening'),320);setTimeout(()=>{document.getElementById('viewClosed').style.display='none';const vo=document.getElementById('viewOpen');vo.style.display='block';requestAnimationFrame(()=>requestAnimationFrame(()=>vo.classList.add('visible')));lid.classList.remove('opening');pinI.classList.remove('opening');pinD.classList.remove('opening');cpoI.classList.remove('opening');cpoD.classList.remove('opening');},950);}
+function cerrarMaleta(){const vo=document.getElementById('viewOpen');vo.classList.remove('visible');setTimeout(()=>{vo.style.display='none';document.getElementById('viewClosed').style.display='block';document.getElementById('openHint').style.display='block';},420);}
 function addTag(){const i=document.getElementById('tagInput'),v=i.value.trim();if(!v)return;const el=document.createElement('div');el.className='tag';el.innerHTML=v+'<button class="del-btn" onclick="this.parentElement.remove()">&times;</button>';document.getElementById('tagsWrap').appendChild(el);i.value='';i.focus();}
 function addIntegrante(){const i=document.getElementById('integranteInput'),v=i.value.trim();if(!v)return;const w=document.getElementById('integrantesWrap');const el=document.createElement('div');el.className='integ-tag';el.dataset.name=v.toLowerCase();el.innerHTML=v+'<button class="del-btn" onclick="this.parentElement.remove();sortI()">&times;</button>';w.appendChild(el);sortI();i.value='';i.focus();}
 function sortI(){const w=document.getElementById('integrantesWrap');[...w.children].sort((a,b)=>(a.dataset.name||'').localeCompare(b.dataset.name||'','es')).forEach(t=>w.appendChild(t));}
 function loadPhoto(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{document.getElementById('photoBox').innerHTML='<img src="'+ev.target.result+'" alt="Foto"/>';};r.readAsDataURL(f);}
 ['el trabajo en equipo','los aprendizajes','los jardines'].forEach(t=>{const el=document.createElement('div');el.className='tag';el.innerHTML=t+'<button class="del-btn" onclick="this.parentElement.remove()">&times;</button>';document.getElementById('tagsWrap').appendChild(el);});
 buildGrids();
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbz25Z6qq8yfkf9YkEEIOAlxECmtORSb9de_AQZETsKORKppbie3IxZs4VhUjMww15qp/exec';
+async function enviarMaleta(){const btn=document.getElementById('btnEnviar');const unidad=document.getElementById('unidadEquipo').value||'';const anio=document.getElementById('anioEquipo').value||'';const integrantes=Array.from(document.querySelectorAll('.integ-tag')).map(el=>el.childNodes[0].textContent.trim()).join(', ');const llevan=Array.from(document.querySelectorAll('#tagsWrap .tag')).map(el=>el.childNodes[0].textContent.trim()).join(', ');const recuerdo=document.querySelector('.recuerdo-in')?document.querySelector('.recuerdo-in').value:'';const repEl=document.querySelector('#gridRepresenta .selected-rep .vname');const valRep=repEl?repEl.textContent:'';const devEls=document.querySelectorAll('#gridDesarrollar .selected-dev .vname');const valDev=Array.from(devEls).map(el=>el.textContent).join(', ');if(!unidad){alert('Por favor selecciona el equipo antes de enviar.');return;}btn.textContent='⏳ Enviando...';btn.disabled=true;btn.classList.add('enviando');try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({equipo:unidad,anio:anio,integrantes:integrantes,llevan:llevan,recuerdo:recuerdo,valorRepresenta:valRep,valoresDesarrollar:valDev})});btn.textContent='✅ Enviado — generando PDF...';btn.classList.remove('enviando');setTimeout(()=>{window.print();btn.textContent='📤 Enviar y guardar PDF';btn.disabled=false;},1000);}catch(err){btn.textContent='❌ Error al enviar';btn.classList.remove('enviando');btn.classList.add('error');setTimeout(()=>{btn.textContent='📤 Enviar y guardar PDF';btn.disabled=false;btn.classList.remove('error');},3000);}}
 </script>
 </body>
 </html>
