@@ -119,6 +119,7 @@
     letter-spacing:.3px;
   }
   .front-photo{
+    position:relative;
     width:78%;
     aspect-ratio:1/1;
     border-radius:16px;
@@ -128,6 +129,27 @@
     align-items:center;
     justify-content:center;
     font-size:2.2rem;
+    cursor:pointer;
+    overflow:hidden;
+  }
+  .front-photo img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .front-photo span{
+    font-size:0.68rem;
+    font-family:'Quicksand', sans-serif;
+    color:var(--lila-700);
+    margin-top:4px;
+  }
+  .front-photo .photo-placeholder{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
   }
   .front-title{
     font-family:'Baloo 2', sans-serif;
@@ -262,7 +284,13 @@
 
         <div class="face flip-front">
           <span class="front-badge">✨ MI PHOTOCARD</span>
-          <div class="front-photo">📷</div>
+          <div class="front-photo" id="frontPhoto" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
+            <div class="photo-placeholder">
+              <span style="font-size:2.2rem">📷</span>
+              <span>Toca para subir tu foto</span>
+            </div>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto(event)">
           <div>
             <div class="front-title">Tu comeback<br>empieza contigo</div>
             <div class="front-sub">Photocard emocional</div>
@@ -307,6 +335,16 @@
 <script>
   function voltear(){
     document.getElementById('flipCard').classList.toggle('flipped');
+  }
+
+  function cargarFoto(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('frontPhoto').innerHTML = '<img src="'+ev.target.result+'" alt="Tu foto">';
+    };
+    reader.readAsDataURL(file);
   }
 </script>
 
