@@ -183,6 +183,9 @@
     cursor:grab;
     touch-action:none;
     pointer-events:auto;
+    -webkit-user-drag:none;
+    user-select:none;
+    -webkit-touch-callout:none;
     filter:drop-shadow(0 3px 5px rgba(46,26,71,0.35));
   }
   .placed-sticker:active{ cursor:grabbing; }
@@ -611,6 +614,8 @@
     el.src = `assets/gems/${name}.png`;
     el.className = 'placed-sticker';
     el.alt = '';
+    el.draggable = false;
+    el.addEventListener('dragstart', e => e.preventDefault());
     const n = layer.children.length;
     const left = 12 + ((n * 37) % 60);
     const top = 10 + ((n * 53) % 70);
