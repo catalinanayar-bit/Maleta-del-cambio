@@ -133,6 +133,9 @@
     inset:0;
     overflow:hidden;
     border-radius:inherit;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
   .photo-clip img{
     position:absolute;
@@ -627,6 +630,10 @@
 
   function habilitarArrastreGema(el, layer){
     let dragging = false, moved = false, startX, startY, origLeft, origTop;
+    // the browser fires a plain "click" after pointerup/mouseup regardless of
+    // what pointerdown did, and that click bubbles up to #flipCard's onclick —
+    // block it here so touching a placed sticker never flips the card.
+    el.addEventListener('click', e => e.stopPropagation());
     el.addEventListener('pointerdown', e => {
       e.stopPropagation();
       dragging = true;
