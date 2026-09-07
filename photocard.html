@@ -35,7 +35,7 @@
 
   .intro{
     max-width:520px;
-    margin:0 auto 28px;
+    margin:0 auto 8px;
     text-align:center;
   }
   .intro .badge{
@@ -60,6 +60,50 @@
     line-height:1.5;
     margin:4px 0;
     color:var(--plum-900);
+  }
+
+  .card-section{
+    width:100%;
+    max-width:520px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:36px;
+    padding-top:32px;
+    border-top:2px dashed var(--lila-300);
+  }
+  .card-section:first-of-type{
+    margin-top:20px;
+    padding-top:0;
+    border-top:none;
+  }
+  .section-step{
+    display:inline-block;
+    background:var(--gold);
+    color:var(--plum-900);
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:0.68rem;
+    padding:3px 12px;
+    border-radius:14px;
+    margin-bottom:8px;
+    letter-spacing:.3px;
+  }
+  .section-title{
+    font-family:'Baloo 2', sans-serif;
+    font-size:1.15rem;
+    font-weight:800;
+    color:var(--lila-700);
+    margin:0 0 4px;
+    text-align:center;
+  }
+  .section-sub{
+    font-size:0.85rem;
+    color:var(--plum-900);
+    text-align:center;
+    max-width:400px;
+    margin:0 0 20px;
+    line-height:1.45;
   }
 
   .stage{
@@ -144,12 +188,12 @@
     height:100%;
     object-fit:cover;
   }
-  #frameOverlayClip{
+  .frame-overlay-clip{
     object-fit:fill;
     pointer-events:none;
     z-index:2;
   }
-  #frameOverlay{
+  .frame-overlay{
     position:absolute;
     left:0;
     top:0;
@@ -401,123 +445,206 @@
   <div class="intro">
     <span class="badge">OFICINA DE LA JUVENTUD</span>
     <h1>Tu comeback empieza contigo 💜</h1>
-    <p>Toca la photocard para completarla con tus respuestas.</p>
+    <p>Primero arma la photocard de tu bias, y después la tuya.</p>
   </div>
 
-  <div class="stage">
-    <div class="flip-card" id="flipCard" onclick="voltear()">
-      <div class="flip-inner" id="flipInner">
+  <!-- ============ SECTION 1: BIAS PHOTOCARD ============ -->
+  <div class="card-section">
+    <span class="section-step">1️⃣ PRIMERO</span>
+    <h2 class="section-title">Photocard de tu bias</h2>
+    <p class="section-sub">Sube una foto de tu bias y cuéntanos por qué te inspira.</p>
 
-        <div class="face flip-front" id="frontPhoto">
-          <div class="photo-clip">
-            <div class="photo-placeholder" id="photoPlaceholder">
-              <span style="font-size:2.6rem">📷</span>
-              <span class="ph-label">Aún no tienes foto</span>
+    <div class="stage">
+      <div class="flip-card" id="bias-flipCard" onclick="voltear('bias')">
+        <div class="flip-inner">
+
+          <div class="face flip-front" id="bias-frontPhoto">
+            <div class="photo-clip">
+              <div class="photo-placeholder" id="bias-photoPlaceholder">
+                <span style="font-size:2.6rem">📷</span>
+                <span class="ph-label">Aún no tienes foto de tu bias</span>
+              </div>
+              <img id="bias-photoImg" alt="Foto de tu bias" style="display:none">
+              <img class="frame-overlay-clip" id="bias-frameOverlayClip" alt="" style="display:none">
             </div>
-            <img id="photoImg" alt="Tu foto" style="display:none">
-            <img id="frameOverlayClip" alt="" style="display:none">
+            <img class="frame-overlay" id="bias-frameOverlay" alt="" style="display:none">
+            <div class="sticker-layer" id="bias-stickerLayer"></div>
+            <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('bias-fileInput').click()">📷 Subir foto de tu bias</button>
+            <input type="file" id="bias-fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto('bias', event)">
           </div>
-          <img id="frameOverlay" alt="" style="display:none">
-          <div class="sticker-layer" id="stickerLayer"></div>
-          <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📷 Subir foto</button>
-          <input type="file" id="fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto(event)">
-        </div>
 
-        <div class="face flip-back">
-          <div class="back-scroll">
-            <div class="nameplate">
-              <span class="title">MI PHOTOCARD</span>
-              <button class="back-btn" type="button" onclick="event.stopPropagation(); voltear()">↩ Volver</button>
-            </div>
+          <div class="face flip-back">
+            <div class="back-scroll">
+              <div class="nameplate">
+                <span class="title">MI BIAS</span>
+                <button class="back-btn" type="button" onclick="event.stopPropagation(); voltear('bias')">↩ Volver</button>
+              </div>
 
-            <div class="field">
-              <div class="label">⭐ Algo que me gusta de mí</div>
-              <input type="text" onclick="event.stopPropagation()">
-            </div>
-            <div class="field">
-              <div class="label">🎧 Algo que me hace sentir bien</div>
-              <input type="text" onclick="event.stopPropagation()">
-            </div>
-            <div class="field">
-              <div class="label">🫶 Alguien con quien puedo contar</div>
-              <input type="text" onclick="event.stopPropagation()">
-            </div>
-            <div class="field">
-              <div class="label">✨ Algo que quiero recordar en un mal día</div>
-              <textarea rows="2" onclick="event.stopPropagation()"></textarea>
-            </div>
+              <div class="field">
+                <div class="label">💜 ¿Quién es tu bias?</div>
+                <input type="text" onclick="event.stopPropagation()">
+              </div>
+              <div class="field">
+                <div class="label">✨ ¿Qué es lo que más admiras de él o ella?</div>
+                <input type="text" onclick="event.stopPropagation()">
+              </div>
+              <div class="field">
+                <div class="label">🌿 ¿Sabes qué actividad o hobby disfruta para sentirse bien, descansar o desconectarse?</div>
+                <input type="text" onclick="event.stopPropagation()">
+              </div>
+              <div class="field">
+                <div class="label">🎧 ¿Qué canción de tu bias es significativa para ti o habla de algún desafío? ¿Por qué la elegiste?</div>
+                <textarea rows="2" onclick="event.stopPropagation()"></textarea>
+              </div>
+              <div class="field">
+                <div class="label">⭐ ¿Cuál es tu comeback favorito?</div>
+                <input type="text" onclick="event.stopPropagation()">
+              </div>
 
-            <div class="tagline">TU COMEBACK EMPIEZA CONTIGO</div>
+              <div class="tagline">TU COMEBACK EMPIEZA CONTIGO</div>
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="stage-hint" id="stageHint">👆 Toca la tarjeta para ver las preguntas</div>
+    <div class="stage-hint" id="bias-stageHint">👆 Toca la tarjeta para ver las preguntas</div>
 
-  <div class="frame-picker-wrap">
-    <div class="frame-label">🖼️ Elige el marco de tu foto</div>
-    <div class="frame-picker">
-      <button type="button" class="frame-swatch none-swatch active" data-frame="none" onclick="elegirMarco('none', this)">Sin<br>marco</button>
-      <button type="button" class="frame-swatch" data-frame="blue" onclick="elegirMarco('blue', this)"><img src="assets/frames/frame-hearts-blue.png" alt="Marco de corazones azul"></button>
-      <button type="button" class="frame-swatch" data-frame="green" onclick="elegirMarco('green', this)"><img src="assets/frames/frame-flowers-green.png" alt="Marco de flores verde"></button>
-      <button type="button" class="frame-swatch" data-frame="pastel" onclick="elegirMarco('pastel', this)"><img src="assets/frames/frame-hearts-pastel.png" alt="Marco de corazones pastel"></button>
-      <button type="button" class="frame-swatch" data-frame="flowersblue" onclick="elegirMarco('flowersblue', this)"><img src="assets/frames/frame-flowers-hearts-blue.png" alt="Marco de flores y corazones azul"></button>
-      <button type="button" class="frame-swatch" data-frame="pinkwavy" onclick="elegirMarco('pinkwavy', this)"><img src="assets/frames/frame-hearts-pink-wavy.png" alt="Marco de corazones rosa"></button>
-      <button type="button" class="frame-swatch" data-frame="ipod" onclick="elegirMarco('ipod', this)"><img src="assets/frames/frame-ipod-moon.png" alt="Marco de iPod luna y estrellas"></button>
-      <button type="button" class="frame-swatch" data-frame="camera" onclick="elegirMarco('camera', this)"><img src="assets/frames/frame-camera-canon.png" alt="Marco de cámara Canon"></button>
-      <button type="button" class="frame-swatch" data-frame="melody" onclick="elegirMarco('melody', this)"><img src="assets/frames/frame-melody-strawberry.png" alt="Marco de fresas My Melody"></button>
-      <button type="button" class="frame-swatch" data-frame="kawaii" onclick="elegirMarco('kawaii', this)"><img src="assets/frames/frame-kawaii-bubbles.png" alt="Marco de burbujas kawaii"></button>
-      <button type="button" class="frame-swatch" data-frame="monchhichi" onclick="elegirMarco('monchhichi', this)"><img src="assets/frames/frame-monchhichi-stars.png" alt="Marco de Monchhichi con estrellas"></button>
-      <button type="button" class="frame-swatch" data-frame="scrapbook" onclick="elegirMarco('scrapbook', this)"><img src="assets/frames/frame-scrapbook-collage.png" alt="Marco collage scrapbook"></button>
+    <div class="frame-picker-wrap">
+      <div class="frame-label">🖼️ Elige el marco de la foto</div>
+      <div class="frame-picker" id="bias-framePicker"></div>
+    </div>
+
+    <div class="gem-picker-wrap">
+      <div class="frame-label">✨ Decora tu tarjeta</div>
+      <div class="gem-picker" id="bias-gemPicker"></div>
+      <button type="button" class="gem-clear-btn" onclick="limpiarGemas('bias')">🧹 Quitar decoraciones</button>
     </div>
   </div>
 
-  <div class="gem-picker-wrap">
-    <div class="frame-label">✨ Decora tu tarjeta</div>
-    <div class="gem-picker" id="gemPicker"></div>
-    <button type="button" class="gem-clear-btn" onclick="limpiarGemas()">🧹 Quitar decoraciones</button>
+  <!-- ============ SECTION 2: MI PHOTOCARD ============ -->
+  <div class="card-section">
+    <span class="section-step">2️⃣ AHORA TÚ</span>
+    <h2 class="section-title">Tu photocard</h2>
+    <p class="section-sub">Ahora sube tu propia foto y completa las preguntas sobre ti.</p>
+
+    <div class="stage">
+      <div class="flip-card" id="mine-flipCard" onclick="voltear('mine')">
+        <div class="flip-inner">
+
+          <div class="face flip-front" id="mine-frontPhoto">
+            <div class="photo-clip">
+              <div class="photo-placeholder" id="mine-photoPlaceholder">
+                <span style="font-size:2.6rem">📷</span>
+                <span class="ph-label">Aún no tienes foto</span>
+              </div>
+              <img id="mine-photoImg" alt="Tu foto" style="display:none">
+              <img class="frame-overlay-clip" id="mine-frameOverlayClip" alt="" style="display:none">
+            </div>
+            <img class="frame-overlay" id="mine-frameOverlay" alt="" style="display:none">
+            <div class="sticker-layer" id="mine-stickerLayer"></div>
+            <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('mine-fileInput').click()">📷 Subir foto</button>
+            <input type="file" id="mine-fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto('mine', event)">
+          </div>
+
+          <div class="face flip-back">
+            <div class="back-scroll">
+              <div class="nameplate">
+                <span class="title">MI PHOTOCARD</span>
+                <button class="back-btn" type="button" onclick="event.stopPropagation(); voltear('mine')">↩ Volver</button>
+              </div>
+
+              <div class="field">
+                <div class="label">⭐ Algo que me gusta de mí</div>
+                <input type="text" onclick="event.stopPropagation()">
+              </div>
+              <div class="field">
+                <div class="label">🎧 Algo que me hace sentir bien</div>
+                <input type="text" onclick="event.stopPropagation()">
+              </div>
+              <div class="field">
+                <div class="label">🫶 Alguien con quien puedo contar</div>
+                <input type="text" onclick="event.stopPropagation()">
+              </div>
+              <div class="field">
+                <div class="label">✨ Algo que quiero recordar en un mal día</div>
+                <textarea rows="2" onclick="event.stopPropagation()"></textarea>
+              </div>
+
+              <div class="tagline">TU COMEBACK EMPIEZA CONTIGO</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-hint" id="mine-stageHint">👆 Toca la tarjeta para ver las preguntas</div>
+
+    <div class="frame-picker-wrap">
+      <div class="frame-label">🖼️ Elige el marco de tu foto</div>
+      <div class="frame-picker" id="mine-framePicker"></div>
+    </div>
+
+    <div class="gem-picker-wrap">
+      <div class="frame-label">✨ Decora tu tarjeta</div>
+      <div class="gem-picker" id="mine-gemPicker"></div>
+      <button type="button" class="gem-clear-btn" onclick="limpiarGemas('mine')">🧹 Quitar decoraciones</button>
+    </div>
   </div>
 
   <p class="note">💡 Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.<br>Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla.</p>
 
 <script>
-  function voltear(){
-    const card = document.getElementById('flipCard');
+  function voltear(id){
+    const card = document.getElementById(id + '-flipCard');
     card.classList.toggle('flipped');
-    document.getElementById('stageHint').style.visibility = card.classList.contains('flipped') ? 'hidden' : 'visible';
+    document.getElementById(id + '-stageHint').style.visibility = card.classList.contains('flipped') ? 'hidden' : 'visible';
   }
 
   // "core" is the rectangle (in the source image's own pixels) that should align
   // exactly with the card edges; anything outside it (stickers, charms) is allowed
   // to spill past the card border instead of being squeezed inside it.
   const FRAMES = {
-    blue: { src: 'assets/frames/frame-hearts-blue.png' },
-    green: { src: 'assets/frames/frame-flowers-green.png' },
-    pastel: { src: 'assets/frames/frame-hearts-pastel.png' },
-    flowersblue: { src: 'assets/frames/frame-flowers-hearts-blue.png' },
-    pinkwavy: { src: 'assets/frames/frame-hearts-pink-wavy.png' },
+    blue: { label: 'Marco de corazones azul', src: 'assets/frames/frame-hearts-blue.png' },
+    green: { label: 'Marco de flores verde', src: 'assets/frames/frame-flowers-green.png' },
+    pastel: { label: 'Marco de corazones pastel', src: 'assets/frames/frame-hearts-pastel.png' },
+    flowersblue: { label: 'Marco de flores y corazones azul', src: 'assets/frames/frame-flowers-hearts-blue.png' },
+    pinkwavy: { label: 'Marco de corazones rosa', src: 'assets/frames/frame-hearts-pink-wavy.png' },
     ipod: {
+      label: 'Marco de iPod luna y estrellas',
       src: 'assets/frames/frame-ipod-moon.png',
       full: { w: 567, h: 846 },
       core: { x0: 38, y0: 2, x1: 530, y1: 843 }
     },
-    camera: { src: 'assets/frames/frame-camera-canon.png' },
-    melody: { src: 'assets/frames/frame-melody-strawberry.png' },
-    kawaii: { src: 'assets/frames/frame-kawaii-bubbles.png' },
-    monchhichi: { src: 'assets/frames/frame-monchhichi-stars.png' },
-    scrapbook: { src: 'assets/frames/frame-scrapbook-collage.png' }
+    camera: { label: 'Marco de cámara Canon', src: 'assets/frames/frame-camera-canon.png' },
+    melody: { label: 'Marco de fresas My Melody', src: 'assets/frames/frame-melody-strawberry.png' },
+    kawaii: { label: 'Marco de burbujas kawaii', src: 'assets/frames/frame-kawaii-bubbles.png' },
+    monchhichi: { label: 'Marco de Monchhichi con estrellas', src: 'assets/frames/frame-monchhichi-stars.png' },
+    scrapbook: { label: 'Marco collage scrapbook', src: 'assets/frames/frame-scrapbook-collage.png' }
   };
 
-  let marcoActivo = 'none';
+  const GEMS = [
+    'butterfly-green','butterfly-teal','flower-blue','flower-clover-green','flower-green',
+    'flower-lightgreen-big','flower-magenta-med','flower-magenta-sm','flower-navy-big',
+    'flower-orange-big','flower-pinkpurple','flower-purple-big','flower-yellow',
+    'gem-heart-purple','gem-heart-red','gem-heart-teal','gem-round-orange','gem-round-purple',
+    'gem-triangle-pink','star-orange'
+  ];
 
   // slight overscan on the CLIPPED body layer only, so the device's own rounded
   // corners still fully cover the card's rounded corners instead of leaving a
   // tiny gap at each corner. The unclipped layer stays exact so its stickers
   // spill past the card edges instead of bleeding along the flat sides too.
   const OVERSCAN = 1.06;
+
+  // per-card state, keyed by id ('bias' / 'mine')
+  const estado = {};
+  function getEstado(id){
+    if(!estado[id]) estado[id] = { marcoActivo: 'none' };
+    return estado[id];
+  }
 
   function encajar(img, core, full, rect, overscan){
     const coreW = core.x1 - core.x0;
@@ -532,23 +659,23 @@
     img.style.top = (rect.height / 2 - cy * scaleY) + 'px';
   }
 
-  function posicionarMarcoOverflow(){
-    const cfg = FRAMES[marcoActivo];
+  function posicionarMarcoOverflow(id){
+    const cfg = FRAMES[getEstado(id).marcoActivo];
     if(!cfg || !cfg.core) return;
-    const frontPhoto = document.getElementById('frontPhoto');
+    const frontPhoto = document.getElementById(id + '-frontPhoto');
     const rect = frontPhoto.getBoundingClientRect();
-    encajar(document.getElementById('frameOverlayClip'), cfg.core, cfg.full, rect, OVERSCAN);
-    encajar(document.getElementById('frameOverlay'), cfg.core, cfg.full, rect, 1);
+    encajar(document.getElementById(id + '-frameOverlayClip'), cfg.core, cfg.full, rect, OVERSCAN);
+    encajar(document.getElementById(id + '-frameOverlay'), cfg.core, cfg.full, rect, 1);
   }
 
-  function elegirMarco(key, btn){
-    document.querySelectorAll('.frame-swatch').forEach(b => b.classList.remove('active'));
+  function elegirMarco(id, key, btn){
+    document.querySelectorAll(`#${id}-framePicker .frame-swatch`).forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    marcoActivo = key;
+    getEstado(id).marcoActivo = key;
 
-    const overlay = document.getElementById('frameOverlay');
-    const overlayClip = document.getElementById('frameOverlayClip');
-    const frontPhoto = document.getElementById('frontPhoto');
+    const overlay = document.getElementById(id + '-frameOverlay');
+    const overlayClip = document.getElementById(id + '-frameOverlayClip');
+    const frontPhoto = document.getElementById(id + '-frontPhoto');
 
     if(key === 'none'){
       overlay.style.display = 'none';
@@ -570,7 +697,7 @@
       overlay.style.left = '';
       overlay.style.top = '';
       // wait for layout (frame-overflow class) before measuring the card
-      requestAnimationFrame(posicionarMarcoOverflow);
+      requestAnimationFrame(() => posicionarMarcoOverflow(id));
     } else {
       frontPhoto.classList.remove('frame-overflow');
       overlayClip.style.display = 'none';
@@ -584,35 +711,49 @@
   }
 
   window.addEventListener('resize', () => {
-    if(FRAMES[marcoActivo] && FRAMES[marcoActivo].core){
-      posicionarMarcoOverflow();
-    }
+    ['bias', 'mine'].forEach(id => {
+      if(FRAMES[getEstado(id).marcoActivo] && FRAMES[getEstado(id).marcoActivo].core){
+        posicionarMarcoOverflow(id);
+      }
+    });
   });
 
-  const GEMS = [
-    'butterfly-green','butterfly-teal','flower-blue','flower-clover-green','flower-green',
-    'flower-lightgreen-big','flower-magenta-med','flower-magenta-sm','flower-navy-big',
-    'flower-orange-big','flower-pinkpurple','flower-purple-big','flower-yellow',
-    'gem-heart-purple','gem-heart-red','gem-heart-teal','gem-round-orange','gem-round-purple',
-    'gem-triangle-pink','star-orange'
-  ];
+  function construirPickerMarcos(id){
+    const picker = document.getElementById(id + '-framePicker');
+    const noneBtn = document.createElement('button');
+    noneBtn.type = 'button';
+    noneBtn.className = 'frame-swatch none-swatch active';
+    noneBtn.dataset.frame = 'none';
+    noneBtn.innerHTML = 'Sin<br>marco';
+    noneBtn.onclick = () => elegirMarco(id, 'none', noneBtn);
+    picker.appendChild(noneBtn);
 
-  let gemSeq = 0;
+    Object.keys(FRAMES).forEach(key => {
+      const cfg = FRAMES[key];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'frame-swatch';
+      btn.dataset.frame = key;
+      btn.innerHTML = `<img src="${cfg.src}" alt="${cfg.label}">`;
+      btn.onclick = () => elegirMarco(id, key, btn);
+      picker.appendChild(btn);
+    });
+  }
 
-  function construirPickerGemas(){
-    const picker = document.getElementById('gemPicker');
+  function construirPickerGemas(id){
+    const picker = document.getElementById(id + '-gemPicker');
     GEMS.forEach(name => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'gem-swatch';
       btn.innerHTML = `<img src="assets/gems/${name}.png" alt="Gema decorativa">`;
-      btn.onclick = () => agregarGema(name);
+      btn.onclick = () => agregarGema(id, name);
       picker.appendChild(btn);
     });
   }
 
-  function agregarGema(name){
-    const layer = document.getElementById('stickerLayer');
+  function agregarGema(id, name){
+    const layer = document.getElementById(id + '-stickerLayer');
     const el = document.createElement('img');
     el.src = `assets/gems/${name}.png`;
     el.className = 'placed-sticker';
@@ -631,7 +772,7 @@
   function habilitarArrastreGema(el, layer){
     let dragging = false, moved = false, startX, startY, origLeft, origTop;
     // the browser fires a plain "click" after pointerup/mouseup regardless of
-    // what pointerdown did, and that click bubbles up to #flipCard's onclick —
+    // what pointerdown did, and that click bubbles up to the card's onclick —
     // block it here so touching a placed sticker never flips the card.
     el.addEventListener('click', e => e.stopPropagation());
     el.addEventListener('pointerdown', e => {
@@ -668,24 +809,27 @@
     });
   }
 
-  function limpiarGemas(){
-    document.getElementById('stickerLayer').innerHTML = '';
+  function limpiarGemas(id){
+    document.getElementById(id + '-stickerLayer').innerHTML = '';
   }
 
-  construirPickerGemas();
-
-  function cargarFoto(e){
+  function cargarFoto(id, e){
     const file = e.target.files[0];
     if(!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      document.getElementById('photoPlaceholder').style.display = 'none';
-      const img = document.getElementById('photoImg');
+      document.getElementById(id + '-photoPlaceholder').style.display = 'none';
+      const img = document.getElementById(id + '-photoImg');
       img.src = ev.target.result;
       img.style.display = 'block';
     };
     reader.readAsDataURL(file);
   }
+
+  ['bias', 'mine'].forEach(id => {
+    construirPickerMarcos(id);
+    construirPickerGemas(id);
+  });
 </script>
 
 </body>
