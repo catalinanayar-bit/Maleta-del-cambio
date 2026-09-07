@@ -65,8 +65,26 @@
   .stage{
     width:320px;
     max-width:88vw;
-    aspect-ratio:54/86;
+    aspect-ratio:640/905;
     perspective:1800px;
+  }
+
+  .stage-hint{
+    margin-top:16px;
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.78rem;
+    color:white;
+    background:var(--lila-700);
+    padding:6px 18px;
+    border-radius:20px;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .stage-hint{ animation:none; }
+  }
+  @keyframes pulse{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
   }
 
   .flip-card{
@@ -103,62 +121,54 @@
       radial-gradient(circle at 88% 88%, var(--lila-300) 0%, transparent 48%),
       var(--cream);
     display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:space-between;
-    padding:22px 18px;
-    text-align:center;
-  }
-  .front-badge{
-    background:var(--lila-700);
-    color:white;
-    font-family:'Baloo 2', sans-serif;
-    font-size:0.62rem;
-    padding:3px 12px;
-    border-radius:16px;
-    letter-spacing:.3px;
-  }
-  .front-photo{
-    position:relative;
-    width:64%;
-    aspect-ratio:640/905;
-    border-radius:16px;
-    border:2.5px dashed var(--lila-500);
-    transition:border-color 0.2s;
-    background:rgba(255,255,255,0.55);
-    display:flex;
     align-items:center;
     justify-content:center;
-    font-size:2.2rem;
     cursor:pointer;
-    overflow:hidden;
   }
-  .front-photo img{
+  .flip-front img{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
   }
-  .front-photo.has-frame{
-    border-color:transparent;
-  }
-  .front-photo .frame-overlay{
+  #frameOverlay{
     object-fit:fill;
     pointer-events:none;
     z-index:2;
   }
-  .front-photo span{
-    font-size:0.68rem;
-    font-family:'Quicksand', sans-serif;
-    color:var(--lila-700);
-    margin-top:4px;
-  }
-  .front-photo .photo-placeholder{
+  .photo-placeholder{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:2px;
+    gap:8px;
+    color:var(--lila-700);
+    text-align:center;
+    padding:0 24px;
+  }
+  .photo-placeholder .ph-label{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+  }
+  .upload-btn{
+    position:absolute;
+    left:50%;
+    bottom:14px;
+    transform:translateX(-50%);
+    z-index:3;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(46,26,71,0.78);
+    color:white;
+    border:none;
+    border-radius:20px;
+    padding:7px 16px;
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.72rem;
+    font-weight:700;
+    cursor:pointer;
   }
 
   .frame-picker-wrap{
@@ -207,31 +217,6 @@
   .frame-swatch.active{
     border-color:var(--lila-700);
     box-shadow:0 0 0 2px var(--lila-300);
-  }
-  .front-title{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:800;
-    font-size:1.15rem;
-    color:var(--lila-700);
-    line-height:1.25;
-  }
-  .front-sub{
-    font-size:0.78rem;
-    color:var(--plum-900);
-    opacity:0.75;
-  }
-  .front-hint{
-    font-family:'Baloo 2', sans-serif;
-    font-size:0.72rem;
-    color:white;
-    background:var(--lila-700);
-    padding:6px 16px;
-    border-radius:20px;
-    animation:pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes pulse{
-    0%,100%{ transform:scale(1); }
-    50%{ transform:scale(1.05); }
   }
 
   /* ---- BACK ---- */
@@ -339,22 +324,15 @@
     <div class="flip-card" id="flipCard" onclick="voltear()">
       <div class="flip-inner" id="flipInner">
 
-        <div class="face flip-front">
-          <span class="front-badge">✨ MI PHOTOCARD</span>
-          <div class="front-photo" id="frontPhoto" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
-            <div class="photo-placeholder" id="photoPlaceholder">
-              <span style="font-size:2.2rem">📷</span>
-              <span>Toca para subir tu foto</span>
-            </div>
-            <img id="photoImg" alt="Tu foto" style="display:none">
-            <img id="frameOverlay" class="frame-overlay" alt="" style="display:none">
+        <div class="face flip-front" id="frontPhoto">
+          <div class="photo-placeholder" id="photoPlaceholder">
+            <span style="font-size:2.6rem">📷</span>
+            <span class="ph-label">Aún no tienes foto</span>
           </div>
+          <img id="photoImg" alt="Tu foto" style="display:none">
+          <img id="frameOverlay" alt="" style="display:none">
+          <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📷 Subir foto</button>
           <input type="file" id="fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto(event)">
-          <div>
-            <div class="front-title">Tu comeback<br>empieza contigo</div>
-            <div class="front-sub">Photocard emocional</div>
-          </div>
-          <div class="front-hint">👆 Toca para completarla</div>
         </div>
 
         <div class="face flip-back">
@@ -389,6 +367,8 @@
     </div>
   </div>
 
+  <div class="stage-hint" id="stageHint">👆 Toca la tarjeta para ver las preguntas</div>
+
   <div class="frame-picker-wrap">
     <div class="frame-label">🖼️ Elige el marco de tu foto</div>
     <div class="frame-picker">
@@ -403,7 +383,9 @@
 
 <script>
   function voltear(){
-    document.getElementById('flipCard').classList.toggle('flipped');
+    const card = document.getElementById('flipCard');
+    card.classList.toggle('flipped');
+    document.getElementById('stageHint').style.visibility = card.classList.contains('flipped') ? 'hidden' : 'visible';
   }
 
   const FRAMES = {
@@ -416,14 +398,11 @@
     document.querySelectorAll('.frame-swatch').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const overlay = document.getElementById('frameOverlay');
-    const frontPhoto = document.getElementById('frontPhoto');
     if(key === 'none'){
       overlay.style.display = 'none';
-      frontPhoto.classList.remove('has-frame');
     } else {
       overlay.src = FRAMES[key];
       overlay.style.display = 'block';
-      frontPhoto.classList.add('has-frame');
     }
   }
 
