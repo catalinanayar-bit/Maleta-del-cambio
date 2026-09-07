@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu comeback empieza contigo — Photocard interactiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lila-100:#F4EEFF;
+    --lila-300:#D9C6FF;
+    --lila-500:#A97FF0;
+    --lila-700:#6C3FBF;
+    --plum-900:#2E1A47;
+    --pink-400:#FF9ED8;
+    --blue-300:#8FD0FF;
+    --cream:#FFFCF6;
+    --gold:#F4C95D;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:#EDE6FB;
+    font-family:'Quicksand', sans-serif;
+    color:var(--plum-900);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:40px 16px 60px;
+  }
+
+  .intro{
+    max-width:520px;
+    margin:0 auto 28px;
+    text-align:center;
+  }
+  .intro .badge{
+    display:inline-block;
+    background:var(--lila-700);
+    color:white;
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.75rem;
+    padding:4px 14px;
+    border-radius:20px;
+    margin-bottom:14px;
+    letter-spacing:.3px;
+  }
+  .intro h1{
+    font-family:'Baloo 2', sans-serif;
+    font-size:1.5rem;
+    margin:0 0 6px;
+    color:var(--lila-700);
+  }
+  .intro p{
+    font-size:0.9rem;
+    line-height:1.5;
+    margin:4px 0;
+    color:var(--plum-900);
+  }
+
+  .stage{
+    width:320px;
+    max-width:88vw;
+    aspect-ratio:54/86;
+    perspective:1800px;
+  }
+
+  .flip-card{
+    position:relative;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+  }
+  .flip-card.flipped .flip-inner{ transform:rotateY(180deg); }
+  .flip-card.flipped{ cursor:default; }
+
+  .flip-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transition:transform 0.85s cubic-bezier(.4,0,.2,1);
+    transform-style:preserve-3d;
+  }
+
+  .face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 34px rgba(108,63,191,0.28);
+    border:2px solid var(--lila-300);
+  }
+
+  /* ---- FRONT ---- */
+  .flip-front{
+    background:
+      radial-gradient(circle at 15% 8%, #FFC8EC 0%, transparent 42%),
+      radial-gradient(circle at 88% 88%, var(--lila-300) 0%, transparent 48%),
+      var(--cream);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 18px;
+    text-align:center;
+  }
+  .front-badge{
+    background:var(--lila-700);
+    color:white;
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.62rem;
+    padding:3px 12px;
+    border-radius:16px;
+    letter-spacing:.3px;
+  }
+  .front-photo{
+    width:78%;
+    aspect-ratio:1/1;
+    border-radius:16px;
+    border:2.5px dashed var(--lila-500);
+    background:rgba(255,255,255,0.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2.2rem;
+  }
+  .front-title{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:1.15rem;
+    color:var(--lila-700);
+    line-height:1.25;
+  }
+  .front-sub{
+    font-size:0.78rem;
+    color:var(--plum-900);
+    opacity:0.75;
+  }
+  .front-hint{
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.72rem;
+    color:white;
+    background:var(--lila-700);
+    padding:6px 16px;
+    border-radius:20px;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
+  }
+
+  /* ---- BACK ---- */
+  .flip-back{
+    transform:rotateY(180deg);
+    background:
+      radial-gradient(circle at 12% 10%, var(--lila-300) 0%, transparent 40%),
+      radial-gradient(circle at 90% 85%, var(--pink-400) 0%, transparent 45%),
+      var(--cream);
+    cursor:default;
+  }
+  .back-scroll{
+    position:relative;
+    z-index:1;
+    height:100%;
+    padding:14px 16px 12px;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto;
+  }
+
+  .nameplate{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:2px solid var(--lila-300);
+    padding-bottom:6px;
+    margin-bottom:10px;
+  }
+  .nameplate .title{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:0.85rem;
+    color:var(--lila-700);
+  }
+  .back-btn{
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.65rem;
+    color:var(--lila-700);
+    background:var(--lila-100);
+    border:1.5px solid var(--lila-300);
+    border-radius:14px;
+    padding:3px 10px;
+    cursor:pointer;
+  }
+
+  .field{ margin-bottom:10px; }
+  .field .label{
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.65rem;
+    font-weight:700;
+    color:var(--lila-700);
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+  .field input,
+  .field textarea{
+    width:100%;
+    font-family:'Quicksand', sans-serif;
+    font-size:0.8rem;
+    color:var(--plum-900);
+    background:rgba(255,255,255,0.7);
+    border:none;
+    border-bottom:1.6px dotted var(--lila-500);
+    padding:4px 2px;
+    outline:none;
+    resize:none;
+  }
+  .field input:focus,
+  .field textarea:focus{
+    border-bottom-color:var(--lila-700);
+  }
+  .field textarea{ min-height:38px; line-height:1.35; }
+
+  .tagline{
+    margin-top:auto;
+    text-align:center;
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.6rem;
+    color:var(--lila-700);
+    padding-top:8px;
+    border-top:2px dashed var(--lila-300);
+  }
+
+  .note{
+    max-width:520px;
+    margin-top:22px;
+    text-align:center;
+    font-size:0.8rem;
+    color:var(--lila-700);
+  }
+</style>
+</head>
+<body>
+
+  <div class="intro">
+    <span class="badge">OFICINA DE LA JUVENTUD</span>
+    <h1>Tu comeback empieza contigo 💜</h1>
+    <p>Toca la photocard para completarla con tus respuestas.</p>
+  </div>
+
+  <div class="stage">
+    <div class="flip-card" id="flipCard" onclick="voltear()">
+      <div class="flip-inner" id="flipInner">
+
+        <div class="face flip-front">
+          <span class="front-badge">✨ MI PHOTOCARD</span>
+          <div class="front-photo">📷</div>
+          <div>
+            <div class="front-title">Tu comeback<br>empieza contigo</div>
+            <div class="front-sub">Photocard emocional</div>
+          </div>
+          <div class="front-hint">👆 Toca para completarla</div>
+        </div>
+
+        <div class="face flip-back">
+          <div class="back-scroll">
+            <div class="nameplate">
+              <span class="title">MI PHOTOCARD</span>
+              <button class="back-btn" type="button" onclick="event.stopPropagation(); voltear()">↩ Volver</button>
+            </div>
+
+            <div class="field">
+              <div class="label">⭐ Algo que me gusta de mí</div>
+              <input type="text" onclick="event.stopPropagation()">
+            </div>
+            <div class="field">
+              <div class="label">🎧 Algo que me hace sentir bien</div>
+              <input type="text" onclick="event.stopPropagation()">
+            </div>
+            <div class="field">
+              <div class="label">🫶 Alguien con quien puedo contar</div>
+              <input type="text" onclick="event.stopPropagation()">
+            </div>
+            <div class="field">
+              <div class="label">✨ Algo que quiero recordar en un mal día</div>
+              <textarea rows="2" onclick="event.stopPropagation()"></textarea>
+            </div>
+
+            <div class="tagline">TU COMEBACK EMPIEZA CONTIGO</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <p class="note">💡 Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.</p>
+
+<script>
+  function voltear(){
+    document.getElementById('flipCard').classList.toggle('flipped');
+  }
+</script>
+
+</body>
+</html>
