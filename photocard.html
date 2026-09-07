@@ -120,10 +120,11 @@
   }
   .front-photo{
     position:relative;
-    width:78%;
-    aspect-ratio:1/1;
+    width:64%;
+    aspect-ratio:640/905;
     border-radius:16px;
     border:2.5px dashed var(--lila-500);
+    transition:border-color 0.2s;
     background:rgba(255,255,255,0.55);
     display:flex;
     align-items:center;
@@ -139,6 +140,14 @@
     height:100%;
     object-fit:cover;
   }
+  .front-photo.has-frame{
+    border-color:transparent;
+  }
+  .front-photo .frame-overlay{
+    object-fit:fill;
+    pointer-events:none;
+    z-index:2;
+  }
   .front-photo span{
     font-size:0.68rem;
     font-family:'Quicksand', sans-serif;
@@ -150,6 +159,54 @@
     flex-direction:column;
     align-items:center;
     gap:2px;
+  }
+
+  .frame-picker-wrap{
+    width:320px;
+    max-width:88vw;
+    margin-top:20px;
+    text-align:center;
+  }
+  .frame-label{
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.78rem;
+    color:var(--lila-700);
+    margin-bottom:8px;
+  }
+  .frame-picker{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .frame-swatch{
+    width:46px;
+    height:65px;
+    border-radius:10px;
+    border:2px solid var(--lila-300);
+    padding:0;
+    cursor:pointer;
+    background:var(--cream);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .frame-swatch img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .frame-swatch.none-swatch{
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.55rem;
+    color:var(--lila-700);
+    line-height:1.2;
+    padding:2px;
+  }
+  .frame-swatch.active{
+    border-color:var(--lila-700);
+    box-shadow:0 0 0 2px var(--lila-300);
   }
   .front-title{
     font-family:'Baloo 2', sans-serif;
@@ -285,10 +342,12 @@
         <div class="face flip-front">
           <span class="front-badge">✨ MI PHOTOCARD</span>
           <div class="front-photo" id="frontPhoto" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">
-            <div class="photo-placeholder">
+            <div class="photo-placeholder" id="photoPlaceholder">
               <span style="font-size:2.2rem">📷</span>
               <span>Toca para subir tu foto</span>
             </div>
+            <img id="photoImg" alt="Tu foto" style="display:none">
+            <img id="frameOverlay" class="frame-overlay" alt="" style="display:none">
           </div>
           <input type="file" id="fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto(event)">
           <div>
@@ -330,6 +389,16 @@
     </div>
   </div>
 
+  <div class="frame-picker-wrap">
+    <div class="frame-label">🖼️ Elige el marco de tu foto</div>
+    <div class="frame-picker">
+      <button type="button" class="frame-swatch none-swatch active" data-frame="none" onclick="elegirMarco('none', this)">Sin<br>marco</button>
+      <button type="button" class="frame-swatch" data-frame="blue" onclick="elegirMarco('blue', this)"><img src="assets/frames/frame-hearts-blue.png" alt="Marco de corazones azul"></button>
+      <button type="button" class="frame-swatch" data-frame="green" onclick="elegirMarco('green', this)"><img src="assets/frames/frame-flowers-green.png" alt="Marco de flores verde"></button>
+      <button type="button" class="frame-swatch" data-frame="pastel" onclick="elegirMarco('pastel', this)"><img src="assets/frames/frame-hearts-pastel.png" alt="Marco de corazones pastel"></button>
+    </div>
+  </div>
+
   <p class="note">💡 Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.</p>
 
 <script>
@@ -337,12 +406,36 @@
     document.getElementById('flipCard').classList.toggle('flipped');
   }
 
+  const FRAMES = {
+    blue: 'assets/frames/frame-hearts-blue.png',
+    green: 'assets/frames/frame-flowers-green.png',
+    pastel: 'assets/frames/frame-hearts-pastel.png'
+  };
+
+  function elegirMarco(key, btn){
+    document.querySelectorAll('.frame-swatch').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const overlay = document.getElementById('frameOverlay');
+    const frontPhoto = document.getElementById('frontPhoto');
+    if(key === 'none'){
+      overlay.style.display = 'none';
+      frontPhoto.classList.remove('has-frame');
+    } else {
+      overlay.src = FRAMES[key];
+      overlay.style.display = 'block';
+      frontPhoto.classList.add('has-frame');
+    }
+  }
+
   function cargarFoto(e){
     const file = e.target.files[0];
     if(!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      document.getElementById('frontPhoto').innerHTML = '<img src="'+ev.target.result+'" alt="Tu foto">';
+      document.getElementById('photoPlaceholder').style.display = 'none';
+      const img = document.getElementById('photoImg');
+      img.src = ev.target.result;
+      img.style.display = 'block';
     };
     reader.readAsDataURL(file);
   }
