@@ -125,7 +125,16 @@
     justify-content:center;
     cursor:pointer;
   }
-  .flip-front img{
+  .flip-front.frame-overflow{
+    overflow:visible;
+  }
+  .photo-clip{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    border-radius:inherit;
+  }
+  .photo-clip img{
     position:absolute;
     inset:0;
     width:100%;
@@ -133,6 +142,11 @@
     object-fit:cover;
   }
   #frameOverlay{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
     object-fit:fill;
     pointer-events:none;
     z-index:2;
@@ -325,11 +339,13 @@
       <div class="flip-inner" id="flipInner">
 
         <div class="face flip-front" id="frontPhoto">
-          <div class="photo-placeholder" id="photoPlaceholder">
-            <span style="font-size:2.6rem">📷</span>
-            <span class="ph-label">Aún no tienes foto</span>
+          <div class="photo-clip">
+            <div class="photo-placeholder" id="photoPlaceholder">
+              <span style="font-size:2.6rem">📷</span>
+              <span class="ph-label">Aún no tienes foto</span>
+            </div>
+            <img id="photoImg" alt="Tu foto" style="display:none">
           </div>
-          <img id="photoImg" alt="Tu foto" style="display:none">
           <img id="frameOverlay" alt="" style="display:none">
           <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📷 Subir foto</button>
           <input type="file" id="fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto(event)">
@@ -392,27 +408,83 @@
     document.getElementById('stageHint').style.visibility = card.classList.contains('flipped') ? 'hidden' : 'visible';
   }
 
+  // "core" is the rectangle (in the source image's own pixels) that should align
+  // exactly with the card edges; anything outside it (stickers, charms) is allowed
+  // to spill past the card border instead of being squeezed inside it.
   const FRAMES = {
-    blue: 'assets/frames/frame-hearts-blue.png',
-    green: 'assets/frames/frame-flowers-green.png',
-    pastel: 'assets/frames/frame-hearts-pastel.png',
-    flowersblue: 'assets/frames/frame-flowers-hearts-blue.png',
-    pinkwavy: 'assets/frames/frame-hearts-pink-wavy.png',
-    ipod: 'assets/frames/frame-ipod-moon.png',
-    camera: 'assets/frames/frame-camera-canon.png'
+    blue: { src: 'assets/frames/frame-hearts-blue.png' },
+    green: { src: 'assets/frames/frame-flowers-green.png' },
+    pastel: { src: 'assets/frames/frame-hearts-pastel.png' },
+    flowersblue: { src: 'assets/frames/frame-flowers-hearts-blue.png' },
+    pinkwavy: { src: 'assets/frames/frame-hearts-pink-wavy.png' },
+    ipod: {
+      src: 'assets/frames/frame-ipod-moon.png',
+      full: { w: 567, h: 846 },
+      core: { x0: 38, y0: 2, x1: 530, y1: 843 }
+    },
+    camera: {
+      src: 'assets/frames/frame-camera-canon.png',
+      full: { w: 423, h: 847 },
+      core: { x0: 2, y0: 257, x1: 421, y1: 845 }
+    }
   };
+
+  let marcoActivo = 'none';
+
+  function posicionarMarcoOverflow(){
+    const cfg = FRAMES[marcoActivo];
+    const frontPhoto = document.getElementById('frontPhoto');
+    const overlay = document.getElementById('frameOverlay');
+    if(!cfg || !cfg.core) return;
+    const rect = frontPhoto.getBoundingClientRect();
+    const scaleX = rect.width / (cfg.core.x1 - cfg.core.x0);
+    const scaleY = rect.height / (cfg.core.y1 - cfg.core.y0);
+    overlay.style.width = (cfg.full.w * scaleX) + 'px';
+    overlay.style.height = (cfg.full.h * scaleY) + 'px';
+    overlay.style.left = (-cfg.core.x0 * scaleX) + 'px';
+    overlay.style.top = (-cfg.core.y0 * scaleY) + 'px';
+  }
 
   function elegirMarco(key, btn){
     document.querySelectorAll('.frame-swatch').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    marcoActivo = key;
+
     const overlay = document.getElementById('frameOverlay');
+    const frontPhoto = document.getElementById('frontPhoto');
+
     if(key === 'none'){
       overlay.style.display = 'none';
+      frontPhoto.classList.remove('frame-overflow');
+      return;
+    }
+
+    const cfg = FRAMES[key];
+    overlay.src = cfg.src;
+    overlay.style.display = 'block';
+
+    if(cfg.core){
+      frontPhoto.classList.add('frame-overflow');
+      overlay.style.width = '';
+      overlay.style.height = '';
+      overlay.style.left = '';
+      overlay.style.top = '';
+      // wait for natural size / layout before measuring the card
+      requestAnimationFrame(posicionarMarcoOverflow);
     } else {
-      overlay.src = FRAMES[key];
-      overlay.style.display = 'block';
+      frontPhoto.classList.remove('frame-overflow');
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.left = '0';
+      overlay.style.top = '0';
     }
   }
+
+  window.addEventListener('resize', () => {
+    if(FRAMES[marcoActivo] && FRAMES[marcoActivo].core){
+      posicionarMarcoOverflow();
+    }
+  });
 
   function cargarFoto(e){
     const file = e.target.files[0];
