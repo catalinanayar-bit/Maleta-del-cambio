@@ -141,6 +141,11 @@
     height:100%;
     object-fit:cover;
   }
+  #frameOverlayClip{
+    object-fit:fill;
+    pointer-events:none;
+    z-index:2;
+  }
   #frameOverlay{
     position:absolute;
     left:0;
@@ -149,7 +154,7 @@
     height:100%;
     object-fit:fill;
     pointer-events:none;
-    z-index:2;
+    z-index:3;
   }
   .photo-placeholder{
     display:flex;
@@ -345,6 +350,7 @@
               <span class="ph-label">Aún no tienes foto</span>
             </div>
             <img id="photoImg" alt="Tu foto" style="display:none">
+            <img id="frameOverlayClip" alt="" style="display:none">
           </div>
           <img id="frameOverlay" alt="" style="display:none">
           <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📷 Subir foto</button>
@@ -427,18 +433,32 @@
 
   let marcoActivo = 'none';
 
+  // slight overscan on the CLIPPED body layer only, so the device's own rounded
+  // corners still fully cover the card's rounded corners instead of leaving a
+  // tiny gap at each corner. The unclipped layer stays exact so its stickers
+  // spill past the card edges instead of bleeding along the flat sides too.
+  const OVERSCAN = 1.06;
+
+  function encajar(img, core, full, rect, overscan){
+    const coreW = core.x1 - core.x0;
+    const coreH = core.y1 - core.y0;
+    const cx = (core.x0 + core.x1) / 2;
+    const cy = (core.y0 + core.y1) / 2;
+    const scaleX = (rect.width * overscan) / coreW;
+    const scaleY = (rect.height * overscan) / coreH;
+    img.style.width = (full.w * scaleX) + 'px';
+    img.style.height = (full.h * scaleY) + 'px';
+    img.style.left = (rect.width / 2 - cx * scaleX) + 'px';
+    img.style.top = (rect.height / 2 - cy * scaleY) + 'px';
+  }
+
   function posicionarMarcoOverflow(){
     const cfg = FRAMES[marcoActivo];
-    const frontPhoto = document.getElementById('frontPhoto');
-    const overlay = document.getElementById('frameOverlay');
     if(!cfg || !cfg.core) return;
+    const frontPhoto = document.getElementById('frontPhoto');
     const rect = frontPhoto.getBoundingClientRect();
-    const scaleX = rect.width / (cfg.core.x1 - cfg.core.x0);
-    const scaleY = rect.height / (cfg.core.y1 - cfg.core.y0);
-    overlay.style.width = (cfg.full.w * scaleX) + 'px';
-    overlay.style.height = (cfg.full.h * scaleY) + 'px';
-    overlay.style.left = (-cfg.core.x0 * scaleX) + 'px';
-    overlay.style.top = (-cfg.core.y0 * scaleY) + 'px';
+    encajar(document.getElementById('frameOverlayClip'), cfg.core, cfg.full, rect, OVERSCAN);
+    encajar(document.getElementById('frameOverlay'), cfg.core, cfg.full, rect, 1);
   }
 
   function elegirMarco(key, btn){
@@ -447,28 +467,35 @@
     marcoActivo = key;
 
     const overlay = document.getElementById('frameOverlay');
+    const overlayClip = document.getElementById('frameOverlayClip');
     const frontPhoto = document.getElementById('frontPhoto');
 
     if(key === 'none'){
       overlay.style.display = 'none';
+      overlayClip.style.display = 'none';
       frontPhoto.classList.remove('frame-overflow');
       return;
     }
 
     const cfg = FRAMES[key];
-    overlay.src = cfg.src;
-    overlay.style.display = 'block';
 
     if(cfg.core){
       frontPhoto.classList.add('frame-overflow');
+      overlayClip.src = cfg.src;
+      overlayClip.style.display = 'block';
+      overlay.src = cfg.src;
+      overlay.style.display = 'block';
       overlay.style.width = '';
       overlay.style.height = '';
       overlay.style.left = '';
       overlay.style.top = '';
-      // wait for natural size / layout before measuring the card
+      // wait for layout (frame-overflow class) before measuring the card
       requestAnimationFrame(posicionarMarcoOverflow);
     } else {
       frontPhoto.classList.remove('frame-overflow');
+      overlayClip.style.display = 'none';
+      overlay.src = cfg.src;
+      overlay.style.display = 'block';
       overlay.style.width = '100%';
       overlay.style.height = '100%';
       overlay.style.left = '0';
