@@ -170,12 +170,29 @@
     font-weight:700;
     font-size:0.85rem;
   }
+  .sticker-layer{
+    position:absolute;
+    inset:0;
+    z-index:4;
+    pointer-events:none;
+  }
+  .placed-sticker{
+    position:absolute;
+    width:42px;
+    height:auto;
+    cursor:grab;
+    touch-action:none;
+    pointer-events:auto;
+    filter:drop-shadow(0 3px 5px rgba(46,26,71,0.35));
+  }
+  .placed-sticker:active{ cursor:grabbing; }
+
   .upload-btn{
     position:absolute;
     left:50%;
     bottom:14px;
     transform:translateX(-50%);
-    z-index:3;
+    z-index:5;
     display:flex;
     align-items:center;
     gap:6px;
@@ -236,6 +253,48 @@
   .frame-swatch.active{
     border-color:var(--lila-700);
     box-shadow:0 0 0 2px var(--lila-300);
+  }
+
+  .gem-picker-wrap{
+    width:320px;
+    max-width:88vw;
+    margin-top:22px;
+    text-align:center;
+  }
+  .gem-picker{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .gem-swatch{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:2px solid var(--lila-300);
+    padding:4px;
+    cursor:pointer;
+    background:var(--cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .gem-swatch:active{ transform:scale(0.92); }
+  .gem-swatch img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+  .gem-clear-btn{
+    margin-top:10px;
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.7rem;
+    color:var(--lila-700);
+    background:var(--lila-100);
+    border:1.5px solid var(--lila-300);
+    border-radius:14px;
+    padding:4px 12px;
+    cursor:pointer;
   }
 
   /* ---- BACK ---- */
@@ -353,6 +412,7 @@
             <img id="frameOverlayClip" alt="" style="display:none">
           </div>
           <img id="frameOverlay" alt="" style="display:none">
+          <div class="sticker-layer" id="stickerLayer"></div>
           <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">📷 Subir foto</button>
           <input type="file" id="fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto(event)">
         </div>
@@ -402,10 +462,20 @@
       <button type="button" class="frame-swatch" data-frame="pinkwavy" onclick="elegirMarco('pinkwavy', this)"><img src="assets/frames/frame-hearts-pink-wavy.png" alt="Marco de corazones rosa"></button>
       <button type="button" class="frame-swatch" data-frame="ipod" onclick="elegirMarco('ipod', this)"><img src="assets/frames/frame-ipod-moon.png" alt="Marco de iPod luna y estrellas"></button>
       <button type="button" class="frame-swatch" data-frame="camera" onclick="elegirMarco('camera', this)"><img src="assets/frames/frame-camera-canon.png" alt="Marco de cámara Canon"></button>
+      <button type="button" class="frame-swatch" data-frame="melody" onclick="elegirMarco('melody', this)"><img src="assets/frames/frame-melody-strawberry.png" alt="Marco de fresas My Melody"></button>
+      <button type="button" class="frame-swatch" data-frame="kawaii" onclick="elegirMarco('kawaii', this)"><img src="assets/frames/frame-kawaii-bubbles.png" alt="Marco de burbujas kawaii"></button>
+      <button type="button" class="frame-swatch" data-frame="monchhichi" onclick="elegirMarco('monchhichi', this)"><img src="assets/frames/frame-monchhichi-stars.png" alt="Marco de Monchhichi con estrellas"></button>
+      <button type="button" class="frame-swatch" data-frame="scrapbook" onclick="elegirMarco('scrapbook', this)"><img src="assets/frames/frame-scrapbook-collage.png" alt="Marco collage scrapbook"></button>
     </div>
   </div>
 
-  <p class="note">💡 Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.</p>
+  <div class="gem-picker-wrap">
+    <div class="frame-label">✨ Decora tu tarjeta</div>
+    <div class="gem-picker" id="gemPicker"></div>
+    <button type="button" class="gem-clear-btn" onclick="limpiarGemas()">🧹 Quitar decoraciones</button>
+  </div>
+
+  <p class="note">💡 Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.<br>Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla.</p>
 
 <script>
   function voltear(){
@@ -428,7 +498,11 @@
       full: { w: 567, h: 846 },
       core: { x0: 38, y0: 2, x1: 530, y1: 843 }
     },
-    camera: { src: 'assets/frames/frame-camera-canon.png' }
+    camera: { src: 'assets/frames/frame-camera-canon.png' },
+    melody: { src: 'assets/frames/frame-melody-strawberry.png' },
+    kawaii: { src: 'assets/frames/frame-kawaii-bubbles.png' },
+    monchhichi: { src: 'assets/frames/frame-monchhichi-stars.png' },
+    scrapbook: { src: 'assets/frames/frame-scrapbook-collage.png' }
   };
 
   let marcoActivo = 'none';
@@ -508,6 +582,85 @@
       posicionarMarcoOverflow();
     }
   });
+
+  const GEMS = [
+    'butterfly-green','butterfly-teal','flower-blue','flower-clover-green','flower-green',
+    'flower-lightgreen-big','flower-magenta-med','flower-magenta-sm','flower-navy-big',
+    'flower-orange-big','flower-pinkpurple','flower-purple-big','flower-yellow',
+    'gem-heart-purple','gem-heart-red','gem-heart-teal','gem-round-orange','gem-round-purple',
+    'gem-triangle-pink','star-orange'
+  ];
+
+  let gemSeq = 0;
+
+  function construirPickerGemas(){
+    const picker = document.getElementById('gemPicker');
+    GEMS.forEach(name => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'gem-swatch';
+      btn.innerHTML = `<img src="assets/gems/${name}.png" alt="Gema decorativa">`;
+      btn.onclick = () => agregarGema(name);
+      picker.appendChild(btn);
+    });
+  }
+
+  function agregarGema(name){
+    const layer = document.getElementById('stickerLayer');
+    const el = document.createElement('img');
+    el.src = `assets/gems/${name}.png`;
+    el.className = 'placed-sticker';
+    el.alt = '';
+    const n = layer.children.length;
+    const left = 12 + ((n * 37) % 60);
+    const top = 10 + ((n * 53) % 70);
+    el.style.left = left + '%';
+    el.style.top = top + '%';
+    layer.appendChild(el);
+    habilitarArrastreGema(el, layer);
+  }
+
+  function habilitarArrastreGema(el, layer){
+    let dragging = false, moved = false, startX, startY, origLeft, origTop;
+    el.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      dragging = true;
+      moved = false;
+      el.setPointerCapture(e.pointerId);
+      startX = e.clientX;
+      startY = e.clientY;
+      origLeft = el.offsetLeft;
+      origTop = el.offsetTop;
+    });
+    el.addEventListener('pointermove', e => {
+      if(!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if(Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+      if(moved){
+        const rect = layer.getBoundingClientRect();
+        let newLeft = origLeft + dx;
+        let newTop = origTop + dy;
+        newLeft = Math.max(-14, Math.min(rect.width - el.offsetWidth + 14, newLeft));
+        newTop = Math.max(-14, Math.min(rect.height - el.offsetHeight + 14, newTop));
+        el.style.left = newLeft + 'px';
+        el.style.top = newTop + 'px';
+      }
+    });
+    el.addEventListener('pointerup', e => {
+      dragging = false;
+      el.releasePointerCapture(e.pointerId);
+      if(!moved){
+        el.remove();
+      }
+    });
+  }
+
+  function limpiarGemas(){
+    document.getElementById('stickerLayer').innerHTML = '';
+  }
+
+  construirPickerGemas();
 
   function cargarFoto(e){
     const file = e.target.files[0];
