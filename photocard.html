@@ -1029,18 +1029,43 @@
 
     try{
       const canvas = await html2canvas(clone, { backgroundColor: '#FFFCF6', scale: 2, useCORS: true });
-      const a = document.createElement('a');
-      a.href = canvas.toDataURL('image/png');
-      a.download = `photocard-${id === 'bias' ? 'bias' : 'mia'}-${flipped ? 'preguntas' : 'foto'}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      const filename = `photocard-${id === 'bias' ? 'bias' : 'mia'}-${flipped ? 'preguntas' : 'foto'}.png`;
+      await guardarArchivo(filename, blob);
     } catch(err){
       alert('No se pudo descargar la imagen. Intenta de nuevo.');
     } finally {
       wrapper.remove();
       if(btn){ btn.disabled = false; btn.textContent = '📥 Descargar imagen'; }
     }
+  }
+
+  // Saves a generated file for the viewer. Inside the Claude artifact
+  // preview, a plain <a download> link is inert, so this uses the page's
+  // `downloads` capability there when it's available; anywhere else (the
+  // real deployed page) it falls back to a normal download link.
+  async function guardarArchivo(filename, blob){
+    if(window.claude && typeof window.claude.use === 'function'){
+      let downloads = null;
+      try { downloads = await window.claude.use('downloads'); } catch(e){ downloads = null; }
+      if(downloads){
+        try {
+          await downloads.save({ filename, data: blob });
+          return;
+        } catch(err){
+          if(err && err.code === 'declined') return; // viewer said no; don't force a fallback
+          // otherwise fall through to the plain link below
+        }
+      }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
   }
 
   function cargarFoto(id, e){
