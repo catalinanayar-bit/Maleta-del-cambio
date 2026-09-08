@@ -166,6 +166,17 @@
     overflow:hidden;
     box-shadow:0 10px 34px rgba(108,63,191,0.28);
     border:2px solid var(--lila-300);
+    /* backface-visibility alone doesn't reliably hide the "away" face on
+       every mobile browser (some show both faces overlapping). visibility
+       is a second, unconditional way to hide it — delayed to the midpoint
+       of the 0.85s rotation so each face disappears/appears exactly when
+       it's edge-on, keeping the flip looking the same where 3D works fine. */
+    visibility:hidden;
+    transition:visibility 0s linear 0.425s;
+  }
+  .flip-card:not(.flipped) .flip-front,
+  .flip-card.flipped .flip-back{
+    visibility:visible;
   }
 
   /* ---- FRONT ---- */
