@@ -6,6 +6,7 @@
 <title>Tu comeback empieza contigo — Photocard interactiva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="assets/vendor/html2canvas.min.js"></script>
 <style>
   :root{
     --lila-100:#F4EEFF;
@@ -138,6 +139,38 @@
     0%,100%{ transform:scale(1); }
     50%{ transform:scale(1.05); }
   }
+
+  .download-btn{
+    margin-top:10px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:0.78rem;
+    color:var(--lila-700);
+    background:white;
+    border:2px solid var(--lila-500);
+    border-radius:20px;
+    padding:6px 18px;
+    cursor:pointer;
+  }
+  .download-btn:disabled{ opacity:0.6; cursor:default; }
+
+  /* Only used inside a cloned card while building the downloadable image —
+     html2canvas can't reliably render an <input>/<textarea>'s typed value,
+     so the export swaps each field for one of these showing the same text. */
+  .field-value{
+    width:100%;
+    box-sizing:border-box;
+    font-family:'Quicksand', sans-serif;
+    font-size:0.8rem;
+    color:var(--plum-900);
+    background:rgba(255,255,255,0.7);
+    border-bottom:1.6px dotted var(--lila-500);
+    padding:4px 2px;
+    white-space:pre-wrap;
+    word-break:break-word;
+    min-height:1.3em;
+  }
+  .field-value-area{ min-height:38px; line-height:1.35; }
 
   .flip-card{
     position:relative;
@@ -504,7 +537,7 @@
     <p>Primero arma la photocard de tu bias, y después la tuya.</p>
   </div>
 
-  <p class="note">💡 Los marcos 🖼️ y las gemas ✨ se asoman a los lados de la tarjeta — desliza esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.</p>
+  <p class="note">💡 Los marcos 🖼️ y las gemas ✨ se asoman a los lados de la tarjeta — desliza esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más. Usa "Descargar imagen" para guardar como foto lo que se ve en ese momento (el frente o las respuestas).</p>
 
   <!-- ============ SECTION 1: BIAS PHOTOCARD ============ -->
   <div class="card-section">
@@ -576,6 +609,7 @@
     </div>
 
     <div class="stage-hint" id="bias-stageHint">👆 Toca la tarjeta para ver las preguntas</div>
+    <button type="button" class="download-btn" onclick="descargarTarjeta('bias')">📥 Descargar imagen</button>
   </div>
 
   <!-- ============ SECTION 2: MI PHOTOCARD ============ -->
@@ -644,6 +678,7 @@
     </div>
 
     <div class="stage-hint" id="mine-stageHint">👆 Toca la tarjeta para ver las preguntas</div>
+    <button type="button" class="download-btn" onclick="descargarTarjeta('mine')">📥 Descargar imagen</button>
   </div>
 
 <script>
@@ -940,6 +975,72 @@
 
   function limpiarGemas(id){
     document.getElementById(id + '-stickerLayer').innerHTML = '';
+  }
+
+  // Exports the currently-visible face (front or back, whichever the user
+  // is looking at) of one card as a downloadable PNG.
+  async function descargarTarjeta(id){
+    if(typeof html2canvas === 'undefined'){
+      alert('No se pudo generar la imagen. Revisa tu conexión e intenta de nuevo.');
+      return;
+    }
+    const card = document.getElementById(id + '-flipCard');
+    const flipped = card.classList.contains('flipped');
+    const original = card.querySelector(flipped ? '.flip-back' : '.flip-front');
+    const rect = original.getBoundingClientRect();
+
+    const clone = original.cloneNode(true);
+    clone.style.position = 'static';
+    clone.style.transform = 'none';
+    clone.style.visibility = 'visible';
+    clone.style.width = rect.width + 'px';
+    clone.style.height = flipped ? 'auto' : rect.height + 'px';
+
+    // html2canvas can't reliably render an <input>/<textarea>'s live typed
+    // value, so swap each one for a plain text block showing that value.
+    const origFields = original.querySelectorAll('input, textarea');
+    const cloneFields = clone.querySelectorAll('input, textarea');
+    origFields.forEach((el, i) => {
+      const value = (el.value || '').trim();
+      const div = document.createElement('div');
+      div.className = 'field-value' + (el.tagName === 'TEXTAREA' ? ' field-value-area' : '');
+      div.textContent = value || '(sin responder)';
+      if(!value){ div.style.opacity = '0.55'; div.style.fontStyle = 'italic'; }
+      cloneFields[i].replaceWith(div);
+    });
+
+    if(flipped){
+      // let the back grow to fit every answer instead of clipping to the
+      // card's usual fixed (scrollable) height
+      const scroll = clone.querySelector('.back-scroll');
+      if(scroll){ scroll.style.height = 'auto'; scroll.style.overflowY = 'visible'; }
+    }
+
+    // drop the interactive controls — they're not part of the "result"
+    clone.querySelectorAll('.upload-btn, .back-btn, input[type=file]').forEach(el => el.remove());
+
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;';
+    wrapper.appendChild(clone);
+    document.body.appendChild(wrapper);
+
+    const btn = document.querySelector(`[onclick="descargarTarjeta('${id}')"]`);
+    if(btn){ btn.disabled = true; btn.textContent = '⏳ Generando…'; }
+
+    try{
+      const canvas = await html2canvas(clone, { backgroundColor: '#FFFCF6', scale: 2, useCORS: true });
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = `photocard-${id === 'bias' ? 'bias' : 'mia'}-${flipped ? 'preguntas' : 'foto'}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch(err){
+      alert('No se pudo descargar la imagen. Intenta de nuevo.');
+    } finally {
+      wrapper.remove();
+      if(btn){ btn.disabled = false; btn.textContent = '📥 Descargar imagen'; }
+    }
   }
 
   function cargarFoto(id, e){
