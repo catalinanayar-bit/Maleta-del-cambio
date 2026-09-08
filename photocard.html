@@ -234,6 +234,8 @@
     user-select:none;
     -webkit-touch-callout:none;
     filter:drop-shadow(0 3px 5px rgba(46,26,71,0.35));
+    will-change:transform;
+    backface-visibility:hidden;
   }
   .placed-sticker:active{ cursor:grabbing; }
 
@@ -763,7 +765,7 @@
   }
 
   function habilitarArrastreGema(el, layer){
-    let dragging = false, moved = false, startX, startY, origLeft, origTop;
+    let dragging = false, moved = false, startX, startY, origLeft, origTop, clampedLeft, clampedTop;
     // the browser fires a plain "click" after pointerup/mouseup regardless of
     // what pointerdown did, and that click bubbles up to the card's onclick —
     // block it here so touching a placed sticker never flips the card.
@@ -777,6 +779,8 @@
       startY = e.clientY;
       origLeft = el.offsetLeft;
       origTop = el.offsetTop;
+      clampedLeft = origLeft;
+      clampedTop = origTop;
     });
     el.addEventListener('pointermove', e => {
       if(!dragging) return;
@@ -785,12 +789,12 @@
       if(Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
       if(moved){
         const rect = layer.getBoundingClientRect();
-        let newLeft = origLeft + dx;
-        let newTop = origTop + dy;
-        newLeft = Math.max(-14, Math.min(rect.width - el.offsetWidth + 14, newLeft));
-        newTop = Math.max(-14, Math.min(rect.height - el.offsetHeight + 14, newTop));
-        el.style.left = newLeft + 'px';
-        el.style.top = newTop + 'px';
+        clampedLeft = Math.max(-14, Math.min(rect.width - el.offsetWidth + 14, origLeft + dx));
+        clampedTop = Math.max(-14, Math.min(rect.height - el.offsetHeight + 14, origTop + dy));
+        // move via transform (GPU-composited) instead of left/top on every
+        // frame — updating left/top that often is what left the ghosting/
+        // smear trail behind the sticker on mobile browsers.
+        el.style.transform = `translate(${clampedLeft - origLeft}px, ${clampedTop - origTop}px)`;
       }
     });
     el.addEventListener('pointerup', e => {
@@ -798,6 +802,11 @@
       el.releasePointerCapture(e.pointerId);
       if(!moved){
         el.remove();
+      } else {
+        // bake the transform back into left/top so the next drag starts clean
+        el.style.left = clampedLeft + 'px';
+        el.style.top = clampedTop + 'px';
+        el.style.transform = '';
       }
     });
   }
