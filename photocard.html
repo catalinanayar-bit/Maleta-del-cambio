@@ -254,12 +254,10 @@
     -webkit-user-drag:none;
     user-select:none;
     -webkit-touch-callout:none;
-    /* NOT filter:drop-shadow — a filter on any descendant inside the
-       preserve-3d flip hierarchy breaks the flip on Safari/mobile (both
-       faces render at once instead of the back one hiding). box-shadow
-       doesn't hug the sticker's transparent alpha shape as tightly, but
-       it's safe inside a 3D transform context. */
-    box-shadow:0 3px 5px rgba(46,26,71,0.35);
+    /* No filter and no box-shadow here: filter:drop-shadow breaks the flip
+       on Safari/mobile (see .face), and box-shadow draws a visible
+       rectangle behind the sticker's transparent alpha shape (irregular
+       flower/heart/etc. cutouts), which read as an odd square outline. */
   }
   .placed-sticker:active{ cursor:grabbing; }
 
