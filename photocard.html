@@ -209,6 +209,18 @@
     height:100%;
     object-fit:cover;
   }
+  .photo-clip img.photo-img{
+    inset:auto;
+    left:50%;
+    top:50%;
+    width:auto;
+    height:auto;
+    max-width:none;
+    max-height:none;
+    touch-action:none;
+    cursor:grab;
+  }
+  .photo-clip img.photo-img.dragging{ cursor:grabbing; }
   .frame-overlay-clip{
     object-fit:fill;
     pointer-events:none;
@@ -328,7 +340,7 @@
   .side-strip{
     position:absolute;
     top:0;
-    height:100%;
+    max-height:100%;
     z-index:0;
     background:var(--cream);
     border:2px solid var(--lila-300);
@@ -492,7 +504,7 @@
     <p>Primero arma la photocard de tu bias, y después la tuya.</p>
   </div>
 
-  <p class="note">💡 Los marcos 🖼️ y las gemas ✨ se asoman a los lados de la tarjeta — desliza esas tiras para ver todas las opciones.<br>Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.</p>
+  <p class="note">💡 Los marcos 🖼️ y las gemas ✨ se asoman a los lados de la tarjeta — desliza esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.</p>
 
   <!-- ============ SECTION 1: BIAS PHOTOCARD ============ -->
   <div class="card-section">
@@ -514,7 +526,7 @@
                 <span style="font-size:2.6rem">📷</span>
                 <span class="ph-label">Aún no tienes foto de tu bias</span>
               </div>
-              <img id="bias-photoImg" alt="Foto de tu bias" style="display:none">
+              <img class="photo-img" id="bias-photoImg" alt="Foto de tu bias" style="display:none">
               <img class="frame-overlay-clip" id="bias-frameOverlayClip" alt="" style="display:none">
             </div>
             <img class="frame-overlay" id="bias-frameOverlay" alt="" style="display:none">
@@ -586,7 +598,7 @@
                 <span style="font-size:2.6rem">📷</span>
                 <span class="ph-label">Aún no tienes foto</span>
               </div>
-              <img id="mine-photoImg" alt="Tu foto" style="display:none">
+              <img class="photo-img" id="mine-photoImg" alt="Tu foto" style="display:none">
               <img class="frame-overlay-clip" id="mine-frameOverlayClip" alt="" style="display:none">
             </div>
             <img class="frame-overlay" id="mine-frameOverlay" alt="" style="display:none">
@@ -690,6 +702,77 @@
     img.style.top = (rect.height / 2 - cy * scaleY) + 'px';
   }
 
+  // The uploaded photo is sized (in JS, not object-fit) to exactly cover its
+  // frame at the same scale object-fit:cover would use, then shifted by a
+  // stored pan offset so users can drag it to recenter which part shows.
+  function medirCoberturaFoto(id){
+    const img = document.getElementById(id + '-photoImg');
+    const container = img.parentElement;
+    if(!img.naturalWidth || !container) return null;
+    const rect = container.getBoundingClientRect();
+    if(!rect.width || !rect.height) return null;
+    const scale = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
+    const dispW = img.naturalWidth * scale;
+    const dispH = img.naturalHeight * scale;
+    return {
+      dispW, dispH,
+      maxX: Math.max(0, (dispW - rect.width) / 2),
+      maxY: Math.max(0, (dispH - rect.height) / 2)
+    };
+  }
+
+  function actualizarFotoTransform(id){
+    const img = document.getElementById(id + '-photoImg');
+    const info = medirCoberturaFoto(id);
+    if(!info) return;
+    img.style.width = info.dispW + 'px';
+    img.style.height = info.dispH + 'px';
+    const pan = getEstado(id).fotoPan || (getEstado(id).fotoPan = { x: 0, y: 0 });
+    pan.x = Math.max(-info.maxX, Math.min(info.maxX, pan.x));
+    pan.y = Math.max(-info.maxY, Math.min(info.maxY, pan.y));
+    img.style.transform = `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px)`;
+  }
+
+  function habilitarArrastreFoto(id){
+    const img = document.getElementById(id + '-photoImg');
+    let dragging = false, moved = false, startX, startY, startPanX, startPanY;
+    img.draggable = false;
+    img.addEventListener('dragstart', e => e.preventDefault());
+    // like the placed stickers: a plain tap should still flip the card to
+    // show the questions, but a drag (moved === true) must not flip it.
+    img.addEventListener('click', e => { if(moved) e.stopPropagation(); });
+    img.addEventListener('pointerdown', e => {
+      dragging = true;
+      moved = false;
+      img.classList.add('dragging');
+      img.setPointerCapture(e.pointerId);
+      startX = e.clientX;
+      startY = e.clientY;
+      const pan = getEstado(id).fotoPan || (getEstado(id).fotoPan = { x: 0, y: 0 });
+      startPanX = pan.x;
+      startPanY = pan.y;
+    });
+    img.addEventListener('pointermove', e => {
+      if(!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      if(Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+      if(moved){
+        const info = medirCoberturaFoto(id);
+        if(!info) return;
+        const pan = getEstado(id).fotoPan;
+        pan.x = Math.max(-info.maxX, Math.min(info.maxX, startPanX + dx));
+        pan.y = Math.max(-info.maxY, Math.min(info.maxY, startPanY + dy));
+        img.style.transform = `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px)`;
+      }
+    });
+    img.addEventListener('pointerup', e => {
+      dragging = false;
+      img.classList.remove('dragging');
+      img.releasePointerCapture(e.pointerId);
+    });
+  }
+
   function posicionarMarcoOverflow(id){
     const cfg = FRAMES[getEstado(id).marcoActivo];
     if(!cfg || !cfg.core) return;
@@ -746,6 +829,7 @@
       if(FRAMES[getEstado(id).marcoActivo] && FRAMES[getEstado(id).marcoActivo].core){
         posicionarMarcoOverflow(id);
       }
+      actualizarFotoTransform(id);
     });
   });
 
@@ -865,6 +949,8 @@
     reader.onload = ev => {
       document.getElementById(id + '-photoPlaceholder').style.display = 'none';
       const img = document.getElementById(id + '-photoImg');
+      getEstado(id).fotoPan = { x: 0, y: 0 };
+      img.onload = () => actualizarFotoTransform(id);
       img.src = ev.target.result;
       img.style.display = 'block';
     };
@@ -874,6 +960,7 @@
   ['bias', 'mine'].forEach(id => {
     construirPickerMarcos(id);
     construirPickerGemas(id);
+    habilitarArrastreFoto(id);
   });
 </script>
 
