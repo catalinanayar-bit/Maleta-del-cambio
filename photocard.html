@@ -17,6 +17,10 @@
     --blue-300:#8FD0FF;
     --cream:#FFFCF6;
     --gold:#F4C95D;
+    /* body has 16px padding each side; the peeking side-strips need
+       62px (frame) + 44px (gems) of real, reserved layout width */
+    --page-available:calc(100vw - 32px);
+    --peek-total:106px;
   }
 
   *{ box-sizing:border-box; }
@@ -24,6 +28,7 @@
   body{
     margin:0;
     min-height:100vh;
+    overflow-x:hidden;
     background:#EDE6FB;
     font-family:'Quicksand', sans-serif;
     color:var(--plum-900);
@@ -107,8 +112,11 @@
   }
 
   .stage{
+    position:relative;
+    z-index:1;
     width:320px;
-    max-width:88vw;
+    max-width:min(320px, calc(var(--page-available) - var(--peek-total)));
+    margin-left:62px;
     aspect-ratio:640/905;
     perspective:1800px;
   }
@@ -259,27 +267,10 @@
     cursor:pointer;
   }
 
-  .frame-picker-wrap{
-    width:320px;
-    max-width:88vw;
-    margin-top:20px;
-    text-align:center;
-  }
-  .frame-label{
-    font-family:'Baloo 2', sans-serif;
-    font-size:0.78rem;
-    color:var(--lila-700);
-    margin-bottom:8px;
-  }
-  .frame-picker{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-  }
   .frame-swatch{
     width:46px;
     height:65px;
+    flex:none;
     border-radius:10px;
     border:2px solid var(--lila-300);
     padding:0;
@@ -307,26 +298,58 @@
     box-shadow:0 0 0 2px var(--lila-300);
   }
 
-  .gem-picker-wrap{
-    width:320px;
-    max-width:88vw;
-    margin-top:22px;
-    text-align:center;
-  }
-  .gem-picker{
+  /* Both side strips are absolutely positioned against .card-with-decor so
+     their (scrollable) content never forces the card itself to grow taller
+     than its own aspect-ratio height. The container reserves real layout
+     width for each strip's visible "peek" (62px/44px) so the whole group —
+     not just the card — ends up centered on the page; without that, the
+     card alone got centered and the peeks ran off the edge of the screen. */
+  .card-with-decor{
+    position:relative;
     display:flex;
-    justify-content:center;
-    gap:8px;
-    flex-wrap:wrap;
+    justify-content:flex-start;
+    width:min(calc(320px + var(--peek-total)), var(--page-available));
+    margin:0 auto;
+  }
+  .side-strip{
+    position:absolute;
+    top:0;
+    height:100%;
+    z-index:0;
+    background:var(--cream);
+    border:2px solid var(--lila-300);
+    box-shadow:0 4px 14px rgba(108,63,191,0.22);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:7px;
+    overflow-y:auto;
+  }
+  .side-strip-label{
+    font-size:1rem;
+    margin-bottom:2px;
+  }
+  .frame-strip{
+    left:0;
+    width:84px;
+    padding:14px 26px 12px 7px;
+    border-radius:22px 0 0 22px;
+  }
+  .gem-strip{
+    right:0;
+    width:66px;
+    padding:14px 7px 12px 26px;
+    border-radius:0 22px 22px 0;
   }
   .gem-swatch{
-    width:38px;
-    height:38px;
+    width:32px;
+    height:32px;
+    flex:none;
     border-radius:50%;
     border:2px solid var(--lila-300);
-    padding:4px;
+    padding:3px;
     cursor:pointer;
-    background:var(--cream);
+    background:white;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -338,14 +361,19 @@
     object-fit:contain;
   }
   .gem-clear-btn{
-    margin-top:10px;
-    font-family:'Baloo 2', sans-serif;
-    font-size:0.7rem;
+    flex:none;
+    margin-top:4px;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.95rem;
     color:var(--lila-700);
     background:var(--lila-100);
     border:1.5px solid var(--lila-300);
-    border-radius:14px;
-    padding:4px 12px;
+    padding:0;
     cursor:pointer;
   }
 
@@ -456,6 +484,10 @@
     <h2 class="section-title">Photocard de tu bias</h2>
     <p class="section-sub">Sube una foto de tu bias y cuéntanos por qué te inspira.</p>
 
+    <div class="card-with-decor">
+    <div class="side-strip frame-strip" id="bias-framePicker" title="Elige el marco de la foto">
+      <span class="side-strip-label">🖼️</span>
+    </div>
     <div class="stage">
       <div class="flip-card" id="bias-flipCard" onclick="voltear('bias')">
         <div class="flip-inner">
@@ -510,19 +542,12 @@
         </div>
       </div>
     </div>
+    <div class="side-strip gem-strip" id="bias-gemPicker" title="Decora tu tarjeta">
+      <span class="side-strip-label">✨</span>
+    </div>
+    </div>
 
     <div class="stage-hint" id="bias-stageHint">👆 Toca la tarjeta para ver las preguntas</div>
-
-    <div class="frame-picker-wrap">
-      <div class="frame-label">🖼️ Elige el marco de la foto</div>
-      <div class="frame-picker" id="bias-framePicker"></div>
-    </div>
-
-    <div class="gem-picker-wrap">
-      <div class="frame-label">✨ Decora tu tarjeta</div>
-      <div class="gem-picker" id="bias-gemPicker"></div>
-      <button type="button" class="gem-clear-btn" onclick="limpiarGemas('bias')">🧹 Quitar decoraciones</button>
-    </div>
   </div>
 
   <!-- ============ SECTION 2: MI PHOTOCARD ============ -->
@@ -531,6 +556,10 @@
     <h2 class="section-title">Tu photocard</h2>
     <p class="section-sub">Ahora sube tu propia foto y completa las preguntas sobre ti.</p>
 
+    <div class="card-with-decor">
+    <div class="side-strip frame-strip" id="mine-framePicker" title="Elige el marco de tu foto">
+      <span class="side-strip-label">🖼️</span>
+    </div>
     <div class="stage">
       <div class="flip-card" id="mine-flipCard" onclick="voltear('mine')">
         <div class="flip-inner">
@@ -581,22 +610,15 @@
         </div>
       </div>
     </div>
+    <div class="side-strip gem-strip" id="mine-gemPicker" title="Decora tu tarjeta">
+      <span class="side-strip-label">✨</span>
+    </div>
+    </div>
 
     <div class="stage-hint" id="mine-stageHint">👆 Toca la tarjeta para ver las preguntas</div>
-
-    <div class="frame-picker-wrap">
-      <div class="frame-label">🖼️ Elige el marco de tu foto</div>
-      <div class="frame-picker" id="mine-framePicker"></div>
-    </div>
-
-    <div class="gem-picker-wrap">
-      <div class="frame-label">✨ Decora tu tarjeta</div>
-      <div class="gem-picker" id="mine-gemPicker"></div>
-      <button type="button" class="gem-clear-btn" onclick="limpiarGemas('mine')">🧹 Quitar decoraciones</button>
-    </div>
   </div>
 
-  <p class="note">💡 Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.<br>Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla.</p>
+  <p class="note">💡 Los marcos 🖼️ y las gemas ✨ se asoman a los lados de la tarjeta — desliza esas tiras para ver todas las opciones.<br>Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más.</p>
 
 <script>
   function voltear(id){
@@ -745,6 +767,13 @@
       btn.onclick = () => agregarGema(id, name);
       picker.appendChild(btn);
     });
+    const clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.className = 'gem-clear-btn';
+    clearBtn.title = 'Quitar decoraciones';
+    clearBtn.textContent = '🧹';
+    clearBtn.onclick = () => limpiarGemas(id);
+    picker.appendChild(clearBtn);
   }
 
   function agregarGema(id, name){
