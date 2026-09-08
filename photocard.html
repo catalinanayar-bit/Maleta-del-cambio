@@ -153,12 +153,14 @@
     width:100%;
     height:100%;
     transition:transform 0.85s cubic-bezier(.4,0,.2,1);
+    -webkit-transform-style:preserve-3d;
     transform-style:preserve-3d;
   }
 
   .face{
     position:absolute;
     inset:0;
+    -webkit-backface-visibility:hidden;
     backface-visibility:hidden;
     border-radius:20px;
     overflow:hidden;
@@ -241,9 +243,12 @@
     -webkit-user-drag:none;
     user-select:none;
     -webkit-touch-callout:none;
-    filter:drop-shadow(0 3px 5px rgba(46,26,71,0.35));
-    will-change:transform;
-    backface-visibility:hidden;
+    /* NOT filter:drop-shadow — a filter on any descendant inside the
+       preserve-3d flip hierarchy breaks the flip on Safari/mobile (both
+       faces render at once instead of the back one hiding). box-shadow
+       doesn't hug the sticker's transparent alpha shape as tightly, but
+       it's safe inside a 3D transform context. */
+    box-shadow:0 3px 5px rgba(46,26,71,0.35);
   }
   .placed-sticker:active{ cursor:grabbing; }
 
