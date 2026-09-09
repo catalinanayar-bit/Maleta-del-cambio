@@ -996,10 +996,16 @@
     clone.style.width = rect.width + 'px';
     clone.style.height = flipped ? 'auto' : rect.height + 'px';
 
+    // drop the interactive controls first — they're not part of the
+    // "result", and doing this before the field swap below keeps the
+    // hidden file-picker input from ever being mistaken for an answer field
+    clone.querySelectorAll('.upload-btn, .back-btn, input[type=file]').forEach(el => el.remove());
+
     // html2canvas can't reliably render an <input>/<textarea>'s live typed
-    // value, so swap each one for a plain text block showing that value.
-    const origFields = original.querySelectorAll('input, textarea');
-    const cloneFields = clone.querySelectorAll('input, textarea');
+    // value, so swap each remaining one (the answer fields) for a plain
+    // text block showing that value.
+    const origFields = original.querySelectorAll('input:not([type=file]), textarea');
+    const cloneFields = clone.querySelectorAll('input:not([type=file]), textarea');
     origFields.forEach((el, i) => {
       const value = (el.value || '').trim();
       const div = document.createElement('div');
@@ -1015,9 +1021,6 @@
       const scroll = clone.querySelector('.back-scroll');
       if(scroll){ scroll.style.height = 'auto'; scroll.style.overflowY = 'visible'; }
     }
-
-    // drop the interactive controls — they're not part of the "result"
-    clone.querySelectorAll('.upload-btn, .back-btn, input[type=file]').forEach(el => el.remove());
 
     const wrapper = document.createElement('div');
     wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;';
