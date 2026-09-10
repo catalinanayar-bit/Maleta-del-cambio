@@ -569,6 +569,7 @@
     <p class="section-sub">Sube una foto de tu bias y cuéntanos por qué te inspira.</p>
 
     <div class="coach-mark" id="bias-coachMark" aria-hidden="true">👇 Primero selecciona una foto de tu bias</div>
+    <div class="coach-mark" id="bias-coachMarkDecorar" aria-hidden="true" style="display:none">👈 Ahora decora tu photocard con un marco y gemas 👉</div>
 
     <div class="card-with-decor">
     <div class="side-strip frame-strip" id="bias-framePicker" title="Elige el marco de la foto">
@@ -644,6 +645,7 @@
     <p class="section-sub">Ahora sube tu propia foto y completa las preguntas sobre ti.</p>
 
     <div class="coach-mark" id="mine-coachMark" aria-hidden="true">👇 Primero selecciona tu foto</div>
+    <div class="coach-mark" id="mine-coachMarkDecorar" aria-hidden="true" style="display:none">👈 Ahora decora tu photocard con un marco y gemas 👉</div>
 
     <div class="card-with-decor">
     <div class="side-strip frame-strip" id="mine-framePicker" title="Elige el marco de tu foto">
@@ -849,6 +851,11 @@
     btn.classList.add('active');
     getEstado(id).marcoActivo = key;
 
+    if(key !== 'none'){
+      const coachMarkDecorar = document.getElementById(id + '-coachMarkDecorar');
+      if(coachMarkDecorar) coachMarkDecorar.style.display = 'none';
+    }
+
     const overlay = document.getElementById(id + '-frameOverlay');
     const overlayClip = document.getElementById(id + '-frameOverlayClip');
     const frontPhoto = document.getElementById(id + '-frontPhoto');
@@ -937,6 +944,8 @@
   }
 
   function agregarGema(id, name){
+    const coachMarkDecorar = document.getElementById(id + '-coachMarkDecorar');
+    if(coachMarkDecorar) coachMarkDecorar.style.display = 'none';
     const layer = document.getElementById(id + '-stickerLayer');
     const el = document.createElement('img');
     el.src = `assets/gems/${name}.png`;
@@ -1106,6 +1115,8 @@
       document.getElementById(id + '-photoPlaceholder').style.display = 'none';
       const coachMark = document.getElementById(id + '-coachMark');
       if(coachMark) coachMark.style.display = 'none';
+      const coachMarkDecorar = document.getElementById(id + '-coachMarkDecorar');
+      if(coachMarkDecorar) coachMarkDecorar.style.display = '';
       const img = document.getElementById(id + '-photoImg');
       getEstado(id).fotoPan = { x: 0, y: 0 };
       img.onload = () => actualizarFotoTransform(id);
