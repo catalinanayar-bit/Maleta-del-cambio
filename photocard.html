@@ -57,15 +57,36 @@
   }
   .intro h1{
     font-family:'Baloo 2', sans-serif;
-    font-size:1.5rem;
-    margin:0 0 6px;
-    color:var(--lila-700);
+    font-size:2rem;
+    font-weight:800;
+    margin:0 0 8px;
+    letter-spacing:.3px;
+    background:linear-gradient(90deg, var(--lila-700), var(--pink-400) 50%, var(--lila-700));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 2px 6px rgba(108,63,191,0.25));
   }
   .intro p{
     font-size:0.9rem;
     line-height:1.5;
     margin:4px 0;
     color:var(--plum-900);
+  }
+
+  .start-arrow{
+    font-size:1.8rem;
+    text-align:center;
+    color:var(--lila-700);
+    margin:6px 0 -8px;
+    animation:bounce-arrow 1.4s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .start-arrow{ animation:none; }
+  }
+  @keyframes bounce-arrow{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(8px); }
   }
 
   .card-section{
@@ -309,7 +330,7 @@
   .upload-btn{
     position:absolute;
     left:50%;
-    bottom:14px;
+    top:14px;
     transform:translateX(-50%);
     z-index:5;
     display:flex;
@@ -534,10 +555,13 @@
   <div class="intro">
     <span class="badge">OFICINA DE LA JUVENTUD</span>
     <h1>Tu comeback empieza contigo 💜</h1>
+    <p>Ser fan del k-pop —sí, con tu bias y todo— es un hobby sano, entretenido, y una forma real de conectar contigo mismo/a.</p>
     <p>Primero arma la photocard de tu bias, y después la tuya.</p>
   </div>
 
   <p class="note">💡 Los marcos 🖼️ y las gemas ✨ se asoman a los lados de la tarjeta — desliza esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más. Usa "Descargar imagen" para guardar como foto lo que se ve en ese momento (el frente o las respuestas).</p>
+
+  <div class="start-arrow" aria-hidden="true">⬇️</div>
 
   <!-- ============ SECTION 1: BIAS PHOTOCARD ============ -->
   <div class="card-section">
