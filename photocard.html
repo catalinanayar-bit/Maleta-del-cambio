@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tu comeback empieza contigo — Photocard interactiva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <script src="assets/vendor/html2canvas.min.js"></script>
 <style>
   :root{
@@ -142,24 +142,34 @@
     50%{ transform:scale(1.05); }
   }
 
-  /* Points down at the "Subir foto" button at the top of the card;
-     hidden by JS (cargarFoto) as soon as that card gets a photo. */
+  /* A handwritten-style note + doodle arrow pointing down at the card
+     below it. Hidden/shown by JS as the user completes each step. */
   .coach-mark{
-    margin-bottom:14px;
-    max-width:260px;
-    text-align:center;
-    font-family:'Baloo 2', sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0;
+    margin-bottom:6px;
+    color:var(--lila-700);
+    pointer-events:none;
+  }
+  .coach-mark .coach-text{
+    font-family:'Caveat', cursive;
     font-weight:700;
-    font-size:0.78rem;
-    line-height:1.3;
-    color:white;
-    background:var(--lila-700);
-    padding:6px 16px;
-    border-radius:20px;
-    animation:pulse 1.8s ease-in-out infinite;
+    font-size:1.5rem;
+    line-height:1.15;
+    max-width:230px;
+    text-align:center;
+  }
+  .coach-mark .coach-arrow{
+    animation:coach-wiggle 1.6s ease-in-out infinite;
   }
   @media (prefers-reduced-motion: reduce){
-    .coach-mark{ animation:none; }
+    .coach-mark .coach-arrow{ animation:none; }
+  }
+  @keyframes coach-wiggle{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(4px) rotate(-4deg); }
   }
 
   .download-btn{
@@ -560,7 +570,7 @@
     <p>Primero arma la photocard de tu bias, y después la tuya.</p>
   </div>
 
-  <p class="note">💡 Primero selecciona una foto de tu bias. Luego elige un marco y decóralo con las gemas que quieras — arrastra esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más. Usa "Descargar imagen" para guardar como foto lo que se ve en ese momento (el frente o las respuestas).</p>
+  <p class="note">💡 Primero selecciona una foto de tu bias. Luego elige un marco y decóralo con las gemas que quieras — arrastra esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más. Usa "Descargar imagen" para guardar tu photocard completa (la foto y tus respuestas) como una sola imagen.</p>
 
   <!-- ============ SECTION 1: BIAS PHOTOCARD ============ -->
   <div class="card-section">
@@ -568,8 +578,14 @@
     <h2 class="section-title">Photocard de tu bias</h2>
     <p class="section-sub">Sube una foto de tu bias y cuéntanos por qué te inspira.</p>
 
-    <div class="coach-mark" id="bias-coachMark" aria-hidden="true">👇 Primero selecciona una foto de tu bias</div>
-    <div class="coach-mark" id="bias-coachMarkDecorar" aria-hidden="true" style="display:none">👈 Ahora decora tu photocard con un marco y gemas 👉</div>
+    <div class="coach-mark" id="bias-coachMark" aria-hidden="true">
+      <span class="coach-text">Primero selecciona una foto de tu bias</span>
+      <svg class="coach-arrow" viewBox="0 0 60 70" width="34" height="40"><path d="M20,4 C 4,20 14,30 26,26 C 38,22 34,36 26,42" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M16,35 L26,42 L34,31" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="coach-mark" id="bias-coachMarkDecorar" aria-hidden="true" style="display:none">
+      <span class="coach-text">Ahora decora tu photocard con un marco y gemas</span>
+      <svg class="coach-arrow" viewBox="0 0 60 70" width="34" height="40"><path d="M20,4 C 4,20 14,30 26,26 C 38,22 34,36 26,42" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M16,35 L26,42 L34,31" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
 
     <div class="card-with-decor">
     <div class="side-strip frame-strip" id="bias-framePicker" title="Elige el marco de la foto">
@@ -644,8 +660,14 @@
     <h2 class="section-title">Tu photocard</h2>
     <p class="section-sub">Ahora sube tu propia foto y completa las preguntas sobre ti.</p>
 
-    <div class="coach-mark" id="mine-coachMark" aria-hidden="true">👇 Primero selecciona tu foto</div>
-    <div class="coach-mark" id="mine-coachMarkDecorar" aria-hidden="true" style="display:none">👈 Ahora decora tu photocard con un marco y gemas 👉</div>
+    <div class="coach-mark" id="mine-coachMark" aria-hidden="true">
+      <span class="coach-text">Primero selecciona tu foto</span>
+      <svg class="coach-arrow" viewBox="0 0 60 70" width="34" height="40"><path d="M20,4 C 4,20 14,30 26,26 C 38,22 34,36 26,42" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M16,35 L26,42 L34,31" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="coach-mark" id="mine-coachMarkDecorar" aria-hidden="true" style="display:none">
+      <span class="coach-text">Ahora decora tu photocard con un marco y gemas</span>
+      <svg class="coach-arrow" viewBox="0 0 60 70" width="34" height="40"><path d="M20,4 C 4,20 14,30 26,26 C 38,22 34,36 26,42" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M16,35 L26,42 L34,31" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
 
     <div class="card-with-decor">
     <div class="side-strip frame-strip" id="mine-framePicker" title="Elige el marco de tu foto">
@@ -1021,27 +1043,42 @@
       return;
     }
     const card = document.getElementById(id + '-flipCard');
-    const flipped = card.classList.contains('flipped');
-    const original = card.querySelector(flipped ? '.flip-back' : '.flip-front');
-    const rect = original.getBoundingClientRect();
+    const front = card.querySelector('.flip-front');
+    const back = card.querySelector('.flip-back');
+    const frontRect = front.getBoundingClientRect();
+    const backRect = back.getBoundingClientRect();
 
-    const clone = original.cloneNode(true);
-    clone.style.position = 'static';
-    clone.style.transform = 'none';
-    clone.style.visibility = 'visible';
-    clone.style.width = rect.width + 'px';
-    clone.style.height = flipped ? 'auto' : rect.height + 'px';
+    const frontClone = front.cloneNode(true);
+    // "relative", not "static" — this still keeps it in normal flow, but
+    // (unlike static) it stays the containing block for its own
+    // position:absolute children (the photo layer, frame overlay), which
+    // otherwise anchor to the outer wrapper and span both stacked faces
+    frontClone.style.position = 'relative';
+    frontClone.style.transform = 'none';
+    frontClone.style.visibility = 'visible';
+    frontClone.style.width = frontRect.width + 'px';
+    frontClone.style.height = frontRect.height + 'px';
+    frontClone.style.flex = 'none';
+    // drop the interactive controls — not part of the "result"
+    frontClone.querySelectorAll('.upload-btn, input[type=file]').forEach(el => el.remove());
 
-    // drop the interactive controls first — they're not part of the
-    // "result", and doing this before the field swap below keeps the
-    // hidden file-picker input from ever being mistaken for an answer field
-    clone.querySelectorAll('.upload-btn, .back-btn, input[type=file]').forEach(el => el.remove());
+    const backClone = back.cloneNode(true);
+    backClone.style.position = 'relative';
+    backClone.style.transform = 'none';
+    backClone.style.visibility = 'visible';
+    backClone.style.width = backRect.width + 'px';
+    // let the back grow to fit every answer instead of clipping to the
+    // card's usual fixed (scrollable) height
+    backClone.style.height = 'auto';
+    backClone.style.flex = 'none';
+    backClone.querySelectorAll('.back-btn').forEach(el => el.remove());
+    const scroll = backClone.querySelector('.back-scroll');
+    if(scroll){ scroll.style.height = 'auto'; scroll.style.overflowY = 'visible'; }
 
     // html2canvas can't reliably render an <input>/<textarea>'s live typed
-    // value, so swap each remaining one (the answer fields) for a plain
-    // text block showing that value.
-    const origFields = original.querySelectorAll('input:not([type=file]), textarea');
-    const cloneFields = clone.querySelectorAll('input:not([type=file]), textarea');
+    // value, so swap each one for a plain text block showing that value.
+    const origFields = back.querySelectorAll('input:not([type=file]), textarea');
+    const cloneFields = backClone.querySelectorAll('input:not([type=file]), textarea');
     origFields.forEach((el, i) => {
       const value = (el.value || '').trim();
       const div = document.createElement('div');
@@ -1051,25 +1088,25 @@
       cloneFields[i].replaceWith(div);
     });
 
-    if(flipped){
-      // let the back grow to fit every answer instead of clipping to the
-      // card's usual fixed (scrollable) height
-      const scroll = clone.querySelector('.back-scroll');
-      if(scroll){ scroll.style.height = 'auto'; scroll.style.overflowY = 'visible'; }
-    }
+    // stack both faces into one downloadable image — the photo on top,
+    // the answered questions below — regardless of which one is showing
+    const container = document.createElement('div');
+    container.style.cssText = `display:flex; flex-direction:column; align-items:center; gap:18px; width:${Math.max(frontRect.width, backRect.width)}px;`;
+    container.appendChild(frontClone);
+    container.appendChild(backClone);
 
     const wrapper = document.createElement('div');
     wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;';
-    wrapper.appendChild(clone);
+    wrapper.appendChild(container);
     document.body.appendChild(wrapper);
 
     const btn = document.querySelector(`[onclick="descargarTarjeta('${id}')"]`);
     if(btn){ btn.disabled = true; btn.textContent = '⏳ Generando…'; }
 
     try{
-      const canvas = await html2canvas(clone, { backgroundColor: '#FFFCF6', scale: 2, useCORS: true });
+      const canvas = await html2canvas(container, { backgroundColor: '#FFFCF6', scale: 2, useCORS: true });
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-      const filename = `photocard-${id === 'bias' ? 'bias' : 'mia'}-${flipped ? 'preguntas' : 'foto'}.png`;
+      const filename = `photocard-${id === 'bias' ? 'bias' : 'mia'}.png`;
       await guardarArchivo(filename, blob);
     } catch(err){
       alert('No se pudo descargar la imagen. Intenta de nuevo.');
