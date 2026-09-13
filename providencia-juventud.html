@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<meta name="theme-color" content="#E9EBE3">
+<title>¿Cómo conectamos a la juventud de Providencia?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light only;
+  forced-color-adjust:none;
+  --paper:#E9EBE3;
+  --paper-2:#F1F2EC;
+  --ink:#1F1B14;
+  --ink-soft:#453D31;
+  --sepia:#7A6A54;
+  --signal:#C8351C;
+  --signal-2:#E0603F;
+  --signal-3:#8F2716;
+  --link:#4B2BC4;
+  --tissue:#5F7A4E;
+  --tissue-2:#8CA37A;
+  --mute:#C2BFAF;
+  --mute-2:#AFA893;
+  --rule:rgba(31,27,20,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background-color:#E9EBE3;color-scheme:light only}
+body{
+  background-color:#E9EBE3;color:#1F1B14;
+  font-family:'Archivo',system-ui,sans-serif;font-size:16px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase}
+
+/* HERO */
+.hero{position:relative;min-height:94svh;overflow:hidden;background-color:#F1F2EC;display:flex;flex-direction:column}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero::after{content:'';position:absolute;inset:0;background:rgba(241,242,236,.18);z-index:1;pointer-events:none}
+.hero-top{position:relative;z-index:3;padding:5vh 6vw 0;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--sepia);pointer-events:none}
+.hero-copy{position:relative;z-index:3;margin-top:auto;padding:3rem 6vw 5vh;pointer-events:none}
+.hero-copy::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(241,242,236,0),rgba(241,242,236,.55) 40%,rgba(241,242,236,.9));z-index:-1;pointer-events:none}
+.hero h1{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(2.1rem,7.4vw,4.4rem);line-height:.98;letter-spacing:-.02em;max-width:17ch}
+.hero h1 em{font-style:italic;color:var(--signal)}
+.hero-sub{margin-top:1.5rem;max-width:40ch;font-size:1.04rem;border-left:2px solid var(--signal);padding-left:.95rem;background:rgba(241,242,236,.82)}
+.hint{margin-top:1.6rem;color:var(--sepia)}
+.hero-copy>*{opacity:0;transform:translateY(14px);animation:rise .9s cubic-bezier(.2,.7,.3,1) forwards}
+.hero h1{animation-delay:.15s}
+.hero-sub{animation-delay:1.5s}
+.hint{animation-delay:2.4s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* SPINE */
+.spine{position:fixed;left:max(14px,2.6vw);top:0;bottom:0;width:1px;background:var(--rule);z-index:5;pointer-events:none}
+.spine i{position:absolute;top:0;left:-1px;width:3px;background:var(--signal);height:0}
+@media(max-width:680px){.spine{display:none}}
+
+/* LAYOUT */
+main{position:relative;z-index:2;background-color:#E9EBE3}
+section{padding:clamp(4rem,10vh,7.5rem) 6vw;max-width:1060px;margin:0 auto;border-top:1px solid var(--rule);background-color:#E9EBE3}
+.sec-head{margin-bottom:1.5rem}
+.sec-head .mono{color:var(--sepia)}
+h2{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(1.95rem,6vw,3.2rem);line-height:1.04;letter-spacing:-.015em;max-width:21ch;margin-top:.7rem}
+h2 em{font-style:italic;color:var(--link)}
+.lede{font-size:1.06rem;max-width:60ch;margin-bottom:2.2rem;color:var(--ink-soft)}
+p{max-width:62ch}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .65s ease,transform .65s ease}
+.reveal.on{opacity:1;transform:none}
+.note{margin-top:2rem;font-size:.9rem;color:var(--sepia);border-left:1px solid var(--rule);padding-left:1rem;max-width:56ch}
+.sub{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.7rem;line-height:1.15;margin-top:3rem;margin-bottom:.6rem}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2rem}
+.stat{background:var(--paper);padding:1.5rem 1.25rem}
+.stat b{display:block;font-family:'Bodoni Moda',serif;font-size:clamp(2rem,6.5vw,2.9rem);line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
+.stat .mono{display:block;margin-top:.7rem;color:var(--sepia);line-height:1.65;letter-spacing:.09em}
+.stat.hot b{color:var(--signal)}
+.stat.old b{color:var(--tissue)}
+
+/* TORTA */
+.pie-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2.4rem;align-items:center;margin-top:2.2rem}
+@media(max-width:760px){.pie-wrap{grid-template-columns:1fr;gap:1.6rem}}
+.pie-stage{position:relative;max-width:330px;width:100%;margin:0 auto}
+#pie{width:100%;height:auto;display:block;overflow:visible}
+#pie path{cursor:pointer;transition:opacity .35s ease,transform .35s cubic-bezier(.2,.7,.3,1);transform-origin:center;transform-box:fill-box}
+#pie.armed path{opacity:0;transform:scale(.9)}
+#pie path.dim{opacity:.22}
+#pie path.pop{transform:scale(1.035)}
+.pie-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;padding:0 18%}
+.pie-center b{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(1.5rem,4.2vw,2.1rem);line-height:1;font-variant-numeric:tabular-nums}
+.pie-center .lbl{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--sepia);margin-top:.5rem;line-height:1.5}
+.pie-center .ppl{font-size:.82rem;color:var(--ink-soft);margin-top:.35rem}
+.legend{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.leg{background:var(--paper);padding:.72rem .9rem;display:grid;grid-template-columns:.7rem 1fr auto;gap:.75rem;align-items:center;cursor:pointer;font-size:.9rem;transition:background .2s}
+.leg:hover,.leg:focus-visible{background:var(--paper-2)}
+.leg i{width:.7rem;height:.7rem;border-radius:50%;display:block}
+.leg .pc{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.leg.sel{background:var(--paper-2);box-shadow:inset 2px 0 0 var(--ink)}
+.leg em{font-style:normal;display:block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sepia);margin-top:.15rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.3rem}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;padding:.5rem .8rem;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);cursor:pointer;transition:.22s}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.hot.on{background:var(--signal);border-color:var(--signal)}
+
+/* MAPA */
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
+.map{position:relative;margin-top:1.2rem;border:1px solid var(--rule);background:var(--paper-2);aspect-ratio:16/10;overflow:hidden}
+@media(max-width:700px){.map{aspect-ratio:4/5}}
+.map .axis{position:absolute;left:2%;right:2%;top:58%;height:1px;background:rgba(31,27,20,.22)}
+.map .river{position:absolute;left:0;right:0;top:11%;height:26px;border-top:1px dashed rgba(95,122,78,.5);border-bottom:1px dashed rgba(95,122,78,.22)}
+.map .river span{position:absolute;left:2.5%;top:-1.1rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tissue)}
+.pt{position:absolute;transform:translate(-50%,-50%);width:12px;height:12px;padding:0;border-radius:50%;border:1px solid var(--ink);background:var(--paper);cursor:pointer;opacity:1;transition:transform .25s ease,background .25s,opacity .3s}
+.map.lit .pt{animation:ptin .5s ease}
+@keyframes ptin{from{transform:translate(-50%,-50%) scale(.3)}to{transform:translate(-50%,-50%) scale(1)}}
+.pt:hover,.pt:focus-visible{transform:translate(-50%,-50%) scale(1.6);z-index:4}
+.pt.off{opacity:.08;pointer-events:none}
+.pt[data-t="escolar"]{background:var(--signal);border-color:var(--signal)}
+.pt[data-t="superior"]{background:var(--link);border-color:var(--link)}
+.pt[data-t="salud"]{background:var(--tissue);border-color:var(--tissue)}
+.pt[data-t="comunitario"]{background:var(--sepia);border-color:var(--sepia)}
+.pt[data-t="publico"]{background:transparent;border-color:var(--sepia)}
+.pt[data-t="metro"]{border-radius:0;width:8px;height:8px;background:var(--ink);border-color:var(--ink)}
+.pt.sel{box-shadow:0 0 0 5px rgba(31,27,20,.12);transform:translate(-50%,-50%) scale(1.7)}
+.pt.casa{width:19px;height:19px;background:transparent;border:1px dashed var(--link);animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(75,43,196,.18)}50%{box-shadow:0 0 0 9px rgba(75,43,196,0)}}
+.pt .tag{position:absolute;left:50%;top:-1.35rem;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--ink-soft);background:rgba(241,242,236,.9);padding:0 .25rem;opacity:0;transition:opacity .2s;pointer-events:none}
+.pt:hover .tag,.pt.sel .tag,.pt.casa .tag{opacity:1}
+.mapinfo{border:1px solid var(--rule);border-top:0;background:var(--paper);padding:1.1rem 1.2rem;min-height:5.5rem}
+.mapinfo .k{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--sepia)}
+.mapinfo h3{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.3rem;margin:.25rem 0 .35rem}
+.mapinfo p{font-size:.9rem;color:var(--ink-soft)}
+.counts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2rem}
+.counts div{background:var(--paper);padding:1rem .9rem}
+.counts b{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.9rem;line-height:1;display:block}
+.counts span{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sepia);display:block;margin-top:.5rem}
+
+/* CONTEXTO */
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2rem}
+.role{background:var(--paper);padding:1.5rem 1.25rem}
+.role .mono{color:var(--tissue)}
+.role h3{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.35rem;line-height:1.18;margin:.45rem 0 .5rem}
+.role p{font-size:.9rem;color:var(--ink-soft)}
+.lines{margin-top:2.2rem;border-top:1px solid var(--rule)}
+.line{display:grid;grid-template-columns:2.4rem 1fr;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--rule);align-items:start}
+.line .mono{color:var(--signal);padding-top:.3rem}
+.line h3{font-family:'Archivo',sans-serif;font-size:1.02rem;font-weight:600;margin-bottom:.3rem}
+.line p{font-size:.94rem;color:var(--ink-soft)}
+
+/* BALANZA INTERGENERACIONAL */
+.scale{margin-top:2.4rem;border:1px solid var(--rule);background:var(--paper-2);padding:1.8rem 1.4rem}
+.scale .row{display:grid;grid-template-columns:9.5rem 1fr 4.2rem;gap:.9rem;align-items:center;margin-bottom:.9rem;font-size:.9rem}
+.scale .row:last-of-type{margin-bottom:0}
+.scale .track{height:16px;background:rgba(31,27,20,.07)}
+.scale .fill{height:100%;width:0;transition:width 1.2s cubic-bezier(.2,.7,.3,1)}
+.scale .fill.j{background:var(--signal)}
+.scale .fill.m{background:var(--tissue)}
+.scale .v{font-family:'IBM Plex Mono',monospace;font-size:.8rem;text-align:right;font-variant-numeric:tabular-nums}
+.scale .caption{margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid var(--rule);font-size:.95rem;color:var(--ink-soft);max-width:58ch}
+.scale .caption b{color:var(--ink)}
+
+/* PROPUESTA */
+.prop{border:1px solid var(--ink);margin-top:2.2rem;background:var(--paper-2)}
+.prop-head{padding:1.7rem 1.5rem;border-bottom:1px solid var(--rule)}
+.prop-head .mono{color:var(--signal)}
+.prop-head h3{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(1.6rem,4.4vw,2.2rem);line-height:1.08;margin:.5rem 0 .6rem}
+.prop-head p{font-size:.98rem;color:var(--ink-soft)}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--rule)}
+.pc{background:var(--paper);padding:1.35rem 1.2rem}
+.pc k{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tissue);display:block;margin-bottom:.5rem}
+.pc p{font-size:.9rem;color:var(--ink-soft)}
+.pc ul{margin:.2rem 0 0 1rem;font-size:.88rem;color:var(--ink-soft)}
+.pc li{margin-bottom:.25rem}
+.callout{border:1px solid var(--signal);background:rgba(200,53,28,.05);padding:1.6rem 1.4rem;margin-top:2rem}
+.callout .mono{color:var(--signal);display:block;margin-bottom:.7rem}
+.callout p{font-size:1rem}
+
+/* ORGANIGRAMA */
+.org{margin-top:2.4rem}
+.org-row{display:flex;justify-content:center}
+.drop{width:1px;height:30px;background:var(--rule);margin:0 auto}
+.box{border:1px solid var(--rule);background:var(--paper);padding:1.15rem 1.15rem;max-width:26rem;width:100%}
+.box k{font-family:'IBM Plex Mono',monospace;font-size:.57rem;letter-spacing:.13em;text-transform:uppercase;color:var(--sepia);display:block}
+.box h3{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.35rem;line-height:1.14;margin:.32rem 0 .4rem}
+.box p{font-size:.88rem;color:var(--ink-soft)}
+.box.lv1{background:transparent;border-style:dashed}
+.box.lv2{background:var(--ink);border-color:var(--ink)}
+.box.lv2 k{color:rgba(233,235,227,.6)}
+.box.lv2 h3{color:var(--paper)}
+.box.lv2 p{color:rgba(233,235,227,.82)}
+.pair{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;max-width:56rem;margin:0 auto}
+.pair::before{content:'';position:absolute;top:-30px;left:25%;right:25%;height:1px;background:var(--rule)}
+.pair>div{position:relative;display:flex;justify-content:center}
+.pair>div::before{content:'';position:absolute;top:-30px;left:50%;width:1px;height:30px;background:var(--rule)}
+.box.lv3 k{color:var(--tissue)}
+@media(max-width:640px){
+  .pair{grid-template-columns:1fr;gap:30px}
+  .pair::before{display:none}
+  .pair>div::before{top:-30px;height:30px}
+  .pair>div:first-child::before{top:-30px}
+}
+.org-note{margin-top:2.2rem;border-left:2px solid var(--signal);padding-left:1rem;font-size:.95rem;color:var(--ink-soft);max-width:60ch}
+
+/* PREGUNTAS */
+.q{border-top:1px solid var(--rule);padding:1.1rem 0;display:grid;grid-template-columns:2.5rem 1fr;gap:1rem;align-items:start;cursor:pointer}
+.q:last-child{border-bottom:1px solid var(--rule)}
+.q .n{font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--signal);padding-top:.32rem}
+.q h3{font-family:'Archivo',sans-serif;font-size:1.03rem;font-weight:600;line-height:1.35}
+.q .body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.q .body p{padding-top:.65rem;font-size:.93rem;color:var(--ink-soft)}
+.q.open .body{max-height:340px}
+.q:hover h3,.q:focus-visible h3{color:var(--link)}
+
+/* FASES */
+.fasebar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2rem}
+.fb{background:var(--paper);padding:1.1rem .9rem;cursor:pointer;text-align:left;border:0;font-family:inherit;transition:background .25s;position:relative}
+.fb:hover{background:var(--paper-2)}
+.fb .num{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.13em;color:var(--sepia)}
+.fb h3{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.25rem;line-height:1.1;margin:.3rem 0 .2rem}
+.fb .dur{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--ink-soft)}
+.fb.on{background:var(--ink)}
+.fb.on .num,.fb.on .dur{color:rgba(233,235,227,.65)}
+.fb.on h3{color:var(--paper)}
+.fasepanel{border:1px solid var(--rule);border-top:0;background:var(--paper-2);padding:1.7rem 1.4rem}
+.fasepanel .intro{font-size:.98rem;color:var(--ink-soft);max-width:60ch;margin-bottom:1.5rem}
+.track2{position:relative;padding-left:2.6rem}
+.track2::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:1px;background:var(--rule)}
+.track2 i.run{position:absolute;left:8px;top:6px;width:3px;background:var(--signal);height:0;transition:height 1.1s cubic-bezier(.2,.7,.3,1)}
+.st{position:relative;padding-bottom:1.5rem;opacity:0;transform:translateX(10px);transition:opacity .5s ease,transform .5s ease}
+.st.on{opacity:1;transform:none}
+.st:last-child{padding-bottom:0}
+.st::before{content:'';position:absolute;left:-2.6rem;top:5px;width:13px;height:13px;border-radius:50%;border:1px solid var(--ink);background:var(--paper-2);transition:.3s}
+.st.on::before{background:var(--signal);border-color:var(--signal)}
+.st h4{font-family:'Archivo',sans-serif;font-size:1rem;font-weight:600;margin-bottom:.25rem}
+.st .who{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tissue);margin-bottom:.35rem}
+.st p{font-size:.92rem;color:var(--ink-soft)}
+.st .out{margin-top:.5rem;font-size:.85rem;color:var(--sepia);border-left:1px solid var(--rule);padding-left:.7rem}
+.st .out b{font-family:'IBM Plex Mono',monospace;font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tissue);display:block}
+
+/* METODOS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2rem}
+.m{background:var(--paper-2);padding:1.35rem 1.2rem;cursor:pointer;transition:background .25s;position:relative}
+.m:hover,.m:focus-visible{background:var(--paper)}
+.m .tag{font-family:'IBM Plex Mono',monospace;font-size:.61rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tissue)}
+.m h3{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.28rem;line-height:1.15;margin:.4rem 0 .5rem}
+.m p{font-size:.88rem;color:var(--ink-soft);line-height:1.5}
+.m .meta{margin-top:.9rem;display:grid;gap:.34rem}
+.m .meta div{display:grid;grid-template-columns:5.2rem 1fr;gap:.5rem;align-items:baseline;font-size:.79rem;line-height:1.45}
+.m .meta k{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sepia)}
+.m .meta v{color:var(--ink-soft)}
+.m .meta div.dur v{color:var(--signal);font-weight:500}
+.m .more{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.m .more .in{padding-top:.75rem;border-top:1px solid var(--rule);margin-top:.85rem}
+.m .more p{font-size:.85rem;margin-bottom:.6rem}
+.m .more p:last-child{margin-bottom:0}
+.m .more b{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tissue);display:block;margin-bottom:.2rem}
+.m.open .more{max-height:560px}
+.m .plus{position:absolute;top:1.25rem;right:1.15rem;font-family:'IBM Plex Mono',monospace;color:var(--sepia);transition:transform .3s}
+.m.open .plus{transform:rotate(45deg);color:var(--signal)}
+.grid .m{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease,background .25s}
+.grid.lit .m{opacity:1;transform:none}
+
+/* VOLUNTARIADO */
+.vol{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2rem}
+.v{background:var(--paper);padding:1.7rem 1.35rem}
+.v .sym{font-family:'Bodoni Moda',serif;font-size:2.1rem;line-height:1;color:var(--link)}
+.v h3{font-family:'Archivo',sans-serif;font-size:1.02rem;font-weight:600;margin:.8rem 0 .5rem}
+.v p{font-size:.92rem;color:var(--ink-soft)}
+
+/* GUARD / CRONO */
+.guard{margin-top:2rem}
+.g{display:grid;grid-template-columns:2.2rem 1fr;gap:.85rem;padding:.9rem 0;border-bottom:1px solid var(--rule);font-size:.94rem;align-items:start;color:var(--ink-soft)}
+.g em{font-style:normal;color:var(--tissue);font-family:'IBM Plex Mono',monospace;font-size:.71rem;padding-top:.3rem}
+.crono{margin-top:2rem;border-top:1px solid var(--rule)}
+.mes{display:grid;grid-template-columns:4rem 1fr;gap:1.1rem;padding:1.1rem 0;border-bottom:1px solid var(--rule);align-items:start}
+.mes b{font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.6rem;line-height:1;color:var(--link)}
+.mes p{font-size:.94rem;color:var(--ink-soft)}
+
+/* FUENTES */
+.src{margin-top:1.6rem;border-top:1px solid var(--rule)}
+.src .item{padding:1.05rem 0;border-bottom:1px solid var(--rule)}
+.src .k{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--tissue);display:block;margin-bottom:.3rem}
+.src .t{font-size:.95rem;line-height:1.5;display:block;max-width:64ch}
+.src .t b{font-weight:600}
+.src a{color:var(--link);word-break:break-word;font-size:.82rem;font-family:'IBM Plex Mono',monospace;text-decoration:none;border-bottom:1px solid rgba(75,43,196,.3);display:inline-block;margin-top:.35rem}
+.src a:hover{border-bottom-color:var(--link)}
+.src .n{font-size:.85rem;color:var(--sepia);margin-top:.35rem;display:block;max-width:60ch}
+.grupo{font-family:'Bodoni Moda',serif;font-size:1.45rem;margin:2.4rem 0 .3rem;font-weight:400}
+.grupo:first-of-type{margin-top:1.2rem}
+
+footer{padding:4.5rem 6vw 6rem;border-top:1px solid var(--rule);max-width:1060px;margin:0 auto;background-color:#E9EBE3}
+.pend{margin-top:1.3rem}
+.pend div{display:grid;grid-template-columns:1.8rem 1fr;gap:.6rem;font-size:.94rem;padding:.6rem 0;border-bottom:1px solid var(--rule);color:var(--ink-soft)}
+.pend span:first-child{font-family:'IBM Plex Mono',monospace;font-size:.71rem;color:var(--sepia);padding-top:.25rem}
+.colofon{margin-top:2.8rem;color:var(--sepia);line-height:1.85}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal,.st,.grid .m,.hero-copy>*{opacity:1;transform:none}
+  #pie.armed path{opacity:1;transform:none}
+  .map .pt{opacity:1}
+}
+
+/* torta población flotante */
+.flot{display:grid;grid-template-columns:130px 1fr;gap:2rem;align-items:start;margin:3rem 0 2rem;padding:2rem;border:1px solid var(--rule);border-radius:4px}
+.flot-circle{width:130px;height:130px;border-radius:50%;border:2px dashed var(--rule);display:grid;place-items:center}
+.flot-circle span{font:400 2.6rem/1 'Instrument Serif',Georgia,serif;color:var(--muted)}
+.flot-body k{display:block;font:500 .72rem/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.flot-body>p{margin:0 0 1.4rem;font-size:.95rem}
+.via-lbl{font:500 .72rem/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin:0 0 .6rem}
+.via{border-top:1px solid var(--rule)}
+.via-h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:none;border:0;padding:.85rem 0;cursor:pointer;text-align:left;font:inherit;font-size:.9rem;color:var(--ink)}
+.via-h i{font-style:normal;color:var(--muted);transition:transform .25s}
+.via.open .via-h i{transform:rotate(45deg)}
+.via-b{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.via.open .via-b{max-height:300px}
+.via-b p{margin:0 0 1rem;font-size:.88rem;color:var(--muted);padding-right:2rem}
+@media(max-width:700px){.flot{grid-template-columns:1fr;gap:1.4rem;padding:1.4rem}.flot-circle{width:100px;height:100px}}
+
+/* pestañas de propuestas */
+.tabbar{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 0}
+.tab{background:none;border:1px solid var(--rule);border-radius:3px;padding:.55rem .9rem;font:500 .78rem/1 'IBM Plex Mono',monospace;color:var(--muted);cursor:pointer;transition:all .2s}
+.tab:hover{border-color:var(--ink);color:var(--ink)}
+.tab.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.tabpanel{border:1px solid var(--rule);border-radius:4px;padding:2rem;margin-top:-1px}
+.tabpanel .k{display:block;font:500 .72rem/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+.tabpanel h3{margin:0 0 .9rem;font:400 1.5rem/1.2 'Instrument Serif',Georgia,serif}
+.tabpanel p{margin:0 0 1.2rem;font-size:.95rem}
+.tabpanel ul{margin:0;padding-left:1.1rem;font-size:.9rem;color:var(--muted)}
+.tabpanel li{margin-bottom:.4rem}
+.lineas{display:grid;gap:.55rem;margin:0 0 1.4rem;padding:1.1rem 1.2rem;border-left:2px solid var(--signal);background:rgba(200,53,28,.03)}
+.linea{display:grid;grid-template-columns:170px 1fr;gap:1rem;font-size:.88rem}
+.linea b{font:500 .74rem/1.5 'IBM Plex Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:var(--signal)}
+.linea span{color:var(--muted)}
+@media(max-width:640px){.linea{grid-template-columns:1fr;gap:.15rem}}
+@media(max-width:700px){.tabpanel{padding:1.4rem}}
+
+/* organigrama trio */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:700px){.trio{grid-template-columns:1fr}}
+
+.saby{border:1px solid var(--signal);border-radius:4px;padding:1.5rem 1.7rem;margin:0 0 2.6rem;background:rgba(200,53,28,.04)}
+.saby .mono{display:block;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--signal);margin-bottom:.6rem}
+.saby p{margin:0;font-family:'Bodoni Moda',serif;font-size:clamp(1.2rem,3.2vw,1.7rem);line-height:1.25}
+.dondeb{border-left:2px solid var(--link);padding:.3rem 0 .3rem 1.2rem;margin:2rem 0}
+.dondeb .mono{display:block;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--link);margin-bottom:.5rem}
+.dondeb p{margin:0;font-size:.97rem}
+.ejes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:1.4rem}
+.ejes>div{background:var(--paper);padding:1.2rem 1.1rem}
+.ejes b{display:block;font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.12rem;margin-bottom:.35rem}
+.ejes span{font-size:.85rem;color:var(--muted);line-height:1.45}
+.chips-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.1rem}
+.chipx{border:1px solid var(--rule);border-radius:100px;padding:.42rem .95rem;font:500 .78rem/1 'IBM Plex Mono',monospace;color:var(--muted)}
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.2rem}
+.acts>div{border:1px solid var(--rule);border-radius:4px;padding:1.1rem}
+.acts b{display:block;font-family:'Bodoni Moda',serif;font-weight:400;font-size:1.1rem;margin-bottom:.25rem}
+.acts span{font:500 .72rem/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="spine"><i id="spinefill"></i></div>
+
+<header class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="hero-figuras.mp4" type="video/mp4">
+  </video>
+  <div class="hero-top">
+    <span class="mono">Oficina de la Juventud · I. M. de Providencia</span>
+  </div>
+  <div class="hero-copy">
+    <h1>¿Cómo conectamos a la <em>juventud</em> de Providencia?</h1>
+    <p class="hero-label">Alcance: quiénes son, dónde están y cómo podemos llegar a ellos</p>
+    <p class="hero-sub">Un recorrido estratégico para conocer a los jóvenes entre 13 y 29 años que viven, estudian y/o trabajan en Providencia.</p>
+  </div>
+</header>
+
+<main>
+
+<section class="reveal">
+  <div class="sec-head"><span class="mono">01 — La Oficina</span></div>
+
+  <div class="saby">
+    <span class="mono">¿Sabías qué?</span>
+    <p>La juventud mueve Providencia. <b>Más de 20.000 jóvenes</b> viven en la comuna.</p>
+  </div>
+
+  <h2>¿Quiénes <em>somos</em>?</h2>
+  <p class="lede">La Oficina de la Juventud forma parte del Departamento de Diversidad e Inclusión y acompaña a las personas de 13 a 29 años que viven, estudian y/o trabajan en Providencia. Trabaja junto al Programa de Prevención del consumo de alcohol y otras sustancias.</p>
+
+  <div class="dondeb">
+    <span class="mono">¿Dónde nos puedes encontrar?</span>
+    <p>Estamos construyendo un espacio de encuentro que contribuya al fortalecimiento de una comunidad joven más activa, inclusiva y comprometida con su entorno, en <b>Marchant Pereira 859, Providencia</b>.</p>
+  </div>
+
+  <p class="sub">¿Qué hacemos?</p>
+  <p class="lede">La Oficina de la Juventud busca fortalecer el protagonismo de los y las jóvenes de Providencia, promoviendo oportunidades de participación, desarrollo personal y bienestar.</p>
+
+  <div class="team">
+    <div class="role"><span class="mono">Línea 01</span><h3>Red de voluntarios y voluntarias</h3><p>Se parte de un servicio para transformar la comunidad.</p></div>
+    <div class="role"><span class="mono">Línea 02</span><h3>Red de líderes y lideresas comunales</h3><p>Participación cívica y social de la juventud en las decisiones de la comuna.</p></div>
+    <div class="role"><span class="mono">Línea 03</span><h3>Sensibilización y socioeducación</h3><p>Información y formación en las temáticas que atraviesan la vida juvenil.</p></div>
+    <div class="role"><span class="mono">Línea 04</span><h3>Salud mental y herramientas para la vida</h3><p>Acompañamiento psicosocial y preparación para la vida adulta e independiente.</p></div>
+  </div>
+
+  <p class="sub">Ejes de trabajo</p>
+  <div class="ejes">
+    <div><b>Desarrollo personal</b><span>Herramientas para la vida adulta e independiente</span></div>
+    <div><b>Bienestar</b><span>Acompañamiento psicosocial y socioeducación</span></div>
+    <div><b>Recreación</b><span>Buen uso del tiempo libre</span></div>
+    <div><b>Participación</b><span>Red de líderes y lideresas comunales · cívico y social</span></div>
+  </div>
+
+  <p class="sub">Acciones</p>
+  <div class="chips-row">
+    <span class="chipx">Orientación social y psicológica</span>
+    <span class="chipx">Talleres</span>
+    <span class="chipx">Seminarios</span>
+    <span class="chipx">Voluntariados</span>
+  </div>
+
+  <p class="sub">Temáticas</p>
+  <div class="chips-row">
+    <span class="chipx">Buen uso del tiempo libre</span>
+    <span class="chipx">Actividades intergeneracionales</span>
+    <span class="chipx">Prevención de conductas de riesgo</span>
+    <span class="chipx">Abordaje de consumo de sustancias</span>
+  </div>
+
+  <p class="sub">Actividades en curso</p>
+  <div class="acts">
+    <div><b>Generaciones al plato</b><span>Taller</span></div>
+    <div><b>Sabor independencia</b><span>Taller</span></div>
+  </div>
+
+<p class="sub">Equipo ejecutor</p>
+
+  <div class="org">
+    <div class="org-row">
+      <div class="box lv1">
+        <k>Dirección municipal</k>
+        <h3>DIDECO · Dirección de Desarrollo Comunitario</h3>
+      </div>
+    </div>
+
+    <div class="drop"></div>
+
+    <div class="org-row">
+      <div class="box lv1">
+        <k>Departamento</k>
+        <h3>Departamento de Diversidad e Inclusión</h3>
+      </div>
+    </div>
+
+    <div class="drop"></div>
+
+    <div class="org-row">
+      <div class="box lv2">
+        <k>Oficina</k>
+        <h3>Oficina de la Juventud</h3>
+      </div>
+    </div>
+
+    <div class="drop"></div>
+
+    <div class="trio">
+      <div class="box lv3"><h3>Coordinación</h3></div>
+      <div class="box lv3"><h3>Psicóloga comunitaria</h3></div>
+      <div class="box lv3"><h3>Trabajadora social</h3></div>
+    </div>
+  </div>
+
+  <p class="org-note">Los roles específicos se determinarán en base al cometido de cada integrante.</p>
+
+  <p class="note" style="margin-top:2.4rem"><b>⚡ Propuestas de trabajo colaborativo</b> — próximamente.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><span class="mono">02 — A quiénes acompañamos</span></div>
+  <h2>¿Quiénes son? Providencia en <em>cinco generaciones</em>.</h2>
+  <p class="lede">Datos del Censo 2024. Toca cualquier generación de la torta para ver su tamaño y su contraste con 2017.</p>
+
+  <div class="pie-wrap">
+    <div class="pie-stage">
+      <svg id="pie" viewBox="0 0 240 240" role="img" aria-label="Distribución de la población de Providencia por etapa de vida"></svg>
+      <div class="pie-center" id="pieCenter">
+        <b id="pcNum">18,6%</b>
+        <span class="lbl" id="pcLbl">Población objetivo<br>15 a 29 años</span>
+        <span class="ppl" id="pcPpl">26.722 personas<br>−13,7% desde 2017</span>
+      </div>
+    </div>
+    <div>
+      <div class="legend" id="legend"></div>
+      <div class="chips">
+        <button class="chip hot on" id="chipTarget">Destacar población objetivo</button>
+        <button class="chip" id="chipAll">Ver toda la comuna</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b data-to="143974">0</b><span class="mono">habitantes<br>Censo 2024</span></div>
+    <div class="stat hot"><b data-to="26722">0</b><span class="mono">personas de 15 a 29 años<br>18,6% de la comuna</span></div>
+    <div class="stat old"><b data-to="23105">0</b><span class="mono">personas de 65 años o más<br>16,0% de la comuna</span></div>
+  </div>
+
+  <div class="flot">
+    <div class="flot-circle"><span>?</span></div>
+    <div class="flot-body">
+      <k>Población flotante joven</k>
+      <p>Quienes estudian o trabajan en Providencia sin vivir en ella. Son parte del público de la Casa según la definición de alcance, y su tamaño se puede conocer solicitándolo directamente a quienes ya lo tienen registrado.</p>
+      <p class="via-lbl">Vía de levantamiento</p>
+      <div class="vias" id="vias"></div>
+    </div>
+  </div>
+
+  <p class="note"><b>Precisión pendiente.</b> El censo agrupa 0–14 y 15–29, de modo que el tramo 13–29 que usa la Oficina no puede construirse con la información publicada. Hay que solicitar al INE el dato por edad simple y por unidad vecinal.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><span class="mono">03 — Dónde se encuentran</span></div>
+  <h2>¿Dónde se encuentran? Recorrido por los espacios donde la juventud de Providencia ya <em>transita</em>.</h2>
+  <p class="lede">Todos los días pasan por colegios, institutos y universidades, y alrededor de ellos ya funcionan juntas de vecinos, clubes y voluntariados. Filtra por capa y toca cualquier punto para ver qué aporta al diagnóstico.</p>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="map" id="map">
+    <div class="river"><span>Río Mapocho</span></div>
+    <div class="axis"></div>
+  </div>
+  <div class="mapinfo" id="mapinfo">
+    <span class="k">Esquema referencial</span>
+    <h3>Toca un punto del esquema</h3>
+    <p>Cada capa responde a una pregunta distinta: dónde captar, dónde instalarse y con quién articular.</p>
+  </div>
+
+  <div class="counts">
+    <div><b>64</b><span>Establecimientos escolares<br>en la comuna</span></div>
+    <div><b>10</b><span>De ellos,<br>municipales</span></div>
+    <div><b>6</b><span>Municipales con<br>enseñanza media</span></div>
+    <div><b>11</b><span>Instituciones de<br>educación superior</span></div>
+  </div>
+
+  <p class="note">Este esquema ordena capas y posiciones relativas; no está georreferenciado. Los establecimientos provienen del catastro verificado con el registro MINEDUC; las juntas de vecinos, clubes y voluntariados están indicados por sector y su catastro nominal está por levantar. Antes de decidir localización hay que cargar las direcciones exactas.</p>
+
+  <p style="margin-top:2rem"><b>Concentración territorial.</b> La educación superior y buena parte de los colegios están en el corredor entre el río y Av. Pocuro, en torno a Pedro de Valdivia, Manuel Montt y Ricardo Lyon. Es el mismo territorio de los liceos municipales.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><span class="mono">04 — Por qué intergeneracional</span></div>
+  <h2>Casi 135 personas mayores por cada <em>100 jóvenes</em>.</h2>
+  <p class="lede">El índice de adultos mayores de la comuna subió de 125,5 a 134,9 entre censos. Esa proporción es la que hace necesario pensar estrategias intergeneracionales.</p>
+
+  <div class="scale" id="scale">
+    <div class="row"><span>15 a 29 años</span><span class="track"><span class="fill j" data-w="18.6"></span></span><span class="v">18,6%</span></div>
+    <div class="row"><span>65 años y más</span><span class="track"><span class="fill m" data-w="16.0"></span></span><span class="v">16,0%</span></div>
+    <p class="caption">La convivencia entre generaciones no se produce solo por vivir cerca. Se necesita una tarea compartida, un lugar y una frecuencia. Por eso <b>una línea de trabajo de la Oficina debería considerar aspectos intergeneracionales.</b></p>
+  </div>
+
+  <p class="sub">Qué debe considerar una estrategia intergeneracional</p>
+  <div class="team">
+    <div class="role">
+      <span class="mono">Condición 1</span>
+      <h3>Una tarea, no solo un punto de encuentro</h3>
+      <p>Los encuentros intergeneracionales que solo se focalizan en conversar no logran tener un objetivo en común. Funcionan cuando hay una misión que conecta a ambas generaciones.</p>
+    </div>
+    <div class="role">
+      <span class="mono">Condición 2</span>
+      <h3>Reciprocidad, no asistencia</h3>
+      <p>El vínculo se genera cuando ambos se ayudan y ambos reciben, o ambos aprenden. La persona mayor y el joven deben enseñarle algo al otro.</p>
+    </div>
+    <div class="role">
+      <span class="mono">Condición 3</span>
+      <h3>Frecuencia, no un evento particular</h3>
+      <p>Un encuentro único no produce el impacto que sí puede producir una estrategia frecuente. La continuidad es lo que sostiene el vínculo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><span class="mono">05 — Propuestas</span></div>
+  <h2>Estrategias posibles para la <em>Casa de la Juventud</em>.</h2>
+  <p class="lede">Cada una es una idea desarrollada que puede ejecutarse por separado o en conjunto. Toca una pestaña para verla.</p>
+
+  <div class="tabbar" id="tabbar"></div>
+  <div class="tabpanel" id="tabpanel"></div>
+</section>
+
+
+<section class="reveal">
+  <div class="sec-head"><span class="mono">06 — Cómo vamos a conocerlos</span></div>
+<h2>Las instancias son también el <em>diagnóstico</em>.</h2>
+  <p class="lede">Los talleres e instancias que se generen en la Casa de la Juventud pueden utilizarse como espacio para realizar un diagnóstico participativo. A través de estas actividades se recopila información para preparar un plan de acción basado en encuestas y relaciones.</p>
+
+<p class="sub">Ocho preguntas que ordenan el trabajo</p>
+  <p class="lede">Toca cada pregunta para ver qué hay que levantar.</p>
+  <div id="qs"></div>
+
+<p class="sub">Nueve formas de hacer contacto</p>
+  <p class="lede">Cada ficha trae duración, tamaño de grupo y materiales, para que se puedan calzar en una agenda y en un presupuesto. Toca cualquiera para ver cómo se hace y para qué sirve.</p>
+  <div class="grid" id="metodos"></div>
+
+  <p class="note">Regla de segmentación: no mezclar 13–17 con 25–29 en un mismo grupo de discusión salvo con facilitación muy experta. La asimetría de edad silencia al tramo menor. Tres tramos, tres lenguajes, tres horarios.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-head"><span class="mono">07 — Fuentes</span></div>
+  <h2>De dónde sale cada <em>dato</em>.</h2>
+  <p class="lede">Toda cifra de esta propuesta es verificable. Las que requieren actualización antes de comprometer metas están señaladas.</p>
+
+  <h3 class="grupo">Datos demográficos</h3>
+  <div class="src">
+    <div class="item">
+      <span class="k">Población total · grupos de edad · índice de adultos mayores</span>
+      <span class="t"><b>Biblioteca del Congreso Nacional de Chile</b> — Reporte Comunal Providencia 2025, elaborado con los resultados del <b>Censo de Población y Vivienda 2024</b> del Instituto Nacional de Estadísticas, comparados con el Censo 2017.</span>
+      <a href="https://www.bcn.cl/siit/reportescomunales/comunas_v.html?anno=2025&idcom=13123" target="_blank" rel="noopener">bcn.cl/siit/reportescomunales · Providencia 2025</a>
+      <span class="n">De aquí provienen todas las cifras de población: 143.974 habitantes, 26.722 personas de 15 a 29 años (18,6%), 23.105 de 65 años o más (16,0%) y el índice de adultos mayores de 134,9.</span>
+    </div>
+    <div class="item">
+      <span class="k">Cálculo propio</span>
+      <span class="t">Las variaciones porcentuales entre 2017 y 2024 se calcularon a partir de las poblaciones absolutas del mismo reporte. La caída del tramo 15–29 —de 30.954 a 26.722 personas— equivale a 4.232 jóvenes menos, un 13,7%.</span>
+    </div>
+    <div class="item">
+      <span class="k">Dato no publicado</span>
+      <span class="t">El censo agrupa 0–14 y 15–29, de modo que el tramo 13–29 que usa la Oficina no puede construirse con la información publicada. Requiere solicitar al INE el dato por edad simple y por unidad vecinal.</span>
+    </div>
+    <div class="item">
+      <span class="k">Dato inexistente</span>
+      <span class="t">No hay registro público del volumen de jóvenes que estudian o trabajan en la comuna sin residir en ella. Es un vacío que solo puede cubrirse con levantamiento propio.</span>
+    </div>
+  </div>
+
+  <h3 class="grupo">Espacios y matrícula escolar</h3>
+  <div class="src">
+    <div class="item">
+      <span class="k">Establecimientos y matrícula</span>
+      <span class="t"><b>Centro de Estudios del MINEDUC</b>, citado en el Reporte Comunal 2025: en 2024 la comuna registra <b>44 establecimientos escolares</b> —10 municipales, 12 particulares subvencionados y 22 particulares pagados— y una matrícula total de <b>29.922</b> estudiantes, de los cuales 9.984 corresponden a establecimientos municipales.</span>
+      <span class="n">El listado nominal y las direcciones deben solicitarse a la Corporación de Desarrollo Social y al directorio oficial del MINEDUC.</span>
+    </div>
+    <div class="item">
+      <span class="k">Salud</span>
+      <span class="t"><b>DEIS, MINSAL</b> (abril de 2025), citado en el mismo reporte: la comuna cuenta con 3 CESFAM, 2 CECOSF, 1 COSAM y 1 SAPU en la red comunal, además de establecimientos hospitalarios.</span>
+    </div>
+    <div class="item">
+      <span class="k">Categorías del esquema</span>
+      <span class="t">Los puntos del esquema representan <b>tipos de espacio</b> —liceo municipal, colegio particular o subvencionado, campus, junta de vecinos, club de adulto mayor, voluntariado, centro de salud, plaza, parque, estación de Metro—, no establecimientos identificados. Su posición es relativa y no georreferenciada.</span>
+      <span class="n">El catastro nominal de organizaciones comunitarias, clubes de adulto mayor y voluntariados se levanta en la fase de preparación con registros municipales.</span>
+    </div>
+  </div>
+
+  <h3 class="grupo">Marco metodológico</h3>
+  <div class="src">
+    <div class="item">
+      <span class="k">Enfoque de diagnóstico</span>
+      <span class="t"><b>Diagnóstico Participativo Comunitario (DPC)</b>, marco del trabajo social. Aporta las nociones de dimensión colectiva e individual, red de relaciones significativas, lazos de solidaridad, inserción social y la distinción entre proceso y programa.</span>
+    </div>
+    <div class="item">
+      <span class="k">Referencia de diseño operativo</span>
+      <span class="t"><b>Protocolos de funcionamiento de Casa Joven</b>, Ilustre Municipalidad de Lo Barnechea, enero de 2024. Consultado como referencia de un espacio juvenil municipal en operación: régimen de ingreso, consentimiento informado, protocolos de convivencia, salud mental y vulneración de derechos.</span>
+      <a href="https://lobarnechea.cl/wp-content/uploads/2024/01/Protocolos-de-funcionamiento-Casa-Joven-08.01.2024.pdf" target="_blank" rel="noopener">lobarnechea.cl · Protocolos Casa Joven (PDF)</a>
+    </div>
+    <div class="item">
+      <span class="k">Fundamento del ocio como derecho</span>
+      <span class="t">Kharlanova (2016), sobre los <i>Leisure Centres</i> islandeses y el juego no estructurado como parte del desarrollo. Citado en los protocolos de Casa Joven de Lo Barnechea.</span>
+    </div>
+    <div class="item">
+      <span class="k">Referencia de formato de diagnóstico juvenil comunal</span>
+      <span class="t"><b>Informe Diagnóstico — Programa Compromiso Joven</b>, INJUV, Ilustre Municipalidad de Mostazal. Consultado como ejemplo de proceso participativo juvenil de escala menor y de sus límites.</span>
+      <a href="https://www.injuv.gob.cl/sites/default/files/mostazal_informe_diagnostico_participativo_local_vf.pdf" target="_blank" rel="noopener">injuv.gob.cl · Informe Mostazal (PDF)</a>
+    </div>
+  </div>
+
+  <h3 class="grupo">Fuentes internas por incorporar</h3>
+  <div class="src">
+    <div class="item">
+      <span class="k">Pendientes de recopilación</span>
+      <span class="t">Registro histórico de la red de voluntarios comunal · matrícula por establecimiento · catastro de organizaciones juveniles · PLADECO y PADEM vigentes · catastro de infraestructura municipal disponible · antecedentes del voluntariado ecológico del Mapocho · convenio, requisitos y catastro del voluntariado del Hospital del Salvador.</span>
+      <span class="n">Corresponden a la fase de preparación y se levantan sin salir a terreno.</span>
+    </div>
+  </div>
+
+  <p class="note">Datos poblacionales, educacionales y de salud tomados del Reporte Comunal 2025 (Censo 2024), consultado en agosto de 2026. Verifique la vigencia del reporte antes de usarlo en un documento oficial.</p>
+</section>
+
+</main>
+
+<footer class="reveal">
+  <div class="sec-head"><span class="mono">08 — Sin resolver</span></div>
+  <h2>Lo que todavía no <em>sabemos</em>.</h2>
+  <p class="lede">Cuatro definiciones pendientes.</p>
+  <div class="pend">
+    <div><span>01</span><span>Decidir el alcance.</span></div>
+    <div><span>02</span><span>Esclarecer las acciones asociadas a los cometidos de cada cargo.</span></div>
+    <div><span>03</span><span>Realizar matriz de actividades y orientaciones.</span></div>
+    <div><span>04</span><span>Obtener fuentes internas.</span></div>
+  </div>
+  <p class="colofon mono">Oficina de la Juventud · Ilustre Municipalidad de Providencia<br>Documento de trabajo</p>
+</footer>
+
+<script>
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TOTAL = 143974;
+
+/* ================= DATOS ================= */
+
+const TRAMOS=[
+  {k:'Niñez',            r:'0 a 14 años',   p:11.9, n:17123, v:-3.5,  c:'#C2BFAF', target:false, nota:'17.123 personas, un 3,5% menos que en 2017. El tramo 13–14 ya es público de la Oficina, pero el censo no lo separa: hay que pedir el dato por edad simple.'},
+  {k:'Juventud',         r:'15 a 29 años',  p:18.6, n:26722, v:-13.7, c:'#C8351C', target:true,  nota:'26.722 personas. Es el único tramo que cae con fuerza: 4.232 jóvenes menos que en 2017, un 13,7%. La población objetivo se está reduciendo mientras la comuna crece.'},
+  {k:'Adultez joven',    r:'30 a 44 años',  p:31.4, n:45167, v:7.9,   c:'#AFA893', target:false, nota:'45.167 personas y el tramo que más creció. Son, en buena medida, los adultos responsables que autorizan la participación de los menores.'},
+  {k:'Adultez media',    r:'45 a 64 años',  p:22.1, n:31857, v:8.9,   c:'#9C947F', target:false, nota:'31.857 personas. Muchas transitarán al tramo mayor durante la vida útil de esta estrategia.'},
+  {k:'Personas mayores', r:'65 años y más', p:16.0, n:23105, v:3.8,   c:'#5F7A4E', target:false, nota:'23.105 personas y en aumento. La contraparte natural de toda estrategia intergeneracional de la Oficina.'}
+];
+
+const ESPACIOS=[
+  ['Liceo Carmela Carvajal de Prat','escolar',46,36,'Liceo municipal, matrícula femenina. Punto de captación directo del tramo 15–19: encuesta en consejo de curso y contacto con el centro de estudiantes.'],
+  ['Liceo José Victorino Lastarria','escolar',30,42,'Liceo municipal. Centro de estudiantes activo: contacto semilla para el mapa de actores.'],
+  ['Liceo Tajamar','escolar',36,28,'Liceo municipal del sector norponiente, cerca del eje Providencia.'],
+  ['Liceo Arturo Alessandri Palma','escolar',58,34,'Liceo municipal del sector oriente del eje escolar.'],
+  ['Liceo Siete de Providencia','escolar',52,44,'Liceo municipal. Buen punto para instalar una urna de propuestas durante dos semanas.'],
+  ['Liceo Juan Pablo Duarte','escolar',66,42,'Liceo municipal. Perfil de matrícula por confirmar con la Corporación de Desarrollo Social.'],
+  ['Colegio Providencia','escolar',26,32,'Establecimiento municipal cercano al Hospital del Salvador: primer candidato para reclutar duplas del piloto intergeneracional.'],
+  ['Colegio Mercedes Marín del Solar','escolar',42,48,'Establecimiento municipal del eje central de la comuna.'],
+  ['Colegio El Vergel','escolar',70,46,'Establecimiento municipal del sector oriente.'],
+  ['Escuela Abelardo Iturriaga Jamett','escolar',20,48,'Escuela municipal del sector poniente.'],
+  ['U. San Sebastián · Campus Los Leones','superior',73,68,'Campus grande en Los Leones. Alto flujo diario de estudiantes que no residen en la comuna.'],
+  ['U. de Las Américas · Campus Providencia','superior',41,70,'Av. Manuel Montt 948, junto a la estación de Metro del mismo nombre.'],
+  ['U. Mayor · Campus Manuel Montt','superior',38,76,'Manuel Montt 367. Concentra flujo en la misma franja horaria que UDLA.'],
+  ['U. Autónoma de Chile · Sede Providencia','superior',55,72,'Pedro de Valdivia 425. Jornada diurna y vespertina: dos ventanas horarias distintas para convocar.'],
+  ['P. U. Católica · Campus Oriente','superior',88,78,'Jaime Guzmán Errázuriz 3300, en el límite con Ñuñoa. Artes, música y teatro: perfil clave para la programación cultural.'],
+  ['UNIACC','superior',33,66,'Comunicación y artes audiovisuales: socio natural para el archivo colectivo y el registro audiovisual.'],
+  ['U. Gabriela Mistral','superior',80,72,'Sede en la comuna. Matrícula y horarios por confirmar con el SIES.'],
+  ['U. Finis Terrae','superior',47,80,'Sede en la comuna. Matrícula y horarios por confirmar con el SIES.'],
+  ['Junta de vecinos · Pedro de Valdivia Norte','comunitario',48,22,'Sector norte del río. Puerta de entrada al territorio y a los adultos responsables que autorizan la participación de menores.'],
+  ['Junta de vecinos · Barrio Bellavista','comunitario',12,26,'Borde norponiente. Vida nocturna y uso juvenil intensivo del espacio público: sector con conflictos de convivencia que el diagnóstico debe recoger.'],
+  ['Junta de vecinos · El Aguilucho','comunitario',62,50,'Sector residencial oriente. Puede facilitar sedes vecinales para talleres sin costo de arriendo.'],
+  ['Junta de vecinos · Barrio Italia','comunitario',18,84,'Borde sur con Ñuñoa. Circuito cultural y de oficios: potencial socio para la línea de talleres.'],
+  ['Club de adulto mayor · sector Salvador','comunitario',24,40,'Contraparte organizada de la línea intergeneracional. Ya tiene directiva y frecuencia de reunión.'],
+  ['Club de adulto mayor · sector Los Leones','comunitario',74,32,'Segunda contraparte para el diálogo intergeneracional y para las entrevistas de trayectoria.'],
+  ['Voluntariado del Hospital del Salvador','comunitario',26,20,'Sostenido mayoritariamente por mujeres adultas mayores. Es la contraparte del piloto de café y compañía.'],
+  ['Voluntariado ecológico · río Mapocho','comunitario',38,14,'Jornadas de limpieza ya en marcha. Cada salida es un recorrido por el territorio con un grupo ya convocado.'],
+  ['Centros de estudiantes y colectivos juveniles','comunitario',60,80,'Juveniles organizados: federaciones, colectivos, clubes deportivos, batucadas, skaters. Mapearlos evita competir con lo que ya funciona.'],
+  ['CESFAM Dr. Hernán Alessandri','salud',34,26,'Los Jesuitas 857. Atención primaria: parte de la ruta de derivación de los resguardos.'],
+  ['CESFAM Dr. Alfonso Leng','salud',40,54,'Manuel Montt 303. Atiende al sector norponiente, incluidos quienes estudian y trabajan en la comuna sin residir en ella.'],
+  ['CESFAM El Aguilucho','salud',66,26,'El Aguilucho 3292. Cubre el sector oriente de la comuna.'],
+  ['Centro de Salud Mental Provisam','salud',52,24,'Salud mental comunal. Fuente directa sobre qué llega a consulta en el tramo joven y punto de derivación de los resguardos.'],
+  ['Hospital del Salvador','salud',22,24,'Sede del voluntariado y del piloto intergeneracional de café, té y compañía en salas de espera.'],
+  ['Ribera del río Mapocho','publico',30,10,'Territorio del voluntariado ecológico. Cada jornada de limpieza rinde además un mapa de usos y conflictos del borde.'],
+  ['Parque Balmaceda','publico',16,16,'Uso juvenil espontáneo. Candidato a urna de propuestas y a deriva urbana.'],
+  ['Parque de las Esculturas','publico',44,12,'Ribera norte. Espacio de uso diurno, prácticamente sin programación juvenil.'],
+  ['Parque Bustamante','publico',8,44,'Borde poniente. Alta afluencia adolescente y de skaters: contacto no institucional con quienes no entrarían solos a una oficina municipal.'],
+  ['Parque Inés de Suárez','publico',84,60,'Sector oriente, junto al Metro. Deporte y uso familiar: espacio con potencial intergeneracional.'],
+  ['Plaza Las Lilas','publico',78,42,'Sector residencial oriente. Uso intergeneracional espontáneo, sin dispositivo que lo aproveche.'],
+  ['Metro Baquedano','metro',8,58,'Nodo L1–L5. Puerta poniente de la comuna.'],
+  ['Metro Salvador','metro',24,58,'Acceso al Hospital del Salvador y al piloto de voluntariado.'],
+  ['Metro Manuel Montt','metro',40,58,'Mayor concentración de campus del eje.'],
+  ['Metro Pedro de Valdivia','metro',56,58,'Eje comercial y de servicios.'],
+  ['Metro Los Leones','metro',72,58,'Nodo L1–L6. Junto al campus de mayor tamaño.'],
+  ['Metro Tobalaba','metro',90,58,'Nodo L1–L4. Límite oriente de la comuna.'],
+  ['Casa de la Juventud','casa',50,64,'Ubicación por confirmar. Este esquema existe justamente para tomar esa decisión con datos y no por disponibilidad administrativa.']
+];
+
+const FILTROS=[
+  ['escolar','Colegios y liceos'],
+  ['superior','Educación superior'],
+  ['comunitario','Organizaciones y voluntariados'],
+  ['salud','Salud'],
+  ['publico','Espacio público'],
+  ['metro','Metro L1']
+];
+
+const PREGUNTAS=[
+["¿Quiénes son los jóvenes de 13 a 29 años de Providencia?","Distribución por edad simple y por unidad vecinal, más la estimación de quienes estudian o trabajan en la comuna sin residir en ella. Sin esto, cualquier meta de cobertura es una cifra sin respaldo."],
+["¿Cuáles son sus factores protectores y sus factores de riesgo?","Qué los sostiene y qué los expone. Vínculos, rutinas, redes de apoyo, consumo, aislamiento, presión académica. Es la base de toda la línea preventiva."],
+["Ubicaciones estratégicas: ¿dónde están y cómo se mueven por la comuna?","Establecimientos, campus, espacio público y recorridos cotidianos. Define dónde captar, dónde instalarse y en qué franja horaria."],
+["¿Qué hacen en su tiempo libre y qué quisieran hacer?","La distancia entre ambas respuestas es la oferta que falta. Incluye qué horarios tienen realmente disponibles."],
+["¿Qué los cuida y qué los pone en riesgo?","La lectura cualitativa de la pregunta anterior: cómo lo nombran ellos, no cómo lo clasifica la literatura."],
+["¿Cuáles son sus fortalezas y sus recursos?","Qué saben hacer, qué organizan por su cuenta, qué liderazgos ya existen. Evita diseñar desde la carencia."],
+["¿Qué quieren para el futuro de la comuna?","Aquí entra el Mapa con timbres de Providencia: los participantes sellan lugares en tres capas temporales —lo que fue, lo que es y lo que podría ser— diferenciadas por generación."],
+["¿Cuál es su disposición al encuentro intergeneracional?","Con quiénes están dispuestos a compartir una tarea, en qué formato y con qué frecuencia. Condiciona el diseño de toda la línea intergeneracional."]
+];
+
+const METODOS=[
+["Territorio","Cartografía social",
+ "Sobre un plano grande de la comuna, los grupos marcan con colores los lugares que usan, los que evitan, los que echan de menos y los que quieren recuperar.",
+ "45 a 60 minutos","8 a 20 personas",
+ "Plano de la comuna impreso en A0 · stickers en tres colores · plumones gruesos · post-it · cinta de papel",
+ "Se trabaja en grupos de cinco. Cada color responde a una consigna distinta y se marca en silencio los primeros diez minutos, para que nadie copie al de al lado. Después se abre la discusión sobre las diferencias.",
+ "Dónde instalarse y qué zonas se perciben inseguras. Variante intergeneracional: dos planos superpuestos, el de los jóvenes hoy y el de las personas mayores en su juventud."],
+
+["Territorio","Deriva urbana",
+ "Recorridos en grupos pequeños por un sector asignado, fotografiando lo que funciona y lo que no. Cada foto se acompaña de una frase.",
+ "2 a 3 horas","4 a 6 por grupo",
+ "Celulares con cámara · ficha de ruta impresa · credenciales identificatorias · agua · mapa del sector",
+ "Cada grupo recibe un sector y una consigna. Al volver, se seleccionan cinco fotos y se montan en un muro común. La puesta en común dura tanto como el recorrido.",
+ "Produce material visual para el archivo y evidencia difícil de refutar en mesas institucionales. No se fotografía a personas identificables sin consentimiento."],
+
+["Territorio","Auditoría de espacios",
+ "Recorrido guiado por jóvenes a los espacios que la Casa podría usar, recuperar o programar, con pauta de evaluación en mano.",
+ "2 horas por espacio","6 a 12 personas",
+ "Pauta de evaluación impresa · huincha de medir · cámara · coordinación previa de acceso con la unidad municipal a cargo",
+ "Se puntúa de 1 a 5: accesibilidad, transporte, seguridad del entorno, ruido, capacidad, posibilidad de uso nocturno y de fin de semana. Al final, ranking colectivo.",
+ "Evita el error más caro: habilitar un espacio por disponibilidad administrativa y descubrir después que nadie llega."],
+
+["Análisis","Árbol de problemas",
+ "Raíz, tronco y copa: causas, problema y consecuencias, construidos por el propio grupo.",
+ "40 a 60 minutos","5 a 15 personas",
+ "Papelógrafo o pliego de papel kraft · post-it en tres colores · plumones · cinta",
+ "Se parte por el tronco, que es la problemática ya priorizada. Luego cada persona escribe causas en post-it y las pega abajo; después consecuencias arriba. El facilitador agrupa en voz alta.",
+ "Es lo que impide que el diagnóstico quede en lista de quejas y permite distinguir el síntoma de la causa."],
+
+["Análisis","Matriz de factibilidad",
+ "Cada acción propuesta se puntúa colectivamente en urgencia, alcance, factibilidad técnica y factibilidad financiera.",
+ "30 a 45 minutos","10 a 30 personas",
+ "Matriz impresa en tamaño mural · tres stickers adhesivos por participante · planilla o calculadora para el conteo",
+ "Primero votación con stickers para el orden grueso. Después las cinco acciones más votadas pasan a la matriz y se puntúan de 1 a 5 en cada criterio, discutiendo cada nota.",
+ "Sin matriz explícita la priorización queda sin respaldo, y es lo primero que se cuestiona cuando el informe llega a la mesa."],
+
+["Conversación","World café",
+ "Cuatro o cinco mesas temáticas con anfitrión fijo; los participantes rotan cada veinte minutos.",
+ "90 a 120 minutos","20 a 60 personas",
+ "Una mesa por tema con papel de mantel · plumones de colores · campana o timer visible · café y algo para picar",
+ "El anfitrión de cada mesa no rota: acumula lo que dijeron los grupos anteriores y lo devuelve al siguiente. En la última ronda cada mesa presenta su síntesis en dos minutos.",
+ "Mesas sugeridas: espacios y territorio, salud mental, consumo, educación y trabajo, cultura y ocio, voluntariado, convivencia intergeneracional."],
+
+["Conversación","Diálogo intergeneracional",
+ "Encuentro pareado entre una persona joven y una mayor, con pauta de cuatro rondas cronometradas.",
+ "2 horas","12 a 24 personas en parejas",
+ "Pauta de cuatro rondas impresa · timer visible para todos · grabadoras o celulares · formularios de consentimiento firmados · sillas enfrentadas",
+ "Ronda 1: trayectoria, sin interrupciones. Ronda 2: contraste — qué se perdió, qué se ganó, qué sigue igual. Ronda 3: propositiva. Ronda 4: plenario abierto.",
+ "El riesgo es que derive en monólogo adulto o en nostalgia. La ronda de contraste debe ser crítica, no celebratoria, y el facilitador corta tiempos con rigor."],
+
+["Relato","Entrevista de trayectoria",
+ "Semiestructurada, sobre el recorrido de la persona en relación con el territorio. Es el núcleo del archivo colectivo.",
+ "40 a 60 minutos cada una","1 a 1, en dupla de registro",
+ "Grabadora o celular con memoria libre · guion impreso · consentimiento en tres niveles · ficha de registro de archivo · lugar tranquilo y con visibilidad",
+ "Muestra sugerida: 10 a 15 jóvenes de perfiles diversos, 8 a 12 personas mayores con arraigo, 5 a 8 actores institucionales. Se transcribe dentro de las 48 horas siguientes.",
+ "Cierra siempre con la misma pregunta: ¿qué te gustaría que quedara registrado de esto?"],
+
+["Escala","Encuesta breve",
+ "Doce preguntas, cuatro minutos. La única técnica que entrega números defendibles frente a 32.000 personas.",
+ "4 minutos por persona","Meta: 600 a 1.000 respuestas",
+ "Formulario digital con código QR impreso en tarjetas · dos tablets o celulares del equipo · 200 copias en papel · tableros portapapeles · lápices",
+ "Cuatro preguntas de caracterización, cinco de diagnóstico y tres de proyección. Se aplica en liceos, campus, plazas y en las propias jornadas de voluntariado.",
+ "Incluir siempre una pregunta abierta final: ¿algo que no te preguntamos y deberíamos saber? Suele ser la más productiva de todas."]
+];
+
+/* ================= TORTA ================= */
+const NS='http://www.w3.org/2000/svg';
+const pie=document.getElementById('pie');
+const legend=document.getElementById('legend');
+const pcNum=document.getElementById('pcNum'),pcLbl=document.getElementById('pcLbl'),pcPpl=document.getElementById('pcPpl');
+const fmt=n=>Math.round(n).toLocaleString('es-CL');
+
+function annulus(cx,cy,r1,r2,a0,a1){
+  const P=(r,a)=>[cx+r*Math.cos(a),cy+r*Math.sin(a)];
+  const big=(a1-a0)>Math.PI?1:0;
+  const [x1,y1]=P(r2,a0),[x2,y2]=P(r2,a1),[x3,y3]=P(r1,a1),[x4,y4]=P(r1,a0);
+  return 'M'+x1+' '+y1+' A'+r2+' '+r2+' 0 '+big+' 1 '+x2+' '+y2+
+         ' L'+x3+' '+y3+' A'+r1+' '+r1+' 0 '+big+' 0 '+x4+' '+y4+' Z';
+}
+
+let a=-Math.PI/2;
+const paths=[];
+TRAMOS.forEach((t,i)=>{
+  const sweep=t.p/100*Math.PI*2;
+  const gap=0.012;
+  const p=document.createElementNS(NS,'path');
+  p.setAttribute('d',annulus(120,120,68,112,a+gap/2,a+sweep-gap/2));
+  p.setAttribute('fill',t.c);
+  p.setAttribute('tabindex','0');
+  p.setAttribute('role','button');
+  p.setAttribute('aria-label',t.k+', '+t.r+', '+t.p+' por ciento');
+  p.style.transitionDelay=(i*90)+'ms';
+  p.addEventListener('click',()=>select(i));
+  p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i)}});
+  pie.appendChild(p);paths.push(p);
+  a+=sweep;
+});
+pie.classList.add('armed');
+
+const legs=[];
+TRAMOS.forEach((t,i)=>{
+  const el=document.createElement('div');
+  el.className='leg';el.tabIndex=0;el.setAttribute('role','button');
+  el.innerHTML='<i style="background:'+t.c+'"></i><span>'+t.k+'<em>'+t.r+'</em></span><span class="pc">'+String(t.p).replace('.',',')+'%</span>';
+  el.addEventListener('click',()=>select(i));
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i)}});
+  legend.appendChild(el);legs.push(el);
+});
+
+const chipTarget=document.getElementById('chipTarget'),chipAll=document.getElementById('chipAll');
+
+function clearState(){
+  paths.forEach(p=>p.classList.remove('dim','pop'));
+  legs.forEach(l=>l.classList.remove('sel'));
+  chipTarget.classList.remove('on');chipAll.classList.remove('on');
+}
+function select(i){
+  clearState();
+  const t=TRAMOS[i];
+  paths.forEach((p,j)=>{if(j!==i)p.classList.add('dim')});
+  paths[i].classList.add('pop');
+  legs[i].classList.add('sel');
+  pcNum.textContent=String(t.p).replace('.',',')+'%';
+  pcLbl.innerHTML=t.k+'<br>'+t.r;
+  pcPpl.innerHTML=fmt(t.n)+' personas<br>'+(t.v>0?'+':'−')+String(Math.abs(t.v)).replace('.',',')+'% desde 2017';
+}
+function showTarget(){
+  clearState();chipTarget.classList.add('on');
+  const sel=TRAMOS.filter(t=>t.target);
+  const sum=sel.reduce((s,t)=>s+t.p,0), num=sel.reduce((s,t)=>s+t.n,0);
+  paths.forEach((p,j)=>{if(!TRAMOS[j].target)p.classList.add('dim');else p.classList.add('pop')});
+  legs.forEach((l,j)=>{if(TRAMOS[j].target)l.classList.add('sel')});
+  pcNum.textContent=sum.toFixed(1).replace('.',',')+'%';
+  pcLbl.innerHTML='Población objetivo<br>15 a 29 años';
+  pcPpl.innerHTML=fmt(num)+' personas<br>−13,7% desde 2017';
+}
+function showAll(){
+  clearState();chipAll.classList.add('on');
+  pcNum.textContent=fmt(TOTAL);
+  pcLbl.innerHTML='Habitantes<br>Censo 2024';
+  pcPpl.innerHTML='+1,3% respecto de 2017';
+}
+chipTarget.addEventListener('click',showTarget);
+chipAll.addEventListener('click',showAll);
+showTarget();
+
+/* ================= MAPA ================= */
+const map=document.getElementById('map'),mapinfo=document.getElementById('mapinfo'),filters=document.getElementById('filters');
+const TIPOLBL={escolar:'Colegios y liceos',superior:'Educación superior',comunitario:'Organizaciones y voluntariados',salud:'Salud',publico:'Espacio público',metro:'Metro L1',casa:'Sede'};
+const pts=[];
+ESPACIOS.forEach((e,i)=>{
+  const el=document.createElement('button');
+  el.className='pt'+(e[1]==='casa'?' casa':'');
+  el.dataset.t=e[1];
+  el.style.left=e[2]+'%';el.style.top=e[3]+'%';
+  el.style.animationDelay=(i*20)+'ms';
+  el.setAttribute('aria-label',e[0]);
+  el.innerHTML='<span class="tag">'+e[0]+'</span>';
+  el.addEventListener('click',()=>{
+    pts.forEach(p=>p.classList.remove('sel'));el.classList.add('sel');
+    mapinfo.innerHTML='<span class="k">'+TIPOLBL[e[1]]+'</span><h3>'+e[0]+'</h3><p>'+e[4]+'</p>';
+  });
+  map.appendChild(el);pts.push(el);
+});
+
+const active=new Set(FILTROS.map(f=>f[0]));
+FILTROS.forEach(f=>{
+  const b=document.createElement('button');
+  b.className='chip on';b.textContent=f[1];
+  b.addEventListener('click',()=>{
+    if(active.has(f[0])){active.delete(f[0]);b.classList.remove('on')}
+    else{active.add(f[0]);b.classList.add('on')}
+    pts.forEach(p=>{
+      if(p.dataset.t==='casa')return;
+      p.classList.toggle('off',!active.has(p.dataset.t));
+    });
+  });
+  filters.appendChild(b);
+});
+
+/* ================= VIAS DE LEVANTAMIENTO ================= */
+
+const VIAS=[
+  ['Base de datos sociodemográfica de las instituciones','Solicitar a universidades, institutos y establecimientos con sede en la comuna información sociodemográfica de sus estudiantes: edad, sexo y comuna de residencia. Es información que ya se administra, sin tener que solicitar datos personales.'],
+  ['Encuesta breve del diagnóstico','Aplicada en campus y establecimientos, permite estimar la proporción de no residentes y contrastarla con lo que reporten las instituciones.'],
+  ['Alternativa · SIES del MINEDUC','Matrícula de educación superior por sede, para dimensionar el total que llega a Providencia cada día.'],
+  ['Alternativa · Corporación de Desarrollo Social','Matrícula escolar de estudiantes que asisten en la comuna sin residir en ella.']
+];
+
+const viasEl=document.getElementById('vias');
+if(viasEl){
+  VIAS.forEach((v,i)=>{
+    const el=document.createElement('div');
+    el.className='via';
+    el.innerHTML='<button class="via-h"><span>'+v[0]+'</span><i>+</i></button><div class="via-b"><p>'+v[1]+'</p></div>';
+    el.querySelector('.via-h').addEventListener('click',()=>{
+      const open=el.classList.contains('open');
+      viasEl.querySelectorAll('.via').forEach(x=>x.classList.remove('open'));
+      if(!open)el.classList.add('open');
+    });
+    viasEl.appendChild(el);
+  });
+}
+
+/* ================= PROPUESTAS ================= */
+
+const PROPS=[
+  {
+    t:'Trayectorias Providencia',
+    k:'Taller audiovisual · mapa del cuidado',
+    d:'Jóvenes entrevistan y narran las historias de integrantes relevantes de la comuna, y con ese material construyen un mapa: en cada punto que marcan con un sello queda alojado el registro audiovisual de lo que ahí ocurrió. Parte por narrar historias ajenas antes de pedir el relato propio.',
+    lineas:[
+      ['Raíces','Familias: de dónde viene cada quien.'],
+      ['Huellas','Profesores y personas que inspiran.'],
+      ['Rutas que hacen bien','Actividades y espacios que sostienen.'],
+      ['Decisiones que cuidan','Conversaciones con especialistas.'],
+      ['Causas que nos mueven','Voluntariado y participación.']
+    ],
+    pts:[
+      'Buen uso del tiempo libre con temática intergeneracional',
+      'Recoge y difunde la oferta municipal',
+      'Forma líderes y lideresas informados',
+      'Deja archivo permanente para la Oficina',
+      'Parte con observación en terreno en las instancias que ya existen'
+    ]
+  },
+  {
+    t:'Voluntariado Hospital del Salvador',
+    k:'Voluntariado intergeneracional · Servicio Metropolitano Oriente',
+    d:'Duplas de un joven y una voluntaria con experiencia ofrecen café, té y compañía en salas de espera. La voluntaria conoce el hospital y a la gente; el joven aporta manos, horarios y registro.',
+    pts:[
+      'Turnos de tres horas, ciclo de doce semanas',
+      'La dupla la lidera siempre la voluntaria con experiencia',
+      'Certificado municipal de horas de voluntariado',
+      'Requiere convenio previo con el establecimiento'
+    ]
+  },
+  {
+    t:'Imagen con sentido',
+    k:'Taller de reconocimiento y estilo',
+    d:'Taller de reconocimiento personal a través de la imagen, adaptado desde una versión anterior diseñada para el círculo de secretarías.',
+    pts:[
+      'Adaptación pendiente al público juvenil',
+      'Trabaja autoimagen y autoconcepto',
+      'Formato taller, replicable por ciclos'
+    ]
+  }
+];
+
+const tabbar=document.getElementById('tabbar'), tabpanel=document.getElementById('tabpanel');
+if(tabbar){
+  const tbs=[];
+  function renderProp(i){
+    const p=PROPS[i];
+    tbs.forEach((b,j)=>b.classList.toggle('on',j===i));
+    let html='<span class="k">'+p.k+'</span><h3>'+p.t+'</h3><p>'+p.d+'</p>';
+    if(p.lineas){
+      html+='<div class="lineas">';
+      p.lineas.forEach(l=>{html+='<div class="linea"><b>'+l[0]+'</b><span>'+l[1]+'</span></div>'});
+      html+='</div>';
+    }
+    html+='<ul>';
+    p.pts.forEach(x=>{html+='<li>'+x+'</li>'});
+    html+='</ul>';
+    tabpanel.innerHTML=html;
+  }
+  PROPS.forEach((p,i)=>{
+    const b=document.createElement('button');
+    b.className='tab';b.textContent=p.t;
+    b.addEventListener('click',()=>renderProp(i));
+    tabbar.appendChild(b);tbs.push(b);
+  });
+  renderProp(0);
+}
+
+/* ================= PREGUNTAS ================= */
+const qs=document.getElementById('qs');
+PREGUNTAS.forEach((d,i)=>{
+  const el=document.createElement('div');
+  el.className='q';el.tabIndex=0;el.setAttribute('role','button');
+  el.innerHTML='<span class="n">'+String(i+1).padStart(2,'0')+'</span><div><h3>'+d[0]+'</h3><div class="body"><p>'+d[1]+'</p></div></div>';
+  const t=()=>el.classList.toggle('open');
+  el.addEventListener('click',t);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}});
+  qs.appendChild(el);
+});
+
+/* ================= METODOS ================= */
+const met=document.getElementById('metodos');
+METODOS.forEach((m,i)=>{
+  const el=document.createElement('div');
+  el.className='m';el.tabIndex=0;el.setAttribute('role','button');
+  el.style.transitionDelay=(i*55)+'ms';
+  el.innerHTML=`<span class="plus">+</span><span class="tag">${m[0]}</span><h3>${m[1]}</h3><p>${m[2]}</p>
+  <div class="meta">
+    <div class="dur"><k>Duración</k><v>${m[3]}</v></div>
+    <div><k>Grupo</k><v>${m[4]}</v></div>
+    <div><k>Materiales</k><v>${m[5]}</v></div>
+  </div>
+  <div class="more"><div class="in">
+    <p><b>Cómo se hace</b>${m[6]}</p>
+    <p><b>Para qué sirve</b>${m[7]}</p>
+  </div></div>`;
+  const t=()=>el.classList.toggle('open');
+  el.addEventListener('click',t);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}});
+  met.appendChild(el);
+});
+
+/* ================= SCROLL ================= */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+
+const ioPie=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){pie.classList.remove('armed');ioPie.unobserve(e.target)}})
+},{threshold:.25});
+ioPie.observe(pie);
+
+const ioMap=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){map.classList.add('lit');ioMap.unobserve(e.target)}})
+},{threshold:.15});
+ioMap.observe(map);
+
+const ioMet=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('lit');ioMet.unobserve(e.target)}})
+},{threshold:.05});
+ioMet.observe(met);
+
+const ioScale=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.querySelectorAll('.fill').forEach((f,i)=>{
+      setTimeout(()=>{f.style.width=(parseFloat(f.dataset.w)/25*100)+'%'},i*180);
+    });
+    ioScale.unobserve(e.target);
+  })
+},{threshold:.35});
+const scaleEl=document.getElementById('scale');
+if(scaleEl)ioScale.observe(scaleEl);
+
+const ioNum=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.querySelectorAll('b[data-to]').forEach(b=>{
+      const to=+b.dataset.to, pre=b.dataset.pre||'';
+      if(REDUCE){b.textContent=pre+fmt(to);return}
+      const t0=performance.now(),D=1100;
+      const step=now=>{
+        const k=Math.min(1,(now-t0)/D), e2=1-Math.pow(1-k,3);
+        b.textContent=pre+fmt(to*e2);
+        if(k<1)requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+    ioNum.unobserve(e.target);
+  })
+},{threshold:.3});
+document.querySelectorAll('.stats').forEach(s=>ioNum.observe(s));
+
+const fill=document.getElementById('spinefill');
+addEventListener('scroll',()=>{
+  fill.style.height=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
+},{passive:true});
+</script>
+</body>
+</html>
