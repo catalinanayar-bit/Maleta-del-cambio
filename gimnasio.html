@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mi Registro de Ejercicios</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#F0F6F4;min-height:100vh;color:#153A34;padding-bottom:3rem}
+header{background:#153A34;color:#fff;padding:1.2rem 1rem 1rem;text-align:center;position:sticky;top:0;z-index:10}
+header h1{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.25rem}
+header p{font-size:12px;color:#9FD8C6;margin-top:2px}
+.tabs{display:flex;max-width:640px;margin:0 auto;padding:0 0.6rem;gap:6px;margin-top:0.9rem;overflow-x:auto}
+.tab-btn{flex:1;min-width:82px;background:rgba(255,255,255,0.1);border:none;color:#cfe9e0;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;padding:8px 4px;border-radius:10px 10px 0 0;cursor:pointer;white-space:nowrap}
+.tab-btn.active{background:#F0F6F4;color:#153A34}
+main{max-width:640px;margin:0 auto;padding:1rem 0.9rem}
+.card{background:#fff;border-radius:14px;padding:1rem;box-shadow:0 2px 10px rgba(21,58,52,0.06);margin-bottom:0.9rem}
+.view{display:none}
+.view.active{display:block}
+label{display:block;font-size:12px;font-weight:700;color:#4C7A70;margin-bottom:4px;margin-top:10px}
+label:first-child{margin-top:0}
+select,input[type=text],input[type=number],input[type=date],textarea{width:100%;background:#F0F6F4;border:1.5px solid #DCEAE5;border-radius:10px;padding:9px 11px;font-family:'DM Sans',sans-serif;font-size:14px;color:#153A34;outline:none}
+select:focus,input:focus,textarea:focus{border-color:#2E9E7A}
+.sets-wrap{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.set-row{display:grid;grid-template-columns:22px 1fr 1fr 28px;gap:6px;align-items:center}
+.set-row .idx{font-size:12px;font-weight:800;color:#8AAAA2;text-align:center}
+.rm-set{background:none;border:none;color:#C24A4A;font-size:16px;cursor:pointer}
+.btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border:none;border-radius:10px;padding:9px 14px;cursor:pointer}
+.btn-ghost{background:#E4F1EC;color:#153A34}
+.btn-primary{background:#2E9E7A;color:#fff;width:100%;margin-top:14px;padding:12px;font-size:14px}
+.btn-primary:disabled{background:#A9C9C0;cursor:not-allowed}
+.row-between{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
+.cat-block{margin-bottom:14px}
+.cat-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:#2E9E7A;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.4px}
+.machine-item{display:flex;align-items:center;justify-content:space-between;padding:8px 4px;border-bottom:1px solid #EEF4F2}
+.machine-item:last-child{border-bottom:none}
+.machine-name{font-size:13.5px}
+.switch{position:relative;width:40px;height:22px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;inset:0;background:#DCEAE5;border-radius:22px;transition:0.2s}
+.slider::before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:0.2s}
+input:checked+.slider{background:#2E9E7A}
+input:checked+.slider::before{transform:translateX(18px)}
+.custom-badge{font-size:10px;background:#F5A623;color:#fff;padding:1px 6px;border-radius:8px;margin-left:6px;vertical-align:middle}
+.del-machine{background:none;border:none;color:#C24A4A;font-size:14px;margin-left:8px;cursor:pointer}
+.add-machine-row{display:flex;gap:6px;margin-top:4px}
+.add-machine-row input{flex:1}
+.empty{text-align:center;color:#8AAAA2;font-size:13px;padding:1.4rem 0}
+.log-entry{border-bottom:1px solid #EEF4F2;padding:10px 2px}
+.log-entry:last-child{border-bottom:none}
+.log-top{display:flex;justify-content:space-between;align-items:baseline}
+.log-machine{font-weight:800;font-family:'Nunito',sans-serif;font-size:13.5px}
+.log-date{font-size:11px;color:#8AAAA2}
+.log-sets{font-size:12.5px;color:#4C7A70;margin-top:3px}
+.log-notes{font-size:12px;color:#8AAAA2;margin-top:3px;font-style:italic}
+.del-log{background:none;border:none;color:#C24A4A;font-size:13px;cursor:pointer;float:right}
+.day-header{font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;color:#2E9E7A;margin:12px 0 4px;text-transform:capitalize}
+.day-header:first-child{margin-top:0}
+.filter-row{display:flex;gap:8px;margin-bottom:8px}
+.filter-row select{flex:1}
+.pr-item{display:flex;justify-content:space-between;align-items:center;padding:9px 4px;border-bottom:1px solid #EEF4F2}
+.pr-item:last-child{border-bottom:none}
+.pr-name{font-size:13px;font-weight:700}
+.pr-vals{font-size:12px;color:#8AAAA2;text-align:right}
+.pr-best{color:#2E9E7A;font-weight:800}
+.spark{display:block;margin-top:4px}
+.toolbar{display:flex;gap:8px;margin-top:6px}
+.toolbar .btn{flex:1}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#153A34;color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:700;opacity:0;pointer-events:none;transition:opacity 0.25s}
+.toast.show{opacity:1}
+#importFile{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏋️ Mi Registro de Ejercicios</h1>
+  <p>Tus datos se guardan en este navegador</p>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="registrar">Registrar</button>
+    <button class="tab-btn" data-tab="maquinas">Máquinas</button>
+    <button class="tab-btn" data-tab="historial">Historial</button>
+    <button class="tab-btn" data-tab="progreso">Progreso</button>
+  </div>
+</header>
+<main>
+
+  <section class="view active" id="view-registrar">
+    <div class="card">
+      <label>Máquina / ejercicio</label>
+      <select id="selMachine"></select>
+
+      <label>Fecha</label>
+      <input type="date" id="inpDate"/>
+
+      <label>Series</label>
+      <div class="sets-wrap" id="setsWrap"></div>
+      <div class="toolbar">
+        <button class="btn btn-ghost" onclick="addSetRow()">+ Añadir serie</button>
+      </div>
+
+      <label>Notas (opcional)</label>
+      <textarea id="inpNotes" rows="2" placeholder="Ej. sentí buena forma, subir peso próxima vez…"></textarea>
+
+      <button class="btn btn-primary" id="btnGuardar" onclick="guardarRegistro()">Guardar registro</button>
+    </div>
+
+    <div class="card" id="cardUltimo" style="display:none">
+      <div class="cat-title">Último registro de esta máquina</div>
+      <div id="ultimoInfo"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-maquinas">
+    <div class="card">
+      <div class="cat-title" style="margin-bottom:2px">Activa las máquinas que tienes en tu gimnasio</div>
+      <div id="machinesList"></div>
+    </div>
+    <div class="card">
+      <label>Agregar máquina personalizada</label>
+      <div class="add-machine-row">
+        <input type="text" id="inpCustomName" placeholder="Nombre de la máquina…"/>
+        <select id="inpCustomCat" style="max-width:150px"></select>
+        <button class="btn btn-ghost" onclick="addCustomMachine()">+</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-historial">
+    <div class="card">
+      <div class="filter-row">
+        <select id="filterMachine"></select>
+      </div>
+      <div id="historyList"><div class="empty">Aún no hay registros.</div></div>
+    </div>
+    <div class="card">
+      <div class="cat-title">Copia de seguridad</div>
+      <div class="toolbar">
+        <button class="btn btn-ghost" onclick="exportData()">⬇ Exportar datos</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">⬆ Importar datos</button>
+      </div>
+      <input type="file" id="importFile" accept="application/json" onchange="importData(event)"/>
+    </div>
+  </section>
+
+  <section class="view" id="view-progreso">
+    <div class="card">
+      <div class="cat-title">Mejor peso registrado por máquina</div>
+      <div id="prList"><div class="empty">Registra ejercicios para ver tu progreso.</div></div>
+    </div>
+  </section>
+
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const SEED_MACHINES = [
+  ['Cinta de correr','Cardio'],['Elíptica','Cardio'],['Bicicleta estática','Cardio'],
+  ['Bicicleta reclinada','Cardio'],['Remoergómetro','Cardio'],['Escaladora (StairMaster)','Cardio'],
+  ['Prensa de piernas (leg press)','Piernas'],['Sentadilla en Smith/Multipower','Piernas'],
+  ['Extensión de cuádriceps','Piernas'],['Curl femoral','Piernas'],['Máquina de aductores','Piernas'],
+  ['Máquina de abductores','Piernas'],['Peso muerto en rack','Piernas'],['Hack squat','Piernas'],
+  ['Máquina de gemelos/pantorrillas','Piernas'],
+  ['Jalón al pecho (polea alta)','Espalda'],['Remo sentado en polea','Espalda'],
+  ['Remo en máquina','Espalda'],['Hiperextensiones','Espalda'],['Dominadas asistidas','Espalda'],
+  ['Press de banca plano','Pecho'],['Press de banca inclinado','Pecho'],
+  ['Press de pecho en máquina','Pecho'],['Pec deck (contractor)','Pecho'],['Poleas cruzadas (crossover)','Pecho'],
+  ['Press militar en máquina','Hombros'],['Elevaciones laterales en máquina','Hombros'],['Face pull en polea','Hombros'],
+  ['Curl de bíceps en máquina','Brazos'],['Curl con barra Z','Brazos'],
+  ['Extensión de tríceps en polea','Brazos'],['Press francés','Brazos'],['Fondos asistidos (dips)','Brazos'],
+  ['Máquina de abdominales','Core'],['Rueda abdominal','Core'],['Banco romano','Core'],
+  ['Mancuernas libres','Funcional'],['Barra olímpica','Funcional'],['Kettlebells','Funcional'],['TRX / bandas elásticas','Funcional']
+];
+const CATS = ['Cardio','Piernas','Espalda','Pecho','Hombros','Brazos','Core','Funcional'];
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function loadMachines(){
+  let m = JSON.parse(localStorage.getItem('gym_machines')||'null');
+  if(!m){
+    m = SEED_MACHINES.map(([name,cat])=>({id:uid(),name,category:cat,enabled:true,custom:false}));
+    saveMachines(m);
+  }
+  return m;
+}
+function saveMachines(m){localStorage.setItem('gym_machines',JSON.stringify(m));}
+function loadLogs(){return JSON.parse(localStorage.getItem('gym_logs')||'[]');}
+function saveLogs(l){localStorage.setItem('gym_logs',JSON.stringify(l));}
+
+let machines = loadMachines();
+let logs = loadLogs();
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-'+btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='maquinas') renderMachines();
+    if(btn.dataset.tab==='historial') renderHistory();
+    if(btn.dataset.tab==='progreso') renderProgress();
+    if(btn.dataset.tab==='registrar') renderMachineSelect();
+  };
+});
+
+function enabledMachines(){return machines.filter(m=>m.enabled).sort((a,b)=>a.name.localeCompare(b.name,'es'));}
+
+function renderMachineSelect(){
+  const sel=document.getElementById('selMachine');
+  const prev=sel.value;
+  const en=enabledMachines();
+  sel.innerHTML = en.length? en.map(m=>`<option value="${m.id}">${m.name}</option>`).join('') : '<option value="">No hay máquinas activas — ve a "Máquinas"</option>';
+  if(en.some(m=>m.id===prev)) sel.value=prev;
+  document.getElementById('btnGuardar').disabled = en.length===0;
+  sel.onchange = showUltimoRegistro;
+  showUltimoRegistro();
+}
+function showUltimoRegistro(){
+  const sel=document.getElementById('selMachine');
+  const card=document.getElementById('cardUltimo');
+  const mid=sel.value;
+  if(!mid){card.style.display='none';return;}
+  const entries = logs.filter(l=>l.machineId===mid).sort((a,b)=>b.date.localeCompare(a.date));
+  if(!entries.length){card.style.display='none';return;}
+  const last=entries[0];
+  const setsTxt = last.sets.map(s=>`${s.reps}×${s.weight}kg`).join(', ');
+  document.getElementById('ultimoInfo').innerHTML = `<div class="log-date">${fmtDate(last.date)}</div><div class="log-sets">${setsTxt}</div>`;
+  card.style.display='block';
+}
+
+function addSetRow(reps,weight){
+  const wrap=document.getElementById('setsWrap');
+  const idx=wrap.children.length+1;
+  const row=document.createElement('div');
+  row.className='set-row';
+  row.innerHTML=`<span class="idx">${idx}</span>
+    <input type="number" min="0" placeholder="Reps" value="${reps??''}" class="inp-reps"/>
+    <input type="number" min="0" step="0.5" placeholder="Peso (kg)" value="${weight??''}" class="inp-weight"/>
+    <button class="rm-set" onclick="this.parentElement.remove();reindexSets()">✕</button>`;
+  wrap.appendChild(row);
+}
+function reindexSets(){
+  document.querySelectorAll('#setsWrap .set-row').forEach((row,i)=>{row.querySelector('.idx').textContent=i+1;});
+}
+addSetRow();addSetRow();addSetRow();
+document.getElementById('inpDate').value=new Date().toISOString().slice(0,10);
+
+function guardarRegistro(){
+  const mid=document.getElementById('selMachine').value;
+  if(!mid){toast('Selecciona una máquina');return;}
+  const date=document.getElementById('inpDate').value||new Date().toISOString().slice(0,10);
+  const rows=[...document.querySelectorAll('#setsWrap .set-row')];
+  const sets=rows.map(r=>({
+    reps:Number(r.querySelector('.inp-reps').value)||0,
+    weight:Number(r.querySelector('.inp-weight').value)||0
+  })).filter(s=>s.reps>0||s.weight>0);
+  if(!sets.length){toast('Agrega al menos una serie con datos');return;}
+  const notes=document.getElementById('inpNotes').value.trim();
+  logs.push({id:uid(),machineId:mid,date,sets,notes});
+  saveLogs(logs);
+  toast('¡Registro guardado!');
+  document.getElementById('inpNotes').value='';
+  showUltimoRegistro();
+}
+
+function renderMachines(){
+  const list=document.getElementById('machinesList');
+  list.innerHTML='';
+  CATS.forEach(cat=>{
+    const items=machines.filter(m=>m.category===cat);
+    if(!items.length)return;
+    const block=document.createElement('div');
+    block.className='cat-block';
+    block.innerHTML=`<div class="cat-title">${cat}</div>`;
+    items.sort((a,b)=>a.name.localeCompare(b.name,'es')).forEach(m=>{
+      const row=document.createElement('div');
+      row.className='machine-item';
+      row.innerHTML=`<span class="machine-name">${m.name}${m.custom?'<span class="custom-badge">propia</span>':''}</span>
+        <span style="display:flex;align-items:center">
+        <label class="switch"><input type="checkbox" ${m.enabled?'checked':''} data-id="${m.id}"><span class="slider"></span></label>
+        ${m.custom?`<button class="del-machine" data-del="${m.id}">🗑</button>`:''}
+        </span>`;
+      block.appendChild(row);
+    });
+    list.appendChild(block);
+  });
+  list.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.onchange=()=>{
+      const m=machines.find(x=>x.id===cb.dataset.id);
+      m.enabled=cb.checked;
+      saveMachines(machines);
+    };
+  });
+  list.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.onclick=()=>{
+      if(!confirm('¿Eliminar esta máquina personalizada? Los registros ya guardados se conservarán.'))return;
+      machines=machines.filter(m=>m.id!==btn.dataset.del);
+      saveMachines(machines);
+      renderMachines();
+    };
+  });
+  const catSel=document.getElementById('inpCustomCat');
+  catSel.innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');
+}
+function addCustomMachine(){
+  const inp=document.getElementById('inpCustomName');
+  const name=inp.value.trim();
+  if(!name){toast('Escribe un nombre');return;}
+  const cat=document.getElementById('inpCustomCat').value;
+  machines.push({id:uid(),name,category:cat,enabled:true,custom:true});
+  saveMachines(machines);
+  inp.value='';
+  renderMachines();
+  toast('Máquina agregada');
+}
+
+function fmtDate(d){
+  const dt=new Date(d+'T00:00:00');
+  return dt.toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+}
+function machineName(id){const m=machines.find(x=>x.id===id);return m?m.name:'(máquina eliminada)';}
+
+function renderHistory(){
+  const filterSel=document.getElementById('filterMachine');
+  const usedIds=[...new Set(logs.map(l=>l.machineId))];
+  filterSel.innerHTML='<option value="">Todas las máquinas</option>'+
+    usedIds.map(id=>`<option value="${id}">${machineName(id)}</option>`).join('');
+  filterSel.onchange=renderHistoryList;
+  renderHistoryList();
+}
+function renderHistoryList(){
+  const mid=document.getElementById('filterMachine').value;
+  const list=document.getElementById('historyList');
+  let filtered = mid? logs.filter(l=>l.machineId===mid) : logs;
+  filtered = [...filtered].sort((a,b)=>b.date.localeCompare(a.date));
+  if(!filtered.length){list.innerHTML='<div class="empty">Aún no hay registros.</div>';return;}
+  let html='';
+  let lastDate=null;
+  filtered.forEach(l=>{
+    if(l.date!==lastDate){html+=`<div class="day-header">${fmtDate(l.date)}</div>`;lastDate=l.date;}
+    const setsTxt=l.sets.map(s=>`${s.reps}×${s.weight}kg`).join(', ');
+    html+=`<div class="log-entry">
+      <button class="del-log" data-del="${l.id}">Eliminar</button>
+      <div class="log-machine">${machineName(l.machineId)}</div>
+      <div class="log-sets">${setsTxt}</div>
+      ${l.notes?`<div class="log-notes">${l.notes}</div>`:''}
+    </div>`;
+  });
+  list.innerHTML=html;
+  list.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.onclick=()=>{
+      logs=logs.filter(l=>l.id!==btn.dataset.del);
+      saveLogs(logs);
+      renderHistoryList();
+    };
+  });
+}
+
+function renderProgress(){
+  const el=document.getElementById('prList');
+  const usedIds=[...new Set(logs.map(l=>l.machineId))];
+  if(!usedIds.length){el.innerHTML='<div class="empty">Registra ejercicios para ver tu progreso.</div>';return;}
+  let html='';
+  usedIds.forEach(mid=>{
+    const entries=logs.filter(l=>l.machineId===mid).sort((a,b)=>a.date.localeCompare(b.date));
+    let best=0,bestDate='';
+    entries.forEach(e=>e.sets.forEach(s=>{if(s.weight>best){best=s.weight;bestDate=e.date;}}));
+    const last=entries[entries.length-1];
+    const lastMax=Math.max(0,...last.sets.map(s=>s.weight));
+    html+=`<div class="pr-item">
+      <span class="pr-name">${machineName(mid)}</span>
+      <span class="pr-vals">Mejor: <span class="pr-best">${best}kg</span><br>Última vez: ${lastMax}kg (${fmtDate(last.date)})</span>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function exportData(){
+  const data={machines,logs,exportedAt:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='mis-ejercicios-backup.json';a.click();
+  URL.revokeObjectURL(url);
+}
+function importData(ev){
+  const f=ev.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!Array.isArray(data.machines)||!Array.isArray(data.logs))throw new Error('formato inválido');
+      if(!confirm('Esto reemplazará tus máquinas y registros actuales. ¿Continuar?'))return;
+      machines=data.machines;logs=data.logs;
+      saveMachines(machines);saveLogs(logs);
+      toast('Datos importados');
+      renderMachines();renderHistory();renderProgress();renderMachineSelect();
+    }catch(err){toast('Archivo inválido');}
+  };
+  r.readAsText(f);
+  ev.target.value='';
+}
+
+renderMachineSelect();
+</script>
+</body>
+</html>
