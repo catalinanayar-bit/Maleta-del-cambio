@@ -143,33 +143,44 @@
   }
 
   /* A handwritten-style note + doodle arrow pointing down at the card
-     below it. Hidden/shown by JS as the user completes each step. */
+     below it. Hidden/shown by JS as the user completes each step.
+     The note sits in normal flow (roughly centered); the arrow is a
+     separate element positioned relative to .stage itself so it lines
+     up exactly over the button regardless of the side-strips' peek
+     width throwing off the card's own centering within the section. */
   .coach-mark{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:0;
-    margin-bottom:6px;
+    /* fixed regardless of how many lines the text wraps to — the arrow
+       (positioned relative to .stage, not to this text) always floats
+       within this reserved gap, so the two can never collide */
+    margin-bottom:64px;
+    max-width:260px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:0 12px;
     color:var(--lila-700);
-    pointer-events:none;
-  }
-  .coach-mark .coach-text{
     font-family:'Caveat', cursive;
     font-weight:700;
     font-size:1.5rem;
     line-height:1.15;
-    max-width:230px;
     text-align:center;
+    pointer-events:none;
   }
-  .coach-mark .coach-arrow{
+  .coach-arrow{
+    position:absolute;
+    top:-52px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:6;
+    color:var(--lila-700);
+    pointer-events:none;
     animation:coach-wiggle 1.6s ease-in-out infinite;
   }
   @media (prefers-reduced-motion: reduce){
-    .coach-mark .coach-arrow{ animation:none; }
+    .coach-arrow{ animation:none; }
   }
   @keyframes coach-wiggle{
-    0%,100%{ transform:translateY(0) rotate(0deg); }
-    50%{ transform:translateY(4px) rotate(-4deg); }
+    0%,100%{ transform:translateX(-50%) translateY(0) rotate(0deg); }
+    50%{ transform:translateX(-50%) translateY(4px) rotate(-4deg); }
   }
 
   .download-btn{
@@ -578,20 +589,16 @@
     <h2 class="section-title">Photocard de tu bias</h2>
     <p class="section-sub">Sube una foto de tu bias y cuéntanos por qué te inspira.</p>
 
-    <div class="coach-mark" id="bias-coachMark" aria-hidden="true">
-      <span class="coach-text">Primero selecciona una foto de tu bias</span>
-      <svg class="coach-arrow" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <div class="coach-mark" id="bias-coachMarkDecorar" aria-hidden="true" style="display:none">
-      <span class="coach-text">Ahora decora tu photocard con un marco y gemas</span>
-      <svg class="coach-arrow" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
+    <div class="coach-mark" id="bias-coachMark" aria-hidden="true">Primero selecciona una foto de tu bias</div>
+    <div class="coach-mark" id="bias-coachMarkDecorar" aria-hidden="true" style="display:none">Ahora decora tu photocard con un marco y gemas</div>
 
     <div class="card-with-decor">
     <div class="side-strip frame-strip" id="bias-framePicker" title="Elige el marco de la foto">
       <span class="side-strip-label">🖼️</span>
     </div>
     <div class="stage">
+      <svg class="coach-arrow" id="bias-coachArrow" aria-hidden="true" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="coach-arrow" id="bias-coachArrowDecorar" aria-hidden="true" style="display:none" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <div class="flip-card" id="bias-flipCard" onclick="voltear('bias')">
         <div class="flip-inner">
 
@@ -660,20 +667,16 @@
     <h2 class="section-title">Tu photocard</h2>
     <p class="section-sub">Ahora sube tu propia foto y completa las preguntas sobre ti.</p>
 
-    <div class="coach-mark" id="mine-coachMark" aria-hidden="true">
-      <span class="coach-text">Primero selecciona tu foto</span>
-      <svg class="coach-arrow" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    <div class="coach-mark" id="mine-coachMarkDecorar" aria-hidden="true" style="display:none">
-      <span class="coach-text">Ahora decora tu photocard con un marco y gemas</span>
-      <svg class="coach-arrow" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
+    <div class="coach-mark" id="mine-coachMark" aria-hidden="true">Primero selecciona tu foto</div>
+    <div class="coach-mark" id="mine-coachMarkDecorar" aria-hidden="true" style="display:none">Ahora decora tu photocard con un marco y gemas</div>
 
     <div class="card-with-decor">
     <div class="side-strip frame-strip" id="mine-framePicker" title="Elige el marco de tu foto">
       <span class="side-strip-label">🖼️</span>
     </div>
     <div class="stage">
+      <svg class="coach-arrow" id="mine-coachArrow" aria-hidden="true" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="coach-arrow" id="mine-coachArrowDecorar" aria-hidden="true" style="display:none" viewBox="0 0 60 70" width="40" height="46"><path d="M14,6 Q 48,18 27,46" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M11,31 L27,46 L38,27" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <div class="flip-card" id="mine-flipCard" onclick="voltear('mine')">
         <div class="flip-inner">
 
@@ -775,6 +778,21 @@
     return estado[id];
   }
 
+  // Each coach mark is two elements (the handwritten note + the arrow
+  // pointing at the button) that always show/hide together.
+  function mostrarCoach(id, sufijo){
+    const mark = document.getElementById(`${id}-coachMark${sufijo}`);
+    const arrow = document.getElementById(`${id}-coachArrow${sufijo}`);
+    if(mark) mark.style.display = '';
+    if(arrow) arrow.style.display = '';
+  }
+  function ocultarCoach(id, sufijo){
+    const mark = document.getElementById(`${id}-coachMark${sufijo}`);
+    const arrow = document.getElementById(`${id}-coachArrow${sufijo}`);
+    if(mark) mark.style.display = 'none';
+    if(arrow) arrow.style.display = 'none';
+  }
+
   function encajar(img, core, full, rect, overscan){
     const coreW = core.x1 - core.x0;
     const coreH = core.y1 - core.y0;
@@ -873,10 +891,7 @@
     btn.classList.add('active');
     getEstado(id).marcoActivo = key;
 
-    if(key !== 'none'){
-      const coachMarkDecorar = document.getElementById(id + '-coachMarkDecorar');
-      if(coachMarkDecorar) coachMarkDecorar.style.display = 'none';
-    }
+    if(key !== 'none') ocultarCoach(id, 'Decorar');
 
     const overlay = document.getElementById(id + '-frameOverlay');
     const overlayClip = document.getElementById(id + '-frameOverlayClip');
@@ -966,8 +981,7 @@
   }
 
   function agregarGema(id, name){
-    const coachMarkDecorar = document.getElementById(id + '-coachMarkDecorar');
-    if(coachMarkDecorar) coachMarkDecorar.style.display = 'none';
+    ocultarCoach(id, 'Decorar');
     const layer = document.getElementById(id + '-stickerLayer');
     const el = document.createElement('img');
     el.src = `assets/gems/${name}.png`;
@@ -1151,10 +1165,8 @@
     const reader = new FileReader();
     reader.onload = ev => {
       document.getElementById(id + '-photoPlaceholder').style.display = 'none';
-      const coachMark = document.getElementById(id + '-coachMark');
-      if(coachMark) coachMark.style.display = 'none';
-      const coachMarkDecorar = document.getElementById(id + '-coachMarkDecorar');
-      if(coachMarkDecorar) coachMarkDecorar.style.display = '';
+      ocultarCoach(id, '');
+      mostrarCoach(id, 'Decorar');
       const img = document.getElementById(id + '-photoImg');
       getEstado(id).fotoPan = { x: 0, y: 0 };
       img.onload = () => actualizarFotoTransform(id);
