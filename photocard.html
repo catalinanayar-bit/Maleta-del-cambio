@@ -1067,13 +1067,14 @@
     backClone.style.transform = 'none';
     backClone.style.visibility = 'visible';
     backClone.style.width = backRect.width + 'px';
-    // let the back grow to fit every answer instead of clipping to the
-    // card's usual fixed (scrollable) height
-    backClone.style.height = 'auto';
+    // keep the exact same fixed card size the front uses, no matter how
+    // much (or little) was answered — same as printing a photo, the
+    // output size shouldn't depend on the content
+    backClone.style.height = backRect.height + 'px';
     backClone.style.flex = 'none';
     backClone.querySelectorAll('.back-btn').forEach(el => el.remove());
     const scroll = backClone.querySelector('.back-scroll');
-    if(scroll){ scroll.style.height = 'auto'; scroll.style.overflowY = 'visible'; }
+    if(scroll) scroll.style.overflowY = 'hidden';
 
     // html2canvas can't reliably render an <input>/<textarea>'s live typed
     // value, so swap each one for a plain text block showing that value.
