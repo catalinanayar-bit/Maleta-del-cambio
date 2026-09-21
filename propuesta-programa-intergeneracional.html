@@ -123,11 +123,15 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    SLIDE 2 — QUÉ ES
    =========================================== */
-.together{ margin-top:56px; display:flex; align-items:center; gap:28px; }
-.together .word{ font-family:var(--font); font-weight:800; font-size:44px; color:var(--ink); }
-.together .word.teal{ color:var(--teal); }
-.together .arrow{ font-size:34px; color:var(--terracotta); }
-.principles{ margin-top:52px; display:flex; gap:18px; flex-wrap:wrap; }
+.infinity-wrap{ margin-top:44px; max-width:600px; }
+.infinity-wrap svg{ width:100%; height:auto; display:block; overflow:visible; }
+.inf-loop{ fill:none; stroke-width:4; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; animation:drawInf 1.6s cubic-bezier(.3,.6,.3,1) forwards; }
+.inf-loop.terra{ stroke:var(--terracotta); }
+.inf-loop.teal{ stroke:var(--teal); animation-delay:.25s; }
+@keyframes drawInf{ to{ stroke-dashoffset:0; } }
+.inf-label{ font-family:var(--font); font-weight:800; font-size:27px; fill:var(--ink); opacity:0; animation:fadeUp .8s ease 1.3s forwards; }
+.inf-label.teal-text{ fill:var(--teal); }
+.principles{ margin-top:44px; display:flex; gap:18px; flex-wrap:wrap; }
 .principle{ background:var(--paper-2); border:1px solid var(--rule); border-radius:40px; padding:16px 30px; font-family:var(--font); font-weight:700; font-size:19px; color:var(--ink); }
 .principle .n{ color:var(--terracotta); font-weight:800; margin-right:8px; }
 
@@ -275,10 +279,13 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         <h2 class="sec reveal">¿Qué es un programa <em>intergeneracional</em>?</h2>
         <p class="lede reveal">Estrategias comunitarias que fomentan el encuentro entre personas de distintas edades, generando beneficios mutuos y fortaleciendo el tejido social.</p>
 
-        <div class="together reveal">
-          <span class="word">Estar juntos</span>
-          <span class="arrow">⟷</span>
-          <span class="word teal">Hacer juntos</span>
+        <div class="infinity-wrap reveal">
+          <svg viewBox="0 0 440 240" role="img" aria-label="Símbolo de infinito con las palabras Estar juntos y Hacer juntos">
+            <circle class="inf-loop terra" pathLength="1" cx="120" cy="120" r="95"/>
+            <circle class="inf-loop teal" pathLength="1" cx="310" cy="120" r="95"/>
+            <text class="inf-label" x="120" y="127" text-anchor="middle">Estar juntos</text>
+            <text class="inf-label teal-text" x="310" y="127" text-anchor="middle">Hacer juntos</text>
+          </svg>
         </div>
 
         <div class="principles reveal">
