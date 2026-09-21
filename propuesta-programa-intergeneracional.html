@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Programa Intergeneracional</title>
+
+<!-- Fonts: Raleway across every weight used in the deck -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================
+   THEME — terracotta + teal "puente generacional" on warm paper
+   Change these variables to change the whole look.
+   =========================================== */
+:root{
+    --paper:#F3ECE1;
+    --paper-2:#EAE0D0;
+    --ink:#2B2420;
+    --ink-soft:#5B5147;
+    --terracotta:#C1592C;
+    --terracotta-soft:#EAC7B2;
+    --teal:#1F7A6C;
+    --teal-soft:#BFE0D6;
+    --rule:rgba(43,36,32,.16);
+    --stage-bg:#1c1712;
+
+    --font: 'Raleway', sans-serif;
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-normal: 0.7s;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ font-family:var(--font); color:var(--ink); }
+
+/* ===========================================
+   FIXED 16:9 STAGE — mandatory base (viewport-base.css)
+   =========================================== */
+html, body{ width:100%; height:100%; overflow:hidden; background:var(--stage-bg); }
+.deck-viewport{ position:fixed; inset:0; overflow:hidden; background:var(--stage-bg); }
+.deck-stage{ position:absolute; left:0; top:0; width:1920px; height:1080px; overflow:hidden; transform-origin:0 0; background:var(--paper); }
+.slide{ position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden; display:block; visibility:hidden; opacity:0; pointer-events:none; background:var(--paper); }
+.slide.active, .slide.visible{ visibility:visible; opacity:1; pointer-events:auto; z-index:1; }
+img, video, canvas, svg{ max-width:100%; max-height:100%; }
+.deck-controls{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:1000; }
+@media print{
+    html, body{ width:1920px; height:auto; overflow:visible; background:#fff; }
+    .deck-viewport{ position:static; overflow:visible; background:#fff; }
+    .deck-stage{ position:static; width:auto; height:auto; transform:none !important; background:none; }
+    .slide{ position:relative; display:block !important; visibility:visible !important; opacity:1 !important; pointer-events:auto !important; width:1920px; height:1080px; break-after:page; page-break-after:always; }
+    .slide:last-child{ break-after:auto; page-break-after:auto; }
+    .deck-controls{ display:none !important; }
+}
+@media (prefers-reduced-motion:reduce){
+    *, *::before, *::after{ animation-duration:.01ms !important; transition-duration:.2s !important; }
+}
+
+/* ===========================================
+   REVEAL ANIMATIONS — staggered fade + rise on .slide.visible
+   =========================================== */
+.reveal{ opacity:0; transform:translateY(26px); transition:opacity var(--duration-normal) var(--ease-out-expo), transform var(--duration-normal) var(--ease-out-expo); }
+.slide.visible .reveal{ opacity:1; transform:translateY(0); }
+.slide.visible .reveal:nth-child(1){ transition-delay:.05s; }
+.slide.visible .reveal:nth-child(2){ transition-delay:.16s; }
+.slide.visible .reveal:nth-child(3){ transition-delay:.27s; }
+.slide.visible .reveal:nth-child(4){ transition-delay:.38s; }
+.slide.visible .reveal:nth-child(5){ transition-delay:.49s; }
+
+/* ===========================================
+   BRAND MARK — twin circles + bridging arc, reused across the deck
+   =========================================== */
+.mark{ position:relative; display:inline-block; width:34px; height:20px; vertical-align:middle; }
+.mark .c{ position:absolute; top:0; width:20px; height:20px; border-radius:50%; }
+.mark .c.a{ left:0; background:var(--terracotta); }
+.mark .c.b{ left:14px; background:var(--teal); mix-blend-mode:multiply; }
+
+.bridge-device{ position:relative; width:460px; height:250px; }
+.bridge-device .circle{ position:absolute; top:0; width:250px; height:250px; border-radius:50%; opacity:0; transform:scale(.7); animation:pop .8s var(--ease-out-expo) forwards; }
+.bridge-device .circle.terra{ left:0; background:var(--terracotta); animation-delay:.15s; }
+.bridge-device .circle.teal{ left:210px; background:var(--teal); mix-blend-mode:multiply; animation-delay:.32s; }
+.bridge-device svg.arc{ position:absolute; bottom:-16px; left:10px; width:440px; height:130px; opacity:0; animation:fadeUp 1s ease .6s forwards; }
+.bridge-device svg.arc path{ fill:none; stroke:var(--ink); stroke-width:2; stroke-dasharray:6,5; }
+@keyframes pop{ from{ opacity:0; transform:scale(.7); } to{ opacity:1; transform:scale(1); } }
+@keyframes fadeUp{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:translateY(0); } }
+
+/* ===========================================
+   TYPOGRAPHY SCALE
+   =========================================== */
+.kicker{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.16em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:14px; }
+.kicker .num{ color:var(--terracotta); }
+
+h1.title{ font-family:var(--font); font-weight:800; font-size:108px; line-height:1.02; letter-spacing:-.01em; color:var(--ink); max-width:1420px; }
+h1.title .em-teal{ color:var(--teal); font-weight:800; }
+h1.title .em-terra{ color:var(--terracotta); font-weight:800; }
+
+h2.sec{ font-family:var(--font); font-weight:800; font-size:62px; line-height:1.06; letter-spacing:-.01em; color:var(--ink); max-width:1200px; margin-top:18px; }
+h2.sec em{ font-style:normal; color:var(--terracotta); }
+
+.lede{ font-family:var(--font); font-weight:400; font-size:23px; line-height:1.55; color:var(--ink-soft); max-width:980px; margin-top:26px; }
+
+.footnote{ font-family:var(--font); font-weight:500; font-size:14px; line-height:1.6; color:var(--ink-soft); }
+
+/* ===========================================
+   SHARED SLIDE CHROME
+   =========================================== */
+.slide-content{ position:absolute; left:130px; right:130px; top:96px; bottom:96px; }
+.top-row{ position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; }
+.top-row .org{ font-family:var(--font); font-weight:600; font-size:15px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); }
+.rule{ position:absolute; left:0; right:0; height:1px; background:var(--rule); }
+.foot-row{ position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; font-family:var(--font); font-weight:500; font-size:14px; letter-spacing:.06em; color:var(--ink-soft); }
+.foot-row .page{ font-weight:800; color:var(--terracotta); }
+
+/* ===========================================
+   SLIDE 1 — PORTADA
+   =========================================== */
+.slide-title .slide-content{ top:0; bottom:0; display:flex; flex-direction:column; justify-content:center; }
+.slide-title .bridge-device{ position:absolute; top:90px; right:130px; }
+.slide-title .title-sub{ margin-top:34px; max-width:900px; padding-left:26px; border-left:3px solid var(--terracotta); font-family:var(--font); font-weight:400; font-size:25px; line-height:1.6; color:var(--ink-soft); }
+
+/* ===========================================
+   SLIDE 2 — QUÉ ES
+   =========================================== */
+.together{ margin-top:56px; display:flex; align-items:center; gap:28px; }
+.together .word{ font-family:var(--font); font-weight:800; font-size:44px; color:var(--ink); }
+.together .word.teal{ color:var(--teal); }
+.together .arrow{ font-size:34px; color:var(--terracotta); }
+.principles{ margin-top:52px; display:flex; gap:18px; flex-wrap:wrap; }
+.principle{ background:var(--paper-2); border:1px solid var(--rule); border-radius:40px; padding:16px 30px; font-family:var(--font); font-weight:700; font-size:19px; color:var(--ink); }
+.principle .n{ color:var(--terracotta); font-weight:800; margin-right:8px; }
+
+/* ===========================================
+   SLIDE 3 — CIFRAS
+   =========================================== */
+.stat-row{ display:flex; gap:1px; margin-top:44px; background:var(--rule); border:1px solid var(--rule); }
+.stat-box{ flex:1; background:var(--paper); padding:38px 40px; }
+.stat-box b{ display:block; font-family:var(--font); font-weight:900; font-size:96px; line-height:1; }
+.stat-box b.terra{ color:var(--terracotta); }
+.stat-box b.teal{ color:var(--teal); }
+.stat-box span{ display:block; margin-top:14px; font-family:var(--font); font-weight:500; font-size:19px; color:var(--ink-soft); line-height:1.5; }
+.idx-row{ display:flex; gap:44px; margin-top:40px; align-items:flex-start; }
+.idx-box{ flex:0 0 auto; }
+.idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:70px; color:var(--ink); }
+.idx-box p{ margin-top:8px; font-family:var(--font); font-weight:400; font-size:17px; color:var(--ink-soft); max-width:34ch; }
+.callout{ margin-top:0; flex:1; border:1px solid var(--terracotta); background:var(--terracotta-soft); border-radius:6px; padding:24px 30px; }
+.callout b{ display:block; font-family:var(--font); font-weight:900; font-size:56px; color:var(--terracotta); }
+.callout p{ margin-top:6px; font-family:var(--font); font-weight:500; font-size:18px; color:var(--ink); max-width:56ch; }
+
+/* ===========================================
+   SLIDE 4 — CONTEXTO Y DESAFÍOS
+   =========================================== */
+.ctx-grid{ display:flex; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:40px; }
+.ctx-card{ flex:1; background:var(--paper); padding:28px 26px; }
+.ctx-card .tag{ font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); }
+.ctx-card h3{ font-family:var(--font); font-weight:700; font-size:22px; margin:10px 0 10px; color:var(--ink); }
+.ctx-card p{ font-family:var(--font); font-weight:400; font-size:16px; color:var(--ink-soft); line-height:1.5; }
+.desafios{ margin-top:36px; }
+.desafios .label{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); }
+.chip-row{ margin-top:16px; display:flex; gap:16px; flex-wrap:wrap; }
+.chip{ background:var(--ink); color:var(--paper); font-family:var(--font); font-weight:700; font-size:19px; padding:14px 28px; border-radius:8px; }
+
+/* ===========================================
+   SLIDE 5 — MODELO 5R
+   =========================================== */
+.r-grid{ display:flex; gap:1px; margin-top:48px; background:var(--rule); border:1px solid var(--rule); }
+.r-card{ flex:1; background:var(--paper); padding:30px 22px; }
+.r-card .rn{ font-family:var(--font); font-weight:900; font-size:34px; color:var(--terracotta); }
+.r-card h3{ font-family:var(--font); font-weight:700; font-size:22px; margin:14px 0 12px; color:var(--ink); }
+.r-card p{ font-family:var(--font); font-weight:400; font-size:15px; line-height:1.5; color:var(--ink-soft); }
+
+/* ===========================================
+   SLIDE 6 — CATEGORIZACIÓN
+   =========================================== */
+.cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:40px; background:var(--rule); border:1px solid var(--rule); }
+.cat-card{ background:var(--paper); padding:28px 32px; }
+.cat-card .tag{ font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); }
+.cat-card h3{ font-family:var(--font); font-weight:800; font-size:26px; margin:8px 0 6px; color:var(--ink); }
+.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:16px; color:var(--terracotta); margin-bottom:10px; }
+.cat-card p{ font-family:var(--font); font-weight:400; font-size:16px; line-height:1.45; color:var(--ink-soft); }
+
+/* ===========================================
+   SLIDE 7 — BENEFICIOS
+   =========================================== */
+.ben-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:1px; margin-top:40px; background:var(--rule); border:1px solid var(--rule); }
+.ben-card{ grid-column:span 2; background:var(--paper); padding:24px 24px; }
+.ben-card .n{ font-family:var(--font); font-weight:900; font-size:26px; color:var(--terracotta); }
+.ben-card h3{ font-family:var(--font); font-weight:700; font-size:19px; margin:10px 0 8px; color:var(--ink); line-height:1.25; }
+.ben-card p{ font-family:var(--font); font-weight:400; font-size:14.5px; line-height:1.45; color:var(--ink-soft); }
+.ben-card.wide{ grid-column:span 3; }
+
+/* ===========================================
+   SLIDE 8 — PAUTA DE OBSERVACIÓN
+   =========================================== */
+.obs-table{ margin-top:40px; border:1px solid var(--rule); }
+.obs-row{ display:flex; border-bottom:1px solid var(--rule); }
+.obs-row:last-child{ border-bottom:0; }
+.obs-dim{ width:340px; flex:0 0 auto; background:var(--paper-2); padding:24px 26px; font-family:var(--font); font-weight:800; font-size:22px; color:var(--ink); border-right:1px solid var(--rule); display:flex; align-items:center; }
+.obs-conduct{ flex:1; padding:20px 30px; display:flex; flex-direction:column; gap:10px; justify-content:center; }
+.obs-conduct .c{ font-family:var(--font); font-weight:400; font-size:17px; color:var(--ink-soft); line-height:1.4; }
+.obs-conduct .c::before{ content:'—'; color:var(--terracotta); margin-right:10px; font-weight:700; }
+
+/* ===========================================
+   SLIDE 9 — CIERRE Y FUENTES
+   =========================================== */
+.close-quote{ font-family:var(--font); font-weight:600; font-size:34px; line-height:1.35; color:var(--ink); max-width:1180px; margin-top:6px; }
+.close-quote em{ color:var(--teal); font-style:normal; font-weight:800; }
+.close-quote .em-t{ color:var(--terracotta); font-style:normal; font-weight:800; }
+.src-list{ margin-top:44px; border-top:1px solid var(--rule); }
+.src-item{ padding:18px 0; border-bottom:1px solid var(--rule); }
+.src-item .k{ font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); display:block; margin-bottom:6px; }
+.src-item .t{ font-family:var(--font); font-weight:400; font-size:16px; color:var(--ink-soft); line-height:1.45; }
+.src-item .t b{ font-weight:700; color:var(--ink); }
+.close-note{ margin-top:26px; font-family:var(--font); font-weight:500; font-size:14px; color:var(--ink-soft); }
+
+/* ===========================================
+   DECK CONTROLS — progress dots, outside the slide stage
+   =========================================== */
+.deck-controls{ display:flex; align-items:center; gap:10px; background:rgba(43,36,32,.72); padding:10px 16px; border-radius:30px; backdrop-filter:blur(6px); }
+.deck-controls .dot{ width:8px; height:8px; border-radius:50%; background:rgba(243,236,225,.35); cursor:pointer; transition:background .2s, transform .2s; border:none; }
+.deck-controls .dot.on{ background:#F3ECE1; transform:scale(1.3); }
+.deck-controls .count{ font-family:var(--font); font-weight:600; font-size:13px; color:#F3ECE1; margin-left:6px; letter-spacing:.05em; }
+
+/* ===========================================
+   INLINE EDITING — hidden by default, revealed via hover hotzone or E key
+   =========================================== */
+.edit-hotzone{ position:fixed; top:0; left:0; width:80px; height:80px; z-index:10000; cursor:pointer; }
+.edit-toggle{ position:fixed; top:18px; left:18px; z-index:10001; width:44px; height:44px; border-radius:50%; border:none; background:var(--ink); color:#F3ECE1; font-size:18px; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .3s ease; }
+.edit-toggle.show, .edit-toggle.active{ opacity:1; pointer-events:auto; }
+.edit-toggle.active{ background:var(--terracotta); }
+[contenteditable="true"]{ outline:1.5px dashed var(--teal); outline-offset:4px; cursor:text; }
+.save-toast{ position:fixed; bottom:30px; right:30px; background:var(--ink); color:#F3ECE1; font-family:var(--font); font-weight:600; font-size:14px; padding:12px 20px; border-radius:8px; z-index:10002; opacity:0; transform:translateY(10px); transition:opacity .3s, transform .3s; pointer-events:none; }
+.save-toast.show{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ===========================================
+     INLINE EDITING CONTROLS (hover top-left, or press E)
+     =========================================== -->
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle" title="Modo edición (E)">✏️</button>
+<div class="save-toast" id="saveToast">Guardado</div>
+
+<div class="deck-viewport">
+  <main class="deck-stage" id="deckStage">
+
+    <!-- ============ SLIDE 1 — PORTADA ============ -->
+    <section class="slide slide-title active">
+      <div class="slide-content">
+        <div class="top-row reveal">
+          <span class="org">Municipalidad de Providencia</span>
+          <span class="org">Oficina de la Juventud</span>
+        </div>
+        <div class="bridge-device reveal">
+          <div class="circle terra"></div>
+          <div class="circle teal"></div>
+          <svg class="arc" viewBox="0 0 440 130"><path d="M2,128 C2,44 438,44 438,128"/></svg>
+        </div>
+        <h1 class="title reveal">Propuesta Programa<br><span class="em-terra">Inter</span><span class="em-teal">generacional</span></h1>
+        <p class="title-sub reveal">Una propuesta de la Oficina de la Juventud para que personas de diferentes edades de Providencia no solo estén juntas, sino que hagan juntas.</p>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:70px;left:130px;right:130px;">
+        <span>Depto. Diversidad e Inclusión</span>
+        <span class="page">01 / 09</span>
+      </div>
+    </section>
+
+    <!-- ============ SLIDE 2 — QUÉ ES UN PROGRAMA INTERGENERACIONAL ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="rule" style="top:0"></div>
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 01 — Qué es</div>
+        <h2 class="sec reveal">¿Qué es un programa <em>intergeneracional</em>?</h2>
+        <p class="lede reveal">Estrategias comunitarias que fomentan el encuentro entre personas de distintas edades, generando beneficios mutuos y fortaleciendo el tejido social.</p>
+
+        <div class="together reveal">
+          <span class="word">Estar juntos</span>
+          <span class="arrow">⟷</span>
+          <span class="word teal">Hacer juntos</span>
+        </div>
+
+        <div class="principles reveal">
+          <div class="principle"><span class="n">01</span>Reciprocidad</div>
+          <div class="principle"><span class="n">02</span>Universalidad</div>
+          <div class="principle"><span class="n">03</span>Horizontalidad</div>
+          <div class="principle"><span class="n">04</span>Participación</div>
+          <div class="principle"><span class="n">05</span>Continuidad</div>
+        </div>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:60px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">02 / 09</span></div>
+    </section>
+
+    <!-- ============ SLIDE 3 — CIFRAS CLAVE ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 02 — Análisis sociodemográfico</div>
+        <h2 class="sec reveal">Jóvenes y personas mayores en <em>cifras</em>.</h2>
+
+        <div class="stat-row reveal">
+          <div class="stat-box"><b class="terra">26.722</b><span>personas de 15 a 29 años<br>18,6% de la comuna</span></div>
+          <div class="stat-box"><b class="teal">23.105</b><span>personas de 65 años o más<br>16,0% de la comuna</span></div>
+        </div>
+
+        <div class="idx-row reveal">
+          <div class="idx-box">
+            <b>134,9</b>
+            <p>Índice de envejecimiento: personas de 65 años o más por cada 100 menores de 15. El más alto del Gran Santiago.</p>
+          </div>
+          <div class="callout">
+            <b>86</b>
+            <p>Por cada 100 jóvenes de 15 a 29 años, en Providencia hay 86 personas de 65 años o más. Casi una persona mayor por cada joven.</p>
+          </div>
+        </div>
+        <p class="footnote reveal" style="margin-top:24px">Fuente: Censo 2024 (INE), vía Reporte Comunal Providencia 2025 de la Biblioteca del Congreso Nacional. Ver fuentes completas al cierre.</p>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">03 / 09</span></div>
+    </section>
+
+    <!-- ============ SLIDE 4 — CONTEXTO Y DESAFÍOS ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> Contexto y desafíos identificados</div>
+        <h2 class="sec reveal">De dónde partimos.</h2>
+
+        <div class="ctx-grid reveal">
+          <div class="ctx-card">
+            <span class="tag">Población</span>
+            <h3>Jóvenes y personas mayores</h3>
+            <p>Contamos con antecedentes sobre la presencia de personas mayores y jóvenes (15–29 años) en la comuna, considerando su participación en actividades municipales.</p>
+          </div>
+          <div class="ctx-card">
+            <span class="tag">Actores e instituciones</span>
+            <h3>Posibles aliados</h3>
+            <p>Se han identificado posibles actores para participar en la iniciativa: colegios, instituciones de educación superior y organizaciones comunitarias.</p>
+          </div>
+          <div class="ctx-card">
+            <span class="tag">Programas existentes</span>
+            <h3>Punto de partida</h3>
+            <p>Contamos con información sobre los programas del Departamento de Personas Mayores. Falta revisar cuáles incorporan, o podrían vincularse a, un enfoque intergeneracional.</p>
+          </div>
+        </div>
+
+        <div class="desafios reveal">
+          <span class="label">Desafíos identificados</span>
+          <div class="chip-row">
+            <span class="chip">Soledad no deseada</span>
+            <span class="chip">Edadismo</span>
+            <span class="chip">Cambios en las estructuras familiares</span>
+          </div>
+        </div>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">04 / 09</span></div>
+    </section>
+
+    <!-- ============ SLIDE 5 — MODELO DE LAS 5R ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 03 — Las 5R</div>
+        <h2 class="sec reveal">De los principios a la <em>acción</em>.</h2>
+        <p class="lede reveal" style="margin-bottom:0">Cinco componentes para diseñar experiencias intergeneracionales significativas.</p>
+
+        <div class="r-grid reveal">
+          <div class="r-card"><span class="rn">R1</span><h3>Roles</h3><p>Todos los participantes deben contar con un papel asignado, claramente definido y significativo, que implique tareas comprensibles para ellos.</p></div>
+          <div class="r-card"><span class="rn">R2</span><h3>Relaciones</h3><p>Desarrollar lazos de apoyo mutuo y confianza, yendo más allá de la mera organización de un servicio.</p></div>
+          <div class="r-card"><span class="rn">R3</span><h3>Reciprocidad</h3><p>Se garantiza que todas las generaciones implicadas vivan la experiencia bidireccional de dar y recibir de personas de otros grupos de edad.</p></div>
+          <div class="r-card"><span class="rn">R4</span><h3>Reconocimiento</h3><p>Existe una valoración continua y explícita de las contribuciones de cada participante, siendo un pilar clave de motivación.</p></div>
+          <div class="r-card"><span class="rn">R5</span><h3>Capacidad de respuesta</h3><p>La intervención responde a necesidades reales y claramente identificadas en la comunidad, lo que facilita su sostenibilidad.</p></div>
+        </div>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">05 / 09</span></div>
+    </section>
+
+    <!-- ============ SLIDE 6 — CUATRO FORMAS DE CATEGORIZAR ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 04 — Categorización</div>
+        <h2 class="sec reveal">Cuatro formas de <em>categorizar</em> una intervención.</h2>
+        <p class="lede reveal" style="margin-bottom:0">Cada categoría mira el programa desde un ángulo distinto.</p>
+
+        <div class="cat-grid reveal">
+          <div class="cat-card">
+            <span class="tag">Dirección del servicio</span>
+            <h3>Quién sirve a quién</h3>
+            <div class="sub">Se basa en quién ofrece y quién recibe la atención o ayuda.</div>
+            <p>Personas mayores sirven a niños y jóvenes, niños y jóvenes sirven a personas mayores, colaboran para servir a la comunidad, o hay mutuo servicio entre generaciones.</p>
+          </div>
+          <div class="cat-card">
+            <span class="tag">Nivel de interacción</span>
+            <h3>Cercanía de la relación</h3>
+            <div class="sub">Según MacCallum et al. y Whitehouse et al.</div>
+            <p>Categoriza los programas en cuatro niveles: yuxtaposición, intersección, agrupamiento y convivencia.</p>
+          </div>
+          <div class="cat-card">
+            <span class="tag">Continuo de Kaplan</span>
+            <h3>Intensidad del contacto</h3>
+            <div class="sub">Grado de implicación y nivel de contacto</div>
+            <p>Escala de 7 niveles según la intensidad y frecuencia del contacto intergeneracional.</p>
+          </div>
+          <div class="cat-card">
+            <span class="tag">Área temática</span>
+            <h3>Objetivo o contenido</h3>
+            <div class="sub">Área de interés del programa</div>
+            <p>Clasifica las intervenciones según su objetivo: cuidado, educación, tradiciones culturales, medioambiente o apoyo comunitario a las familias, entre otros.</p>
+          </div>
+        </div>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">06 / 09</span></div>
+    </section>
+
+    <!-- ============ SLIDE 7 — QUÉ PROBLEMÁTICAS PUEDE ABORDAR ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 05 — Beneficios</div>
+        <h2 class="sec reveal">Qué problemáticas puede <em>abordar</em>.</h2>
+        <p class="lede reveal" style="margin-bottom:0">Las intervenciones intergeneracionales pueden abordar las siguientes problemáticas.</p>
+
+        <div class="ben-grid reveal">
+          <div class="ben-card"><span class="n">01</span><h3>Soledad no deseada</h3><p>Devuelve a los adultos mayores un rol activo, útil y valorado, al tiempo que brinda a las juventudes contención emocional y el apoyo de adultos significativos fuera de su entorno familiar.</p></div>
+          <div class="ben-card"><span class="n">02</span><h3>Segregación etaria</h3><p>Promueve encuentros continuados que fortalecen las habilidades sociales y comunicativas de los jóvenes e incrementan la integración y pertenencia comunitaria de las personas mayores.</p></div>
+          <div class="ben-card"><span class="n">03</span><h3>Edadismo y estigmatización estructural</h3><p>Desmonta los prejuicios y la discriminación basados en la edad en ambas direcciones.</p></div>
+          <div class="ben-card wide"><span class="n">04</span><h3>Ruptura de la transmisión cultural e histórica</h3><p>Conecta a las distintas generaciones para preservar el patrimonio intangible, la memoria local y los valores comunitarios.</p></div>
+          <div class="ben-card wide"><span class="n">05</span><h3>Ineficiencia de respuestas fragmentadas</h3><p>Propone un modelo de reciprocidad e interdependencia donde ambas partes tienen la experiencia de dar y recibir, optimizando la inversión comunitaria.</p></div>
+        </div>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">07 / 09</span></div>
+    </section>
+
+    <!-- ============ SLIDE 8 — CÓMO SABREMOS QUE FUNCIONA ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 06 — Propuesta de evaluación</div>
+        <h2 class="sec reveal">¿Cómo sabremos que <em>funciona</em>?</h2>
+        <p class="lede reveal" style="margin-bottom:0">Mediremos la efectividad a través de 3 dimensiones, cada una con conductas observables y medibles.</p>
+
+        <div class="obs-table reveal">
+          <div class="obs-row">
+            <div class="obs-dim">Compartir / iniciativa</div>
+            <div class="obs-conduct">
+              <span class="c">El/la participante se acerca a interactuar voluntariamente con otro/a de distinta edad</span>
+              <span class="c">Se registra un llamado a la interacción (ej: «acompañe a su compañero…»)</span>
+            </div>
+          </div>
+          <div class="obs-row">
+            <div class="obs-dim">Aprender / vínculo</div>
+            <div class="obs-conduct">
+              <span class="c">El/la participante muestra apertura al vínculo (v/s resistencia)</span>
+              <span class="c">El/la participante ejecuta la acción indicada</span>
+            </div>
+          </div>
+          <div class="obs-row">
+            <div class="obs-dim">Acompañar / trabajo en equipo</div>
+            <div class="obs-conduct">
+              <span class="c">Participantes realizan una actividad en conjunto (trabajo en equipo)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">08 / 09</span></div>
+    </section>
+
+    <!-- ============ SLIDE 9 — CIERRE Y FUENTES ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 07 — Fuentes</div>
+        <p class="close-quote reveal">Una propuesta para que personas de diferentes edades de Providencia no solo <em>estén juntas</em>, sino que <span class="em-t">hagan juntas</span>.</p>
+
+        <div class="src-list reveal">
+          <div class="src-item">
+            <span class="k">Población total · tramos etarios · índice de envejecimiento</span>
+            <span class="t"><b>Biblioteca del Congreso Nacional de Chile</b> — Reporte Comunal Providencia 2025, a partir del Censo de Población y Vivienda 2024 del Instituto Nacional de Estadísticas.</span>
+          </div>
+          <div class="src-item">
+            <span class="k">Comparación con otras comunas</span>
+            <span class="t"><b>Ex-Ante</b> — «Censo 2024: Providencia, Las Condes y Ñuñoa, las comunas que más envejecen en la Metropolitana» (marzo de 2025). Providencia registró el mayor índice de envejecimiento entre las comunas del Gran Santiago.</span>
+          </div>
+          <div class="src-item">
+            <span class="k">Categorización de la intervención</span>
+            <span class="t"><b>IMSERSO</b> — Programas intergeneracionales. Guía introductoria (Colección Manuales y Guías, 2010).</span>
+          </div>
+        </div>
+        <p class="close-note reveal">Los datos poblacionales fueron consultados en septiembre de 2026. Verifique la vigencia de los reportes antes de usarlos en un documento oficial.</p>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Depto. Diversidad e Inclusión</span><span class="page">09 / 09</span></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ PROGRESS DOTS — outside the slide stage ============ -->
+<nav class="deck-controls" id="deckControls"></nav>
+
+<script>
+/* ===========================================
+   SLIDE PRESENTATION CONTROLLER
+   Handles stage scaling, keyboard/touch/wheel navigation,
+   progress dots, and inline editing with autosave.
+   =========================================== */
+class SlidePresentation {
+    constructor() {
+        this.slides = document.querySelectorAll('.slide');
+        this.currentSlide = 0;
+        this.stage = document.getElementById('deckStage');
+        this.controls = document.getElementById('deckControls');
+        this.buildDots();
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.showSlide(0);
+    }
+
+    buildDots() {
+        this.controls.innerHTML = '';
+        this.slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot';
+            dot.setAttribute('aria-label', 'Ir a diapositiva ' + (i + 1));
+            dot.addEventListener('click', () => this.showSlide(i));
+            this.controls.appendChild(dot);
+        });
+        const count = document.createElement('span');
+        count.className = 'count';
+        count.id = 'slideCount';
+        this.controls.appendChild(count);
+    }
+
+    setupStageScale() {
+        const scale = () => {
+            const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            const x = (window.innerWidth - 1920 * factor) / 2;
+            const y = (window.innerHeight - 1080 * factor) / 2;
+            this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+        };
+        scale();
+        window.addEventListener('resize', scale);
+    }
+
+    setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+            if (editor.isActive && e.target.getAttribute('contenteditable')) return;
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); this.next(); }
+            else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); this.prev(); }
+        });
+    }
+
+    setupTouchNav() {
+        let startX = null;
+        this.stage.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+        this.stage.addEventListener('touchend', (e) => {
+            if (startX === null) return;
+            const dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) > 60) { dx < 0 ? this.next() : this.prev(); }
+            startX = null;
+        }, { passive: true });
+    }
+
+    setupWheelNav() {
+        let locked = false;
+        window.addEventListener('wheel', (e) => {
+            if (locked) return;
+            if (Math.abs(e.deltaY) < 30) return;
+            locked = true;
+            e.deltaY > 0 ? this.next() : this.prev();
+            setTimeout(() => { locked = false; }, 700);
+        }, { passive: true });
+    }
+
+    next() { this.showSlide(this.currentSlide + 1); }
+    prev() { this.showSlide(this.currentSlide - 1); }
+
+    showSlide(index) {
+        this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === this.currentSlide);
+            slide.classList.toggle('visible', i === this.currentSlide);
+        });
+        this.controls.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('on', i === this.currentSlide));
+        const count = document.getElementById('slideCount');
+        if (count) count.textContent = (this.currentSlide + 1) + ' / ' + this.slides.length;
+    }
+}
+
+/* ===========================================
+   INLINE TEXT EDITOR
+   Toggle with E key or the pencil button. Edits autosave to
+   localStorage and can be exported back to an HTML file.
+   =========================================== */
+class InlineEditor {
+    constructor() {
+        this.isActive = false;
+        this.toggleBtn = document.getElementById('editToggle');
+        this.hotzone = document.getElementById('editHotzone');
+        this.toast = document.getElementById('saveToast');
+        this.editableSelector = 'h1, h2, h3, p, span.word, .chip, .principle, .obs-dim, .c, .k, .t, .n';
+        this.restoreFromStorage();
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        let hideTimeout = null;
+        const show = () => { clearTimeout(hideTimeout); this.toggleBtn.classList.add('show'); };
+        const hide = () => { hideTimeout = setTimeout(() => { if (!this.isActive) this.toggleBtn.classList.remove('show'); }, 400); };
+        this.hotzone.addEventListener('mouseenter', show);
+        this.hotzone.addEventListener('mouseleave', hide);
+        this.toggleBtn.addEventListener('mouseenter', show);
+        this.toggleBtn.addEventListener('mouseleave', hide);
+        this.hotzone.addEventListener('click', () => this.toggleEditMode());
+        this.toggleBtn.addEventListener('click', () => this.toggleEditMode());
+
+        document.addEventListener('keydown', (e) => {
+            if ((e.key === 'e' || e.key === 'E') && !e.target.getAttribute('contenteditable')) {
+                this.toggleEditMode();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                this.exportHtml();
+            }
+        });
+    }
+
+    toggleEditMode() {
+        this.isActive = !this.isActive;
+        this.toggleBtn.classList.toggle('active', this.isActive);
+        this.toggleBtn.classList.toggle('show', this.isActive);
+        document.querySelectorAll('.slide').forEach((slide) => {
+            slide.querySelectorAll(this.editableSelector).forEach((el) => {
+                el.setAttribute('contenteditable', this.isActive ? 'true' : 'false');
+            });
+        });
+        if (!this.isActive) this.saveToStorage();
+    }
+
+    saveToStorage() {
+        try {
+            localStorage.setItem('frontend-slides-content', document.getElementById('deckStage').innerHTML);
+            this.showToast('Guardado en este navegador');
+        } catch (e) { /* localStorage unavailable — ignore */ }
+    }
+
+    restoreFromStorage() {
+        try {
+            const saved = localStorage.getItem('frontend-slides-content');
+            if (saved) document.getElementById('deckStage').innerHTML = saved;
+        } catch (e) { /* localStorage unavailable — ignore */ }
+    }
+
+    exportHtml() {
+        this.saveToStorage();
+        const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        const blob = new Blob([html], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'propuesta-programa-intergeneracional.html';
+        a.click();
+        this.showToast('Archivo exportado');
+    }
+
+    showToast(text) {
+        this.toast.textContent = text;
+        this.toast.classList.add('show');
+        clearTimeout(this._toastTimer);
+        this._toastTimer = setTimeout(() => this.toast.classList.remove('show'), 1800);
+    }
+}
+
+const editor = new InlineEditor();
+new SlidePresentation();
+</script>
+</body>
+</html>
