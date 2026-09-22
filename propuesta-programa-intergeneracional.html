@@ -221,12 +221,20 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    SLIDE 6 — CATEGORIZACIÓN
    =========================================== */
-.cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:52px; background:var(--rule); border:1px solid var(--rule); }
-.cat-card{ background:var(--paper); padding:38px 38px; }
-.cat-card .tag{ font-family:var(--font); font-weight:700; font-size:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); }
-.cat-card h3{ font-family:var(--font); font-weight:800; font-size:37px; margin:10px 0 8px; color:var(--ink); }
-.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:21px; color:var(--terracotta); margin-bottom:12px; }
-.cat-card p{ font-family:var(--font); font-weight:400; font-size:21px; line-height:1.4; color:var(--ink-soft); }
+.cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:34px; background:var(--rule); border:1px solid var(--rule); }
+.cat-card{ background:var(--paper); padding:24px 30px; }
+.cat-card .tag{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); }
+.cat-card h3{ font-family:var(--font); font-weight:800; font-size:28px; margin:7px 0 5px; color:var(--ink); }
+.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:17px; color:var(--terracotta); margin-bottom:7px; }
+.cat-card p{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.32; color:var(--ink-soft); }
+.cat-card.expandable{ cursor:pointer; position:relative; }
+.cat-card .exp-toggle{ position:absolute; top:24px; right:26px; width:26px; height:26px; border:1px solid var(--rule); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font); font-weight:700; font-size:16px; color:var(--ink-soft); transition:transform .3s ease, color .2s ease, border-color .2s ease; }
+.cat-card.expandable.open .exp-toggle{ transform:rotate(45deg); color:var(--terracotta); border-color:var(--terracotta); }
+.cat-detail{ max-height:0; overflow:hidden; opacity:0; transition:max-height .45s ease, opacity .35s ease; }
+.cat-card.expandable.open .cat-detail{ max-height:190px; opacity:1; margin-top:9px; }
+.cat-detail ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:4px; }
+.cat-detail li{ font-family:var(--font); font-weight:400; font-size:13.5px; line-height:1.25; color:var(--ink-soft); }
+.cat-detail li b{ color:var(--ink); font-weight:700; }
 
 /* ===========================================
    SLIDE 7 — BUENAS PRÁCTICAS: GENERACIONES AL PLATO
@@ -501,22 +509,43 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
             <p>Personas mayores sirven a niños y jóvenes, niños y jóvenes sirven a personas mayores, colaboran para servir a la comunidad, o hay mutuo servicio entre generaciones.</p>
           </div>
           <div class="cat-card">
-            <span class="tag" style="color:var(--c-turq)">Nivel de interacción</span>
-            <h3>Cercanía de la relación</h3>
-            <div class="sub">Según MacCallum et al. y Whitehouse et al.</div>
-            <p>Categoriza los programas en cuatro niveles: yuxtaposición, intersección, agrupamiento y convivencia.</p>
-          </div>
-          <div class="cat-card">
-            <span class="tag" style="color:var(--c-green)">Continuo de Kaplan</span>
-            <h3>Intensidad del contacto</h3>
-            <div class="sub">Grado de implicación y nivel de contacto</div>
-            <p>Escala de 7 niveles según la intensidad y frecuencia del contacto intergeneracional.</p>
-          </div>
-          <div class="cat-card">
             <span class="tag" style="color:var(--c-blue)">Área temática</span>
             <h3>Objetivo o contenido</h3>
             <div class="sub">Área de interés del programa</div>
             <p>Clasifica las intervenciones según su objetivo: cuidado, educación, tradiciones culturales, medioambiente o apoyo comunitario a las familias, entre otros.</p>
+          </div>
+          <div class="cat-card expandable" tabindex="0" role="button" aria-expanded="false">
+            <span class="exp-toggle">+</span>
+            <span class="tag" style="color:var(--c-turq)">Nivel de interacción</span>
+            <h3>Cercanía de la relación</h3>
+            <div class="sub">Según MacCallum et al. y Whitehouse et al.</div>
+            <p>Categoriza los programas en cuatro niveles: yuxtaposición, intersección, agrupamiento y convivencia. Toca para ver el detalle.</p>
+            <div class="cat-detail">
+              <ul>
+                <li><b>1 · Yuxtaposición</b> — comparten un espacio, con contactos esporádicos.</li>
+                <li><b>2 · Intersección</b> — hacen alguna actividad juntos, pero cada uno sigue con su grupo de edad.</li>
+                <li><b>3 · Agrupamiento</b> — se forman grupos o parejas nuevas que trabajan juntas durante el programa.</li>
+                <li><b>4 · Convivencia</b> — la convivencia es cotidiana; las generaciones planifican y deciden juntas.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="cat-card expandable" tabindex="0" role="button" aria-expanded="false">
+            <span class="exp-toggle">+</span>
+            <span class="tag" style="color:var(--c-green)">Continuo de Kaplan</span>
+            <h3>Intensidad del contacto</h3>
+            <div class="sub">Grado de implicación y nivel de contacto</div>
+            <p>Escala de 7 niveles según la intensidad y frecuencia del contacto intergeneracional. Toca para ver el detalle.</p>
+            <div class="cat-detail">
+              <ul>
+                <li><b>1 · Aprender sobre el otro grupo</b> — sin contacto directo.</li>
+                <li><b>2 · Ver al otro grupo, a distancia</b> — sin contacto directo.</li>
+                <li><b>3 · Encuentro único</b> — una experiencia que no se repite.</li>
+                <li><b>4 · Actividades periódicas o anuales</b></li>
+                <li><b>5 · Programa piloto</b> — regular, durante algunos meses.</li>
+                <li><b>6 · Programa continuado</b> — ya consolidado en el tiempo.</li>
+                <li><b>7 · Espacio comunitario intergeneracional</b> — parte de la rutina.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -889,6 +918,24 @@ new SlidePresentation();
     row.addEventListener('dblclick', (e) => {
         const chip = e.target.closest('.chip');
         if (chip) chip.remove();
+    });
+})();
+
+/* ===========================================
+   CATEGORÍAS EXPANDIBLES (Slide 6) — "Nivel de
+   interacción" y "Continuo de Kaplan" muestran el
+   detalle de sus niveles al hacer clic.
+   =========================================== */
+(function () {
+    document.querySelectorAll('.cat-card.expandable').forEach((card) => {
+        const toggle = () => {
+            const open = card.classList.toggle('open');
+            card.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+        card.addEventListener('click', toggle);
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
     });
 })();
 </script>
