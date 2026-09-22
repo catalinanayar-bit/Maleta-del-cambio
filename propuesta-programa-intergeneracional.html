@@ -111,6 +111,7 @@ img, video, canvas, svg{ max-width:100%; max-height:100%; }
 h1.title{ font-family:var(--font); font-weight:800; font-size:122px; line-height:1.0; letter-spacing:-.01em; color:var(--ink); max-width:1500px; }
 h1.title .em-teal{ color:var(--teal); font-weight:800; }
 h1.title .em-terra{ color:var(--terracotta); font-weight:800; }
+h1.title .pi-tag{ font-size:.38em; font-weight:700; color:var(--ink-soft); vertical-align:middle; margin-left:14px; }
 
 h2.sec{ font-family:var(--font); font-weight:800; font-size:94px; line-height:1.02; letter-spacing:-.01em; color:var(--ink); max-width:1440px; margin-top:18px; }
 h2.sec em{ font-style:normal; color:var(--terracotta); }
@@ -262,6 +263,29 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .act-alts.kap{ gap:8px; }
 .act-open-input{ flex:1; min-width:220px; background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:12px 16px; font-family:var(--font); font-size:17px; color:var(--ink); }
 .act-open-input:focus{ outline:none; border-color:var(--terracotta); }
+
+/* ===========================================
+   SLIDE 8B — OBJETIVO GENERAL Y ESPECÍFICOS
+   =========================================== */
+.pi-row{ display:flex; gap:56px; margin-top:34px; align-items:flex-start; }
+.pi-goals{ flex:0 0 620px; display:flex; flex-direction:column; gap:26px; }
+.pi-label{ font-family:var(--font); font-weight:700; font-size:19px; letter-spacing:.08em; text-transform:uppercase; color:var(--terracotta); margin-bottom:10px; display:block; }
+.pi-general{ font-family:var(--font); font-weight:600; font-size:24px; line-height:1.4; color:var(--ink); }
+.pi-spec-list{ display:flex; flex-direction:column; }
+.pi-spec{ display:flex; gap:16px; padding:12px 0; border-bottom:1px solid var(--rule); font-family:var(--font); font-size:20px; color:var(--ink-soft); align-items:flex-start; }
+.pi-spec:first-child{ padding-top:0; }
+.pi-n{ color:var(--terracotta); font-weight:800; flex:0 0 auto; }
+.pi-spec-text{ flex:1; }
+.pi-add{ margin-top:8px; background:none; border:none; color:var(--terracotta); font-family:var(--font); font-weight:700; font-size:17px; cursor:pointer; padding:6px 0; text-align:left; }
+.pi-add:hover{ text-decoration:underline; }
+.pi-web{ flex:1; max-width:520px; display:flex; align-items:center; justify-content:center; padding-top:20px; }
+.pi-web svg{ width:100%; height:auto; overflow:visible; }
+.pi-link{ fill:none; stroke:var(--ink-soft); opacity:.35; stroke-width:2.4; stroke-dasharray:1,10; stroke-linecap:round; }
+.pi-word{ transform-box:fill-box; transform-origin:center; }
+.slide.visible .pi-word{ animation:piFloat 3.6s ease-in-out infinite; }
+@keyframes piFloat{ 0%, 100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+.pi-w{ font-family:var(--font); font-weight:700; font-size:21px; text-anchor:middle; }
+.pi-hub-label{ font-family:var(--font); font-weight:600; font-size:15px; fill:var(--ink-soft); letter-spacing:.04em; text-transform:uppercase; text-anchor:middle; }
 .act-alt.kap-n{ width:44px; height:44px; padding:0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; }
 .act-done{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .act-done span{ font-family:var(--font); font-weight:700; font-size:19px; color:var(--ink); }
@@ -353,12 +377,12 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           <div class="circle teal"></div>
           <svg class="arc" viewBox="0 0 440 130"><path d="M2,128 C2,44 438,44 438,128"/></svg>
         </div>
-        <h1 class="title reveal">Propuesta Programa<br><span class="em-terra">Inter</span><span class="em-teal">generacional</span></h1>
+        <h1 class="title reveal">Propuesta Programa<br><span class="em-terra">Inter</span><span class="em-teal">generacional</span><span class="pi-tag">(PI)</span></h1>
         <p class="title-sub reveal">Una propuesta de la Oficina de la Juventud para que personas de diferentes edades de Providencia no solo estén juntas, sino que hagan juntas.</p>
       </div>
       <div class="foot-row" style="position:absolute;bottom:70px;left:96px;right:96px;">
         <span>Depto. Diversidad e Inclusión</span>
-        <span class="page">01 / 11</span>
+        <span class="page">01 / 12</span>
       </div>
     </section>
 
@@ -392,7 +416,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         </div>
         </div>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:60px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">02 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:60px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">02 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 3 — CIFRAS CLAVE ============ -->
@@ -451,7 +475,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         </div>
         <p class="footnote reveal" style="margin-top:0px">Fuente: Censo 2024 (INE), vía Reporte Comunal Providencia 2025 de la Biblioteca del Congreso Nacional. Ver fuentes completas al cierre.</p>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:44px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">03 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:44px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">03 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 4 — CONTEXTO Y DESAFÍOS ============ -->
@@ -488,7 +512,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           </div>
         </div>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">04 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">04 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 5 — MODELO DE LAS 5R ============ -->
@@ -506,7 +530,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           <div class="r-card"><span class="rn" style="color:var(--c-turq)">R5</span><h3>Capacidad de respuesta</h3><p>La intervención responde a necesidades reales y claramente identificadas en la comunidad, lo que facilita su sostenibilidad.</p></div>
         </div>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">05 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">05 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 6 — CUATRO FORMAS DE CATEGORIZAR ============ -->
@@ -564,7 +588,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           </div>
         </div>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">06 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">06 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 7 — BUENAS PRÁCTICAS: GENERACIONES AL PLATO ============ -->
@@ -580,7 +604,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         </div>
         <p class="bp-caption reveal"><b>Generaciones al plato</b> — ¿qué categorías del modelo estuvieron presentes en esta actividad?</p>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">07 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">07 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 7B — ACTIVIDAD: IDENTIFIQUEMOS LAS CATEGORÍAS ============ -->
@@ -610,13 +634,60 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           </div>
         </div>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">08 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">08 / 12</span></div>
+    </section>
+
+    <!-- ============ SLIDE 8B — OBJETIVO GENERAL Y ESPECÍFICOS ============ -->
+    <section class="slide">
+      <div class="slide-content">
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 07 — Objetivos</div>
+        <h2 class="sec reveal">Objetivo general y <em>específicos</em>.</h2>
+        <p class="lede reveal" style="margin-bottom:0">Un objetivo que oriente el PI, y tres frentes concretos para lograrlo.</p>
+
+        <div class="pi-row reveal">
+          <div class="pi-goals">
+            <div>
+              <span class="pi-label">Objetivo general</span>
+              <p class="pi-general">Diseñar e implementar un Programa Intergeneracional (PI) que fortalezca los vínculos entre personas de distintas edades en Providencia.</p>
+            </div>
+            <div>
+              <span class="pi-label">Objetivos específicos</span>
+              <div class="pi-spec-list" id="piSpecList">
+                <div class="pi-spec"><span class="pi-n">01</span><span class="pi-spec-text">Diseñar actividades intergeneracionales replicables y sostenibles en el tiempo.</span></div>
+                <div class="pi-spec"><span class="pi-n">02</span><span class="pi-spec-text">Ejecutar encuentros que generen vínculos reales entre jóvenes y personas mayores.</span></div>
+                <div class="pi-spec"><span class="pi-n">03</span><span class="pi-spec-text">Medir el impacto en la calidad de vida y el sentido de comunidad de los participantes.</span></div>
+              </div>
+              <button type="button" class="pi-add" id="piAdd">+ Agregar objetivo</button>
+            </div>
+          </div>
+          <div class="pi-web">
+            <svg viewBox="0 0 640 460" role="img" aria-label="Palabras clave del objetivo conectadas a la Oficina de la Juventud: diseñar, planificar, ejecutar, impacto, calidad de vida">
+              <path class="pi-link" d="M80,60 L520,380"/>
+              <path class="pi-link" d="M300,30 L520,380"/>
+              <path class="pi-link" d="M480,90 L520,380"/>
+              <path class="pi-link" d="M140,220 L520,380"/>
+              <path class="pi-link" d="M340,260 L520,380"/>
+              <g class="pi-word" style="animation-delay:0s"><circle cx="80" cy="60" r="4" fill="var(--c-blue)"/><text x="80" y="42" class="pi-w" fill="var(--c-blue)">Diseñar</text></g>
+              <g class="pi-word" style="animation-delay:.3s"><circle cx="300" cy="30" r="4" fill="var(--c-turq)"/><text x="300" y="12" class="pi-w" fill="var(--c-turq)">Planificar</text></g>
+              <g class="pi-word" style="animation-delay:.6s"><circle cx="480" cy="90" r="4" fill="var(--c-green)"/><text x="480" y="72" class="pi-w" fill="var(--c-green)">Ejecutar</text></g>
+              <g class="pi-word" style="animation-delay:.9s"><circle cx="140" cy="220" r="4" fill="var(--c-blue)"/><text x="140" y="202" class="pi-w" fill="var(--c-blue)">Impacto</text></g>
+              <g class="pi-word" style="animation-delay:1.2s"><circle cx="340" cy="260" r="4" fill="var(--c-turq)"/><text x="340" y="242" class="pi-w" fill="var(--c-turq)">Calidad de vida</text></g>
+              <g transform="translate(520,380)">
+                <circle r="24" cx="-13" cy="0" fill="var(--terracotta)"/>
+                <circle r="24" cx="13" cy="0" fill="var(--teal)" style="mix-blend-mode:multiply"/>
+                <text x="0" y="52" class="pi-hub-label">Oficina de la Juventud</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">09 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 8 — QUÉ PROBLEMÁTICAS PUEDE ABORDAR ============ -->
     <section class="slide">
       <div class="slide-content">
-        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 07 — Beneficios</div>
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 08 — Beneficios</div>
         <h2 class="sec reveal">Qué problemáticas puede <em>abordar</em>.</h2>
         <p class="lede reveal" style="margin-bottom:0">Las intervenciones intergeneracionales pueden abordar las siguientes problemáticas.</p>
 
@@ -628,13 +699,13 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           <div class="ben-card wide"><span class="n" style="color:var(--c-turq)">05</span><h3>Ineficiencia de respuestas fragmentadas</h3><p>Propone un modelo de reciprocidad e interdependencia donde ambas partes tienen la experiencia de dar y recibir, optimizando la inversión comunitaria.</p></div>
         </div>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">09 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">10 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 8 — CÓMO SABREMOS QUE FUNCIONA ============ -->
     <section class="slide">
       <div class="slide-content">
-        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 08 — Propuesta de evaluación</div>
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 09 — Propuesta de evaluación</div>
         <h2 class="sec reveal">¿Cómo sabremos que <em>funciona</em>?</h2>
         <p class="lede reveal" style="margin-bottom:0">Mediremos la efectividad a través de 3 dimensiones, cada una con conductas observables y medibles.</p>
 
@@ -661,13 +732,13 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           </div>
         </div>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">10 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">11 / 12</span></div>
     </section>
 
     <!-- ============ SLIDE 9 — CIERRE Y FUENTES ============ -->
     <section class="slide">
       <div class="slide-content">
-        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 09 — Fuentes</div>
+        <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 10 — Fuentes</div>
         <p class="close-quote reveal">Una propuesta para que personas de diferentes edades de Providencia no solo <em>estén juntas</em>, sino que <span class="em-t">hagan juntas</span>.</p>
 
         <div class="src-list reveal">
@@ -686,7 +757,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         </div>
         <p class="close-note reveal">Los datos poblacionales fueron consultados en septiembre de 2026. Verifique la vigencia de los reportes antes de usarlos en un documento oficial.</p>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Depto. Diversidad e Inclusión</span><span class="page">11 / 11</span></div>
+      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Depto. Diversidad e Inclusión</span><span class="page">12 / 12</span></div>
     </section>
 
   </main>
@@ -797,7 +868,7 @@ class InlineEditor {
         this.toggleBtn = document.getElementById('editToggle');
         this.hotzone = document.getElementById('editHotzone');
         this.toast = document.getElementById('saveToast');
-        this.editableSelector = 'h1, h2, h3, p, span.word, .chip, .principle, .obs-dim, .c, .k, .t, .n';
+        this.editableSelector = 'h1, h2, h3, p, span.word, .chip, .principle, .obs-dim, .c, .k, .t, .n, .pi-spec-text';
         this.restoreFromStorage();
         this.bindEvents();
     }
@@ -931,6 +1002,54 @@ new SlidePresentation();
 })();
 
 /* ===========================================
+   OBJETIVOS ESPECÍFICOS (Slide 8B) — add / remove,
+   as plain editable lines (not tag pills).
+   Click "+ Agregar objetivo" to add one; double-click
+   a row to remove it.
+   =========================================== */
+(function () {
+    const list = document.getElementById('piSpecList');
+    const addBtn = document.getElementById('piAdd');
+    if (!list || !addBtn) return;
+    const renumber = () => {
+        list.querySelectorAll('.pi-spec .pi-n').forEach((n, idx) => { n.textContent = String(idx + 1).padStart(2, '0'); });
+    };
+    const selectText = (el) => {
+        el.focus();
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    };
+    addBtn.addEventListener('click', () => {
+        const row = document.createElement('div');
+        row.className = 'pi-spec';
+        const n = document.createElement('span');
+        n.className = 'pi-n';
+        const text = document.createElement('span');
+        text.className = 'pi-spec-text';
+        text.contentEditable = 'true';
+        text.textContent = 'Nuevo objetivo';
+        row.appendChild(n);
+        row.appendChild(text);
+        list.appendChild(row);
+        renumber();
+        selectText(text);
+        text.addEventListener('blur', () => {
+            if (!text.textContent.trim()) { row.remove(); renumber(); }
+        });
+        text.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); text.blur(); }
+        });
+    });
+    list.addEventListener('dblclick', (e) => {
+        const row = e.target.closest('.pi-spec');
+        if (row) { row.remove(); renumber(); }
+    });
+})();
+
+/* ===========================================
    CATEGORÍAS EXPANDIBLES (Slide 6) — "Nivel de
    interacción" y "Continuo de Kaplan" muestran el
    detalle de sus niveles al hacer clic.
@@ -968,7 +1087,7 @@ new SlidePresentation();
         { q: '¿Qué cercanía hubo?', alts: ['Yuxtaposición', 'Intersección', 'Agrupamiento', 'Convivencia'] },
         { q: '¿Qué intensidad de contacto?', alts: ['1', '2', '3', '4', '5', '6', '7'], kap: true },
         { q: '¿Qué objetivo abordó?', alts: ['Cuidado', 'Educación', 'Tradiciones culturales', 'Medioambiente', 'Apoyo a familias'] },
-        { q: '¿Qué tipos buscamos realizar?', open: true }
+        { q: '¿Qué tipos de PI buscamos realizar?', open: true }
     ];
     let i = 0;
 
