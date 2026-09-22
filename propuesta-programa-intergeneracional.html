@@ -141,11 +141,11 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
    =========================================== */
 .infinity-wrap{ margin-top:44px; max-width:600px; }
 .infinity-wrap svg{ width:100%; height:auto; display:block; overflow:visible; }
-.inf-loop{ fill:none; stroke-width:4; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; animation:drawInf 1.6s cubic-bezier(.3,.6,.3,1) forwards; }
+.inf-loop{ fill:none; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; animation:drawInf 1.6s cubic-bezier(.3,.6,.3,1) forwards; }
 .inf-loop.terra{ stroke:var(--terracotta); }
 .inf-loop.teal{ stroke:var(--teal); animation-delay:.25s; }
 @keyframes drawInf{ to{ stroke-dashoffset:0; } }
-.inf-label{ font-family:var(--font); font-weight:800; font-size:27px; fill:var(--ink); opacity:0; animation:fadeUp .8s ease 1.3s forwards; }
+.inf-label{ font-family:var(--font); font-weight:800; font-size:22px; fill:var(--ink); opacity:0; animation:fadeUp .8s ease 1.3s forwards; }
 .inf-label.teal-text{ fill:var(--teal); }
 .principles{ margin-top:44px; display:flex; gap:18px; flex-wrap:wrap; }
 .principle{ background:var(--paper-2); border:1px solid var(--rule); border-radius:40px; padding:16px 30px; font-family:var(--font); font-weight:700; font-size:19px; color:var(--ink); }
@@ -154,17 +154,27 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    SLIDE 3 — CIFRAS
    =========================================== */
-.stat-row{ display:flex; gap:1px; margin-top:44px; background:var(--rule); border:1px solid var(--rule); }
-.stat-box{ flex:1; background:var(--paper); padding:38px 40px; }
-.stat-box b{ display:block; font-family:var(--font); font-weight:900; font-size:96px; line-height:1; }
-.stat-box span{ display:block; margin-top:14px; font-family:var(--font); font-weight:500; font-size:19px; color:var(--ink-soft); line-height:1.5; }
-.idx-row{ display:flex; gap:44px; margin-top:40px; align-items:flex-start; }
+.cifras-row{ display:flex; gap:56px; margin-top:40px; align-items:flex-start; }
+.cifras-left{ flex:1; min-width:0; }
+.cifras-right{ flex:0 0 400px; }
+
+.stat-row{ display:flex; gap:1px; background:var(--rule); border:1px solid var(--rule); }
+.stat-box{ flex:1; background:var(--paper); padding:26px 28px; }
+.stat-box b{ display:block; font-family:var(--font); font-weight:900; font-size:58px; line-height:1; }
+.stat-box span{ display:block; margin-top:10px; font-family:var(--font); font-weight:500; font-size:16px; color:var(--ink-soft); line-height:1.45; }
+.idx-row{ display:flex; gap:28px; margin-top:28px; align-items:flex-start; }
 .idx-box{ flex:0 0 auto; }
-.idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:70px; color:var(--ink); }
-.idx-box p{ margin-top:8px; font-family:var(--font); font-weight:400; font-size:17px; color:var(--ink-soft); max-width:34ch; }
-.callout{ margin-top:0; flex:1; border:1px solid var(--terracotta); background:var(--terracotta-soft); border-radius:6px; padding:24px 30px; }
-.callout b{ display:block; font-family:var(--font); font-weight:900; font-size:56px; color:var(--terracotta); }
-.callout p{ margin-top:6px; font-family:var(--font); font-weight:500; font-size:18px; color:var(--ink); max-width:56ch; }
+.idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:48px; color:var(--ink); }
+.idx-box p{ margin-top:6px; font-family:var(--font); font-weight:400; font-size:15px; color:var(--ink-soft); max-width:30ch; }
+.callout{ margin-top:0; flex:1; border:1px solid var(--terracotta); background:var(--terracotta-soft); border-radius:6px; padding:18px 22px; }
+.callout b{ display:block; font-family:var(--font); font-weight:900; font-size:38px; color:var(--terracotta); }
+.callout p{ margin-top:4px; font-family:var(--font); font-weight:500; font-size:15px; color:var(--ink); max-width:56ch; }
+
+.pie-chart svg{ width:280px; height:280px; display:block; }
+.pie-legend{ margin-top:20px; display:flex; flex-direction:column; gap:9px; }
+.pie-legend .row{ display:flex; align-items:center; gap:10px; font-family:var(--font); font-weight:500; font-size:14.5px; color:var(--ink-soft); }
+.pie-legend .sw{ width:13px; height:13px; border-radius:3px; flex:0 0 auto; }
+.pie-legend b{ color:var(--ink); font-weight:700; }
 
 /* ===========================================
    SLIDE 4 — CONTEXTO Y DESAFÍOS
@@ -306,10 +316,10 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 
         <div class="infinity-wrap reveal">
           <svg viewBox="0 0 440 240" role="img" aria-label="Símbolo de infinito con las palabras Estar juntos y Hacer juntos">
-            <circle class="inf-loop terra" pathLength="1" cx="120" cy="120" r="95"/>
-            <circle class="inf-loop teal" pathLength="1" cx="310" cy="120" r="95"/>
-            <text class="inf-label" x="120" y="127" text-anchor="middle">Estar juntos</text>
-            <text class="inf-label teal-text" x="310" y="127" text-anchor="middle">Hacer juntos</text>
+            <path class="inf-loop terra" pathLength="1" d="M220.0,120.0 L210.1,110.6 L200.1,101.3 L190.3,92.2 L180.5,83.4 L170.8,75.0 L161.3,67.1 L151.9,59.8 L142.7,53.1 L133.7,47.2 L125.0,42.1 L116.5,37.8 L108.3,34.4 L100.4,32.0 L92.9,30.5 L85.6,30.0 L78.8,30.5 L72.3,32.0 L66.3,34.4 L60.7,37.8 L55.5,42.1 L50.7,47.2 L46.4,53.1 L42.6,59.8 L39.3,67.1 L36.5,75.0 L34.2,83.4 L32.3,92.2 L31.0,101.3 L30.3,110.6 L30.0,120.0 L30.3,129.4 L31.0,138.7 L32.3,147.8 L34.2,156.6 L36.5,165.0 L39.3,172.9 L42.6,180.2 L46.4,186.9 L50.7,192.8 L55.5,197.9 L60.7,202.2 L66.3,205.6 L72.3,208.0 L78.8,209.5 L85.6,210.0 L92.9,209.5 L100.4,208.0 L108.3,205.6 L116.5,202.2 L125.0,197.9 L133.7,192.8 L142.7,186.9 L151.9,180.2 L161.3,172.9 L170.8,165.0 L180.5,156.6 L190.3,147.8 L200.1,138.7 L210.1,129.4 L220.0,120.0"/>
+            <path class="inf-loop teal" pathLength="1" d="M220.0,120.0 L229.9,110.6 L239.9,101.3 L249.7,92.2 L259.5,83.4 L269.2,75.0 L278.7,67.1 L288.1,59.8 L297.3,53.1 L306.3,47.2 L315.0,42.1 L323.5,37.8 L331.7,34.4 L339.6,32.0 L347.1,30.5 L354.4,30.0 L361.2,30.5 L367.7,32.0 L373.7,34.4 L379.3,37.8 L384.5,42.1 L389.3,47.2 L393.6,53.1 L397.4,59.8 L400.7,67.1 L403.5,75.0 L405.8,83.4 L407.7,92.2 L409.0,101.3 L409.7,110.6 L410.0,120.0 L409.7,129.4 L409.0,138.7 L407.7,147.8 L405.8,156.6 L403.5,165.0 L400.7,172.9 L397.4,180.2 L393.6,186.9 L389.3,192.8 L384.5,197.9 L379.3,202.2 L373.7,205.6 L367.7,208.0 L361.2,209.5 L354.4,210.0 L347.1,209.5 L339.6,208.0 L331.7,205.6 L323.5,202.2 L315.0,197.9 L306.3,192.8 L297.3,186.9 L288.1,180.2 L278.7,172.9 L269.2,165.0 L259.5,156.6 L249.7,147.8 L239.9,138.7 L229.9,129.4 L220.0,120.0"/>
+            <text class="inf-label" x="108" y="127" text-anchor="middle">Estar juntos</text>
+            <text class="inf-label teal-text" x="332" y="127" text-anchor="middle">Hacer juntos</text>
           </svg>
         </div>
 
@@ -330,19 +340,42 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 02 — Análisis sociodemográfico</div>
         <h2 class="sec reveal">Jóvenes y personas mayores en <em>cifras</em>.</h2>
 
-        <div class="stat-row reveal">
-          <div class="stat-box"><b style="color:var(--c-orange)">26.722</b><span>personas de 15 a 29 años<br>18,6% de la comuna</span></div>
-          <div class="stat-box"><b style="color:var(--c-purple)">23.105</b><span>personas de 65 años o más<br>16,0% de la comuna</span></div>
-        </div>
+        <div class="cifras-row reveal">
+          <div class="cifras-left">
+            <div class="stat-row">
+              <div class="stat-box"><b style="color:var(--c-orange)">26.722</b><span>personas de 15 a 29 años<br>18,6% de la comuna</span></div>
+              <div class="stat-box"><b style="color:var(--c-purple)">23.105</b><span>personas de 65 años o más<br>16,0% de la comuna</span></div>
+            </div>
 
-        <div class="idx-row reveal">
-          <div class="idx-box">
-            <b>134,9</b>
-            <p>Índice de envejecimiento: personas de 65 años o más por cada 100 menores de 15. El más alto del Gran Santiago.</p>
+            <div class="idx-row">
+              <div class="idx-box">
+                <b>134,9</b>
+                <p>Índice de envejecimiento: personas de 65 años o más por cada 100 menores de 15. El más alto del Gran Santiago.</p>
+              </div>
+              <div class="callout">
+                <b>86</b>
+                <p>Por cada 100 jóvenes de 15 a 29 años, en Providencia hay 86 personas de 65 años o más. Casi una persona mayor por cada joven.</p>
+              </div>
+            </div>
           </div>
-          <div class="callout">
-            <b>86</b>
-            <p>Por cada 100 jóvenes de 15 a 29 años, en Providencia hay 86 personas de 65 años o más. Casi una persona mayor por cada joven.</p>
+
+          <div class="cifras-right">
+            <div class="pie-chart">
+              <svg viewBox="0 0 320 320" role="img" aria-label="Gráfico de torta: distribución de la población de Providencia por tramo de edad, Censo 2024">
+                <path fill="var(--c-yellow)" d="M160,160 L160.00,20.00 A140,140 0 0 1 255.15,57.30 Z"/>
+                <path fill="var(--c-orange)" d="M160,160 L255.15,57.30 A140,140 0 0 1 291.86,207.04 Z"/>
+                <path fill="#D8CDB8" d="M160,160 L291.86,207.04 A140,140 0 0 1 65.29,263.10 Z"/>
+                <path fill="#C2B59C" d="M160,160 L65.29,263.10 A140,140 0 0 1 41.57,85.34 Z"/>
+                <path fill="var(--c-purple)" d="M160,160 L41.57,85.34 A140,140 0 0 1 160.00,20.00 Z"/>
+              </svg>
+            </div>
+            <div class="pie-legend">
+              <div class="row"><span class="sw" style="background:var(--c-yellow)"></span><span><b>0 a 14 años</b> — 17.123 · 11,9%</span></div>
+              <div class="row"><span class="sw" style="background:var(--c-orange)"></span><span><b>15 a 29 años</b> — 26.722 · 18,6%</span></div>
+              <div class="row"><span class="sw" style="background:#D8CDB8"></span><span><b>30 a 44 años</b> — 45.167 · 31,4%</span></div>
+              <div class="row"><span class="sw" style="background:#C2B59C"></span><span><b>45 a 64 años</b> — 31.857 · 22,1%</span></div>
+              <div class="row"><span class="sw" style="background:var(--c-purple)"></span><span><b>65 y más</b> — 23.105 · 16,0%</span></div>
+            </div>
           </div>
         </div>
         <p class="footnote reveal" style="margin-top:24px">Fuente: Censo 2024 (INE), vía Reporte Comunal Providencia 2025 de la Biblioteca del Congreso Nacional. Ver fuentes completas al cierre.</p>
