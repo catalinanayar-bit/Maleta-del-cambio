@@ -222,19 +222,19 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    SLIDE 6 — CATEGORIZACIÓN
    =========================================== */
-.cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:34px; background:var(--rule); border:1px solid var(--rule); }
-.cat-card{ background:var(--paper); padding:24px 30px; }
+.cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:22px; background:var(--rule); border:1px solid var(--rule); }
+.cat-card{ background:var(--paper); padding:18px 30px; }
 .cat-card .tag{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); }
-.cat-card h3{ font-family:var(--font); font-weight:800; font-size:28px; margin:7px 0 5px; color:var(--ink); }
-.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:17px; color:var(--terracotta); margin-bottom:7px; }
+.cat-card h3{ font-family:var(--font); font-weight:800; font-size:26px; margin:5px 0 4px; color:var(--ink); }
+.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:17px; color:var(--terracotta); margin-bottom:5px; }
 .cat-card p{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.32; color:var(--ink-soft); }
 .cat-card.expandable{ cursor:pointer; position:relative; }
 .cat-card .exp-toggle{ position:absolute; top:24px; right:26px; width:26px; height:26px; border:1px solid var(--rule); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font); font-weight:700; font-size:16px; color:var(--ink-soft); transition:transform .3s ease, color .2s ease, border-color .2s ease; }
 .cat-card.expandable.open .exp-toggle{ transform:rotate(45deg); color:var(--terracotta); border-color:var(--terracotta); }
 .cat-detail{ max-height:0; overflow:hidden; opacity:0; transition:max-height .45s ease, opacity .35s ease; }
-.cat-card.expandable.open .cat-detail{ max-height:190px; opacity:1; margin-top:9px; }
-.cat-detail ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:4px; }
-.cat-detail li{ font-family:var(--font); font-weight:400; font-size:13.5px; line-height:1.25; color:var(--ink-soft); }
+.cat-card.expandable.open .cat-detail{ max-height:210px; opacity:1; margin-top:9px; }
+.cat-detail ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px; }
+.cat-detail li{ font-family:var(--font); font-weight:400; font-size:16px; line-height:1.3; color:var(--ink-soft); }
 .cat-detail li b{ color:var(--ink); font-weight:700; }
 
 /* ===========================================
@@ -260,6 +260,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .act-alts{ display:flex; flex-wrap:wrap; gap:10px; }
 .act-alt{ background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:12px 20px; font-family:var(--font); font-weight:700; font-size:17px; color:var(--ink); cursor:pointer; transition:border-color .2s ease, background .2s ease, color .2s ease, transform .15s ease; }
 .act-alt:hover{ border-color:var(--terracotta); transform:translateY(-1px); }
+.act-alt.act-other{ background:none; border-style:dashed; color:var(--terracotta); }
 .act-alts.kap{ gap:8px; }
 .act-open-input{ flex:1; min-width:220px; background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:12px 16px; font-family:var(--font); font-size:17px; color:var(--ink); }
 .act-open-input:focus{ outline:none; border-color:var(--terracotta); }
@@ -1088,6 +1089,30 @@ new SlidePresentation();
     ];
     let i = 0;
 
+    function renderOpenInput(item) {
+        altsEl.className = 'act-alts act-open';
+        altsEl.innerHTML = '';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'act-open-input';
+        input.placeholder = 'Escribe la respuesta…';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'act-alt';
+        btn.textContent = 'Listo';
+        const submit = () => {
+            const val = input.value.trim();
+            if (val) choose(item, val);
+        };
+        btn.addEventListener('click', submit);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); submit(); }
+        });
+        altsEl.appendChild(input);
+        altsEl.appendChild(btn);
+        input.focus();
+    }
+
     function render() {
         const finished = i >= QUESTIONS.length;
         stepEl.style.display = finished ? 'none' : '';
@@ -1100,26 +1125,7 @@ new SlidePresentation();
         qEl.textContent = item.q;
         altsEl.innerHTML = '';
         if (item.open) {
-            altsEl.className = 'act-alts act-open';
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.className = 'act-open-input';
-            input.placeholder = 'Escribe la respuesta…';
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'act-alt';
-            btn.textContent = 'Listo';
-            const submit = () => {
-                const val = input.value.trim();
-                if (val) choose(item, val);
-            };
-            btn.addEventListener('click', submit);
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') { e.preventDefault(); submit(); }
-            });
-            altsEl.appendChild(input);
-            altsEl.appendChild(btn);
-            input.focus();
+            renderOpenInput(item);
             return;
         }
         altsEl.className = 'act-alts' + (item.kap ? ' kap' : '');
@@ -1131,6 +1137,12 @@ new SlidePresentation();
             b.addEventListener('click', () => choose(item, alt));
             altsEl.appendChild(b);
         });
+        const otherBtn = document.createElement('button');
+        otherBtn.type = 'button';
+        otherBtn.className = 'act-alt act-other';
+        otherBtn.textContent = '+ Otro';
+        otherBtn.addEventListener('click', () => renderOpenInput(item));
+        altsEl.appendChild(otherBtn);
     }
 
     function choose(item, alt) {
