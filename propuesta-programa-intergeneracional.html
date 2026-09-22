@@ -281,10 +281,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .pi-web{ flex:1; max-width:520px; display:flex; align-items:center; justify-content:center; padding-top:20px; }
 .pi-web svg{ width:100%; height:auto; overflow:visible; }
 .pi-link{ fill:none; stroke:var(--ink-soft); opacity:.35; stroke-width:2.4; stroke-dasharray:1,10; stroke-linecap:round; }
-.pi-word{ transform-box:fill-box; transform-origin:center; }
-.slide.visible .pi-word{ animation:piFloat 3.6s ease-in-out infinite; }
-@keyframes piFloat{ 0%, 100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
-.pi-w{ font-family:var(--font); font-weight:700; font-size:21px; text-anchor:middle; }
+.pi-w{ font-family:var(--font); font-weight:700; font-size:28px; text-anchor:middle; }
 .pi-hub-label{ font-family:var(--font); font-weight:600; font-size:15px; fill:var(--ink-soft); letter-spacing:.04em; text-transform:uppercase; text-anchor:middle; }
 .act-alt.kap-n{ width:44px; height:44px; padding:0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; }
 .act-done{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
@@ -648,31 +645,31 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           <div class="pi-goals">
             <div>
               <span class="pi-label">Objetivo general</span>
-              <p class="pi-general">Diseñar e implementar un Programa Intergeneracional (PI) que fortalezca los vínculos entre personas de distintas edades en Providencia.</p>
+              <p class="pi-general" contenteditable="true">Diseñar e implementar un Programa Intergeneracional (PI) que fortalezca los vínculos entre personas de distintas edades en Providencia.</p>
             </div>
             <div>
               <span class="pi-label">Objetivos específicos</span>
               <div class="pi-spec-list" id="piSpecList">
-                <div class="pi-spec"><span class="pi-n">01</span><span class="pi-spec-text">Diseñar actividades intergeneracionales replicables y sostenibles en el tiempo.</span></div>
-                <div class="pi-spec"><span class="pi-n">02</span><span class="pi-spec-text">Ejecutar encuentros que generen vínculos reales entre jóvenes y personas mayores.</span></div>
-                <div class="pi-spec"><span class="pi-n">03</span><span class="pi-spec-text">Medir el impacto en la calidad de vida y el sentido de comunidad de los participantes.</span></div>
+                <div class="pi-spec"><span class="pi-n">01</span><span class="pi-spec-text" contenteditable="true">Diseñar actividades intergeneracionales replicables y sostenibles en el tiempo.</span></div>
+                <div class="pi-spec"><span class="pi-n">02</span><span class="pi-spec-text" contenteditable="true">Ejecutar encuentros que generen vínculos reales entre jóvenes y personas mayores.</span></div>
+                <div class="pi-spec"><span class="pi-n">03</span><span class="pi-spec-text" contenteditable="true">Medir el impacto en la calidad de vida y el sentido de comunidad de los participantes.</span></div>
               </div>
               <button type="button" class="pi-add" id="piAdd">+ Agregar objetivo</button>
             </div>
           </div>
           <div class="pi-web">
-            <svg viewBox="0 0 640 460" role="img" aria-label="Palabras clave del objetivo conectadas a la Oficina de la Juventud: diseñar, planificar, ejecutar, impacto, calidad de vida">
-              <path class="pi-link" d="M80,60 L520,380"/>
-              <path class="pi-link" d="M300,30 L520,380"/>
-              <path class="pi-link" d="M480,90 L520,380"/>
-              <path class="pi-link" d="M140,220 L520,380"/>
-              <path class="pi-link" d="M340,260 L520,380"/>
-              <g class="pi-word" style="animation-delay:0s"><circle cx="80" cy="60" r="4" fill="var(--c-blue)"/><text x="80" y="42" class="pi-w" fill="var(--c-blue)">Diseñar</text></g>
-              <g class="pi-word" style="animation-delay:.3s"><circle cx="300" cy="30" r="4" fill="var(--c-turq)"/><text x="300" y="12" class="pi-w" fill="var(--c-turq)">Planificar</text></g>
-              <g class="pi-word" style="animation-delay:.6s"><circle cx="480" cy="90" r="4" fill="var(--c-green)"/><text x="480" y="72" class="pi-w" fill="var(--c-green)">Ejecutar</text></g>
-              <g class="pi-word" style="animation-delay:.9s"><circle cx="140" cy="220" r="4" fill="var(--c-blue)"/><text x="140" y="202" class="pi-w" fill="var(--c-blue)">Impacto</text></g>
-              <g class="pi-word" style="animation-delay:1.2s"><circle cx="340" cy="260" r="4" fill="var(--c-turq)"/><text x="340" y="242" class="pi-w" fill="var(--c-turq)">Calidad de vida</text></g>
-              <g transform="translate(520,380)">
+            <svg viewBox="0 0 680 480" role="img" aria-label="Palabras clave del objetivo conectadas a la Oficina de la Juventud: diseñar, planificar, ejecutar, impacto, calidad de vida">
+              <path class="pi-link" d="M90,85 L540,400"/>
+              <path class="pi-link" d="M320,55 L540,400"/>
+              <path class="pi-link" d="M475,115 L540,400"/>
+              <path class="pi-link" d="M150,245 L540,400"/>
+              <path class="pi-link" d="M350,290 L540,400"/>
+              <g><circle cx="90" cy="85" r="5" fill="var(--c-blue)"/><text x="90" y="65" class="pi-w" fill="var(--c-blue)">Diseñar</text></g>
+              <g><circle cx="320" cy="55" r="5" fill="var(--c-turq)"/><text x="320" y="35" class="pi-w" fill="var(--c-turq)">Planificar</text></g>
+              <g><circle cx="475" cy="115" r="5" fill="var(--c-green)"/><text x="475" y="95" class="pi-w" fill="var(--c-green)">Ejecutar</text></g>
+              <g><circle cx="150" cy="245" r="5" fill="var(--c-blue)"/><text x="150" y="225" class="pi-w" fill="var(--c-blue)">Impacto</text></g>
+              <g><circle cx="350" cy="290" r="5" fill="var(--c-turq)"/><text x="350" y="270" class="pi-w" fill="var(--c-turq)">Calidad de vida</text></g>
+              <g transform="translate(540,400)">
                 <circle r="24" cx="-13" cy="0" fill="var(--terracotta)"/>
                 <circle r="24" cx="13" cy="0" fill="var(--teal)" style="mix-blend-mode:multiply"/>
                 <text x="0" y="52" class="pi-hub-label">Oficina de la Juventud</text>
