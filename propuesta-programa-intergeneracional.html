@@ -219,19 +219,21 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    SLIDE 6 — CATEGORIZACIÓN
    =========================================== */
-.cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:22px; background:var(--rule); border:1px solid var(--rule); }
-.cat-card{ background:var(--paper); padding:18px 30px; }
-.cat-card .tag{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); }
-.cat-card h3{ font-family:var(--font); font-weight:800; font-size:26px; margin:5px 0 4px; color:var(--ink); }
-.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:17px; color:var(--terracotta); margin-bottom:5px; }
-.cat-card p{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.32; color:var(--ink-soft); }
+.slide-cat h2.sec{ font-size:56px; line-height:1.1; margin-top:14px; }
+.slide-cat .lede{ font-size:24px; margin-top:16px; }
+.cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:32px; background:var(--rule); border:1px solid var(--rule); }
+.cat-card{ background:var(--paper); padding:28px 36px; }
+.cat-card .tag{ font-family:var(--font); font-weight:700; font-size:19px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); }
+.cat-card h3{ font-family:var(--font); font-weight:800; font-size:36px; margin:8px 0 6px; color:var(--ink); }
+.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:21px; color:var(--terracotta); margin-bottom:8px; }
+.cat-card p{ font-family:var(--font); font-weight:400; font-size:23px; line-height:1.36; color:var(--ink-soft); }
 .cat-card.expandable{ cursor:pointer; position:relative; }
-.cat-card .exp-toggle{ position:absolute; top:24px; right:26px; width:26px; height:26px; border:1px solid var(--rule); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font); font-weight:700; font-size:16px; color:var(--ink-soft); transition:transform .3s ease, color .2s ease, border-color .2s ease; }
+.cat-card .exp-toggle{ position:absolute; top:32px; right:34px; width:32px; height:32px; border:1px solid var(--rule); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font); font-weight:700; font-size:19px; color:var(--ink-soft); transition:transform .3s ease, color .2s ease, border-color .2s ease; }
 .cat-card.expandable.open .exp-toggle{ transform:rotate(45deg); color:var(--terracotta); border-color:var(--terracotta); }
 .cat-detail{ max-height:0; overflow:hidden; opacity:0; transition:max-height .45s ease, opacity .35s ease; }
-.cat-card.expandable.open .cat-detail{ max-height:210px; opacity:1; margin-top:9px; }
-.cat-detail ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px; }
-.cat-detail li{ font-family:var(--font); font-weight:400; font-size:16px; line-height:1.3; color:var(--ink-soft); }
+.cat-card.expandable.open .cat-detail{ max-height:260px; opacity:1; margin-top:9px; }
+.cat-detail ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:4px; }
+.cat-detail li{ font-family:var(--font); font-weight:400; font-size:16px; line-height:1.24; color:var(--ink-soft); }
 .cat-detail li b{ color:var(--ink); font-weight:700; }
 
 /* ===========================================
@@ -544,7 +546,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
     </section>
 
     <!-- ============ SLIDE 6 — CUATRO FORMAS DE CATEGORIZAR ============ -->
-    <section class="slide">
+    <section class="slide slide-cat">
       <div class="slide-content">
         <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> 04 — Categorización</div>
         <h2 class="sec reveal">Cuatro formas de <em>categorizar</em> una intervención.</h2>
