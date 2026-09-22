@@ -12,7 +12,11 @@
 
 <style>
 /* ===========================================
-   THEME — terracotta + teal "puente generacional" on warm paper
+   THEME — brand palette on warm paper
+   Exact institutional colors:
+   primary   #3E96B4 (blue) · #03C2AE (turq) · #8BB844 (green)
+   secondary #F7931E (orange) · #FFCC33 (yellow) · #ED1E79 (pink)
+             #662D91 (purple) · #3B6AF4 (royal)
    Change these variables to change the whole look.
    =========================================== */
 :root{
@@ -20,10 +24,21 @@
     --paper-2:#EAE0D0;
     --ink:#2B2420;
     --ink-soft:#5B5147;
-    --terracotta:#C1592C;
-    --terracotta-soft:#EAC7B2;
-    --teal:#1F7A6C;
-    --teal-soft:#BFE0D6;
+
+    /* brand palette */
+    --c-blue:#3E96B4;
+    --c-turq:#03C2AE;
+    --c-green:#8BB844;
+    --c-orange:#F7931E;
+    --c-yellow:#FFCC33;
+    --c-pink:#ED1E79;
+    --c-purple:#662D91;
+    --c-royal:#3B6AF4;
+
+    /* primary accent duo used throughout the deck */
+    --terracotta:var(--c-pink);
+    --terracotta-soft:#F9D3E3;
+    --teal:var(--c-blue);
     --rule:rgba(43,36,32,.16);
     --stage-bg:#1c1712;
 
@@ -141,8 +156,6 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .stat-row{ display:flex; gap:1px; margin-top:44px; background:var(--rule); border:1px solid var(--rule); }
 .stat-box{ flex:1; background:var(--paper); padding:38px 40px; }
 .stat-box b{ display:block; font-family:var(--font); font-weight:900; font-size:96px; line-height:1; }
-.stat-box b.terra{ color:var(--terracotta); }
-.stat-box b.teal{ color:var(--teal); }
 .stat-box span{ display:block; margin-top:14px; font-family:var(--font); font-weight:500; font-size:19px; color:var(--ink-soft); line-height:1.5; }
 .idx-row{ display:flex; gap:44px; margin-top:40px; align-items:flex-start; }
 .idx-box{ flex:0 0 auto; }
@@ -300,11 +313,11 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         </div>
 
         <div class="principles reveal">
-          <div class="principle"><span class="n">01</span>Reciprocidad</div>
-          <div class="principle"><span class="n">02</span>Universalidad</div>
-          <div class="principle"><span class="n">03</span>Horizontalidad</div>
-          <div class="principle"><span class="n">04</span>Participación</div>
-          <div class="principle"><span class="n">05</span>Continuidad</div>
+          <div class="principle"><span class="n" style="color:var(--c-turq)">01</span>Reciprocidad</div>
+          <div class="principle"><span class="n" style="color:var(--c-green)">02</span>Universalidad</div>
+          <div class="principle"><span class="n" style="color:var(--c-yellow)">03</span>Horizontalidad</div>
+          <div class="principle"><span class="n" style="color:var(--c-purple)">04</span>Participación</div>
+          <div class="principle"><span class="n" style="color:var(--c-royal)">05</span>Continuidad</div>
         </div>
       </div>
       <div class="foot-row" style="position:absolute;bottom:60px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">02 / 10</span></div>
@@ -317,8 +330,8 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         <h2 class="sec reveal">Jóvenes y personas mayores en <em>cifras</em>.</h2>
 
         <div class="stat-row reveal">
-          <div class="stat-box"><b class="terra">26.722</b><span>personas de 15 a 29 años<br>18,6% de la comuna</span></div>
-          <div class="stat-box"><b class="teal">23.105</b><span>personas de 65 años o más<br>16,0% de la comuna</span></div>
+          <div class="stat-box"><b style="color:var(--c-orange)">26.722</b><span>personas de 15 a 29 años<br>18,6% de la comuna</span></div>
+          <div class="stat-box"><b style="color:var(--c-purple)">23.105</b><span>personas de 65 años o más<br>16,0% de la comuna</span></div>
         </div>
 
         <div class="idx-row reveal">
@@ -380,11 +393,11 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         <p class="lede reveal" style="margin-bottom:0">Cinco componentes para diseñar experiencias intergeneracionales significativas.</p>
 
         <div class="r-grid reveal">
-          <div class="r-card"><span class="rn">R1</span><h3>Roles</h3><p>Todos los participantes deben contar con un papel asignado, claramente definido y significativo, que implique tareas comprensibles para ellos.</p></div>
-          <div class="r-card"><span class="rn">R2</span><h3>Relaciones</h3><p>Desarrollar lazos de apoyo mutuo y confianza, yendo más allá de la mera organización de un servicio.</p></div>
-          <div class="r-card"><span class="rn">R3</span><h3>Reciprocidad</h3><p>Se garantiza que todas las generaciones implicadas vivan la experiencia bidireccional de dar y recibir de personas de otros grupos de edad.</p></div>
-          <div class="r-card"><span class="rn">R4</span><h3>Reconocimiento</h3><p>Existe una valoración continua y explícita de las contribuciones de cada participante, siendo un pilar clave de motivación.</p></div>
-          <div class="r-card"><span class="rn">R5</span><h3>Capacidad de respuesta</h3><p>La intervención responde a necesidades reales y claramente identificadas en la comunidad, lo que facilita su sostenibilidad.</p></div>
+          <div class="r-card"><span class="rn" style="color:var(--c-turq)">R1</span><h3>Roles</h3><p>Todos los participantes deben contar con un papel asignado, claramente definido y significativo, que implique tareas comprensibles para ellos.</p></div>
+          <div class="r-card"><span class="rn" style="color:var(--c-green)">R2</span><h3>Relaciones</h3><p>Desarrollar lazos de apoyo mutuo y confianza, yendo más allá de la mera organización de un servicio.</p></div>
+          <div class="r-card"><span class="rn" style="color:var(--c-yellow)">R3</span><h3>Reciprocidad</h3><p>Se garantiza que todas las generaciones implicadas vivan la experiencia bidireccional de dar y recibir de personas de otros grupos de edad.</p></div>
+          <div class="r-card"><span class="rn" style="color:var(--c-purple)">R4</span><h3>Reconocimiento</h3><p>Existe una valoración continua y explícita de las contribuciones de cada participante, siendo un pilar clave de motivación.</p></div>
+          <div class="r-card"><span class="rn" style="color:var(--c-royal)">R5</span><h3>Capacidad de respuesta</h3><p>La intervención responde a necesidades reales y claramente identificadas en la comunidad, lo que facilita su sostenibilidad.</p></div>
         </div>
       </div>
       <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">05 / 10</span></div>
@@ -399,25 +412,25 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 
         <div class="cat-grid reveal">
           <div class="cat-card">
-            <span class="tag">Dirección del servicio</span>
+            <span class="tag" style="color:var(--c-turq)">Dirección del servicio</span>
             <h3>Quién sirve a quién</h3>
             <div class="sub">Se basa en quién ofrece y quién recibe la atención o ayuda.</div>
             <p>Personas mayores sirven a niños y jóvenes, niños y jóvenes sirven a personas mayores, colaboran para servir a la comunidad, o hay mutuo servicio entre generaciones.</p>
           </div>
           <div class="cat-card">
-            <span class="tag">Nivel de interacción</span>
+            <span class="tag" style="color:var(--c-green)">Nivel de interacción</span>
             <h3>Cercanía de la relación</h3>
             <div class="sub">Según MacCallum et al. y Whitehouse et al.</div>
             <p>Categoriza los programas en cuatro niveles: yuxtaposición, intersección, agrupamiento y convivencia.</p>
           </div>
           <div class="cat-card">
-            <span class="tag">Continuo de Kaplan</span>
+            <span class="tag" style="color:var(--c-royal)">Continuo de Kaplan</span>
             <h3>Intensidad del contacto</h3>
             <div class="sub">Grado de implicación y nivel de contacto</div>
             <p>Escala de 7 niveles según la intensidad y frecuencia del contacto intergeneracional.</p>
           </div>
           <div class="cat-card">
-            <span class="tag">Área temática</span>
+            <span class="tag" style="color:var(--c-purple)">Área temática</span>
             <h3>Objetivo o contenido</h3>
             <div class="sub">Área de interés del programa</div>
             <p>Clasifica las intervenciones según su objetivo: cuidado, educación, tradiciones culturales, medioambiente o apoyo comunitario a las familias, entre otros.</p>
@@ -451,11 +464,11 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         <p class="lede reveal" style="margin-bottom:0">Las intervenciones intergeneracionales pueden abordar las siguientes problemáticas.</p>
 
         <div class="ben-grid reveal">
-          <div class="ben-card"><span class="n">01</span><h3>Soledad no deseada</h3><p>Devuelve a los adultos mayores un rol activo, útil y valorado, al tiempo que brinda a las juventudes contención emocional y el apoyo de adultos significativos fuera de su entorno familiar.</p></div>
-          <div class="ben-card"><span class="n">02</span><h3>Segregación etaria</h3><p>Promueve encuentros continuados que fortalecen las habilidades sociales y comunicativas de los jóvenes e incrementan la integración y pertenencia comunitaria de las personas mayores.</p></div>
-          <div class="ben-card"><span class="n">03</span><h3>Edadismo y estigmatización estructural</h3><p>Desmonta los prejuicios y la discriminación basados en la edad en ambas direcciones.</p></div>
-          <div class="ben-card wide"><span class="n">04</span><h3>Ruptura de la transmisión cultural e histórica</h3><p>Conecta a las distintas generaciones para preservar el patrimonio intangible, la memoria local y los valores comunitarios.</p></div>
-          <div class="ben-card wide"><span class="n">05</span><h3>Ineficiencia de respuestas fragmentadas</h3><p>Propone un modelo de reciprocidad e interdependencia donde ambas partes tienen la experiencia de dar y recibir, optimizando la inversión comunitaria.</p></div>
+          <div class="ben-card"><span class="n" style="color:var(--c-pink)">01</span><h3>Soledad no deseada</h3><p>Devuelve a los adultos mayores un rol activo, útil y valorado, al tiempo que brinda a las juventudes contención emocional y el apoyo de adultos significativos fuera de su entorno familiar.</p></div>
+          <div class="ben-card"><span class="n" style="color:var(--c-orange)">02</span><h3>Segregación etaria</h3><p>Promueve encuentros continuados que fortalecen las habilidades sociales y comunicativas de los jóvenes e incrementan la integración y pertenencia comunitaria de las personas mayores.</p></div>
+          <div class="ben-card"><span class="n" style="color:var(--c-yellow)">03</span><h3>Edadismo y estigmatización estructural</h3><p>Desmonta los prejuicios y la discriminación basados en la edad en ambas direcciones.</p></div>
+          <div class="ben-card wide"><span class="n" style="color:var(--c-turq)">04</span><h3>Ruptura de la transmisión cultural e histórica</h3><p>Conecta a las distintas generaciones para preservar el patrimonio intangible, la memoria local y los valores comunitarios.</p></div>
+          <div class="ben-card wide"><span class="n" style="color:var(--c-green)">05</span><h3>Ineficiencia de respuestas fragmentadas</h3><p>Propone un modelo de reciprocidad e interdependencia donde ambas partes tienen la experiencia de dar y recibir, optimizando la inversión comunitaria.</p></div>
         </div>
       </div>
       <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">08 / 10</span></div>
@@ -502,15 +515,15 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 
         <div class="src-list reveal">
           <div class="src-item">
-            <span class="k">Población total · tramos etarios · índice de envejecimiento</span>
+            <span class="k" style="color:var(--c-blue)">Población total · tramos etarios · índice de envejecimiento</span>
             <span class="t"><b>Biblioteca del Congreso Nacional de Chile</b> — Reporte Comunal Providencia 2025, a partir del Censo de Población y Vivienda 2024 del Instituto Nacional de Estadísticas.</span>
           </div>
           <div class="src-item">
-            <span class="k">Comparación con otras comunas</span>
+            <span class="k" style="color:var(--c-turq)">Comparación con otras comunas</span>
             <span class="t"><b>Ex-Ante</b> — «Censo 2024: Providencia, Las Condes y Ñuñoa, las comunas que más envejecen en la Metropolitana» (marzo de 2025). Providencia registró el mayor índice de envejecimiento entre las comunas del Gran Santiago.</span>
           </div>
           <div class="src-item">
-            <span class="k">Categorización de la intervención</span>
+            <span class="k" style="color:var(--c-green)">Categorización de la intervención</span>
             <span class="t"><b>IMSERSO</b> — Programas intergeneracionales. Guía introductoria (Colección Manuales y Guías, 2010).</span>
           </div>
         </div>
