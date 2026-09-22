@@ -260,6 +260,8 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .act-alt{ background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:12px 20px; font-family:var(--font); font-weight:700; font-size:17px; color:var(--ink); cursor:pointer; transition:border-color .2s ease, background .2s ease, color .2s ease, transform .15s ease; }
 .act-alt:hover{ border-color:var(--terracotta); transform:translateY(-1px); }
 .act-alts.kap{ gap:8px; }
+.act-open-input{ flex:1; min-width:220px; background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:12px 16px; font-family:var(--font); font-size:17px; color:var(--ink); }
+.act-open-input:focus{ outline:none; border-color:var(--terracotta); }
 .act-alt.kap-n{ width:44px; height:44px; padding:0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; }
 .act-done{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .act-done span{ font-family:var(--font); font-weight:700; font-size:19px; color:var(--ink); }
@@ -268,6 +270,8 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .act-answered-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--paper-2); border:1px solid var(--rule); border-radius:8px; padding:10px 18px; font-family:var(--font); font-size:15px; }
 .act-answered-row .q{ color:var(--ink-soft); font-weight:600; }
 .act-answered-row .a{ color:var(--terracotta); font-weight:800; text-align:right; }
+.act-answered-row.open{ flex-direction:column; align-items:flex-start; gap:4px; }
+.act-answered-row.open .a{ color:var(--ink); font-weight:600; text-align:left; font-style:italic; }
 .act-photos{ flex:1; margin-top:0; }
 .act-photos img{ height:340px; }
 
@@ -739,7 +743,7 @@ class SlidePresentation {
 
     setupKeyboardNav() {
         document.addEventListener('keydown', (e) => {
-            if (e.target.getAttribute('contenteditable') === 'true') return;
+            if (e.target.getAttribute('contenteditable') === 'true' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); this.next(); }
             else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); this.prev(); }
         });
@@ -963,7 +967,8 @@ new SlidePresentation();
         { q: '¿Quién sirve a quién?', alts: ['Mayores → jóvenes', 'Jóvenes → mayores', 'Ambos → comunidad', 'Mutuo servicio'] },
         { q: '¿Qué cercanía hubo?', alts: ['Yuxtaposición', 'Intersección', 'Agrupamiento', 'Convivencia'] },
         { q: '¿Qué intensidad de contacto?', alts: ['1', '2', '3', '4', '5', '6', '7'], kap: true },
-        { q: '¿Qué objetivo abordó?', alts: ['Cuidado', 'Educación', 'Tradiciones culturales', 'Medioambiente', 'Apoyo a familias'] }
+        { q: '¿Qué objetivo abordó?', alts: ['Cuidado', 'Educación', 'Tradiciones culturales', 'Medioambiente', 'Apoyo a familias'] },
+        { q: '¿Qué tipos buscamos realizar?', open: true }
     ];
     let i = 0;
 
@@ -977,8 +982,31 @@ new SlidePresentation();
         const item = QUESTIONS[i];
         stepEl.textContent = 'Pregunta ' + (i + 1) + ' de ' + QUESTIONS.length;
         qEl.textContent = item.q;
-        altsEl.className = 'act-alts' + (item.kap ? ' kap' : '');
         altsEl.innerHTML = '';
+        if (item.open) {
+            altsEl.className = 'act-alts act-open';
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'act-open-input';
+            input.placeholder = 'Escribe la respuesta…';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'act-alt';
+            btn.textContent = 'Listo';
+            const submit = () => {
+                const val = input.value.trim();
+                if (val) choose(item, val);
+            };
+            btn.addEventListener('click', submit);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { e.preventDefault(); submit(); }
+            });
+            altsEl.appendChild(input);
+            altsEl.appendChild(btn);
+            input.focus();
+            return;
+        }
+        altsEl.className = 'act-alts' + (item.kap ? ' kap' : '');
         item.alts.forEach((alt) => {
             const b = document.createElement('button');
             b.type = 'button';
@@ -991,7 +1019,7 @@ new SlidePresentation();
 
     function choose(item, alt) {
         const row = document.createElement('div');
-        row.className = 'act-answered-row';
+        row.className = 'act-answered-row' + (item.open ? ' open' : '');
         const q = document.createElement('span');
         q.className = 'q';
         q.textContent = item.q;
