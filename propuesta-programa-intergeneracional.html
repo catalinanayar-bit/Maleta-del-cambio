@@ -105,28 +105,28 @@ img, video, canvas, svg{ max-width:100%; max-height:100%; }
 /* ===========================================
    TYPOGRAPHY SCALE
    =========================================== */
-.kicker{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.16em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:14px; }
+.kicker{ font-family:var(--font); font-weight:700; font-size:19px; letter-spacing:.15em; text-transform:uppercase; color:var(--teal); display:flex; align-items:center; gap:14px; }
 .kicker .num{ color:var(--terracotta); }
 
 h1.title{ font-family:var(--font); font-weight:800; font-size:108px; line-height:1.02; letter-spacing:-.01em; color:var(--ink); max-width:1420px; }
 h1.title .em-teal{ color:var(--teal); font-weight:800; }
 h1.title .em-terra{ color:var(--terracotta); font-weight:800; }
 
-h2.sec{ font-family:var(--font); font-weight:800; font-size:78px; line-height:1.05; letter-spacing:-.01em; color:var(--ink); max-width:1300px; margin-top:20px; }
+h2.sec{ font-family:var(--font); font-weight:800; font-size:84px; line-height:1.04; letter-spacing:-.01em; color:var(--ink); max-width:1340px; margin-top:20px; }
 h2.sec em{ font-style:normal; color:var(--terracotta); }
 
-.lede{ font-family:var(--font); font-weight:400; font-size:27px; line-height:1.55; color:var(--ink-soft); max-width:1040px; margin-top:28px; }
+.lede{ font-family:var(--font); font-weight:400; font-size:30px; line-height:1.5; color:var(--ink-soft); max-width:1100px; margin-top:28px; }
 
-.footnote{ font-family:var(--font); font-weight:500; font-size:14px; line-height:1.6; color:var(--ink-soft); }
+.footnote{ font-family:var(--font); font-weight:500; font-size:16px; line-height:1.6; color:var(--ink-soft); }
 
 /* ===========================================
    SHARED SLIDE CHROME
    =========================================== */
 .slide-content{ position:absolute; left:130px; right:130px; top:96px; bottom:96px; }
 .top-row{ position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; }
-.top-row .org{ font-family:var(--font); font-weight:600; font-size:15px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); }
+.top-row .org{ font-family:var(--font); font-weight:600; font-size:17px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-soft); }
 .rule{ position:absolute; left:0; right:0; height:1px; background:var(--rule); }
-.foot-row{ position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; font-family:var(--font); font-weight:500; font-size:14px; letter-spacing:.06em; color:var(--ink-soft); }
+.foot-row{ position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; font-family:var(--font); font-weight:500; font-size:16px; letter-spacing:.06em; color:var(--ink-soft); }
 .foot-row .page{ font-weight:800; color:var(--terracotta); }
 
 /* ===========================================
@@ -134,38 +134,38 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
    =========================================== */
 .slide-title .slide-content{ top:0; bottom:0; display:flex; flex-direction:column; justify-content:center; }
 .slide-title .bridge-device{ position:absolute; top:90px; right:130px; }
-.slide-title .title-sub{ margin-top:34px; max-width:900px; padding-left:26px; border-left:3px solid var(--terracotta); font-family:var(--font); font-weight:400; font-size:25px; line-height:1.6; color:var(--ink-soft); }
+.slide-title .title-sub{ margin-top:34px; max-width:960px; padding-left:26px; border-left:3px solid var(--terracotta); font-family:var(--font); font-weight:400; font-size:29px; line-height:1.55; color:var(--ink-soft); }
 
 /* ===========================================
    SLIDE 2 — QUÉ ES
    =========================================== */
-.infinity-wrap{ margin-top:36px; max-width:640px; }
+.infinity-wrap{ margin-top:36px; max-width:680px; }
 .infinity-wrap svg{ width:100%; height:auto; display:block; overflow:visible; }
 .inf-loop{ fill:none; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; }
 .inf-loop.terra{ stroke:var(--terracotta); }
 .inf-loop.teal{ stroke:var(--teal); animation-delay:.25s; }
 .slide.visible .inf-loop{ animation:drawInf 1.6s cubic-bezier(.3,.6,.3,1) forwards; }
 @keyframes drawInf{ to{ stroke-dashoffset:0; } }
-.inf-label{ font-family:var(--font); font-weight:800; font-size:24px; fill:var(--ink); opacity:0; }
+.inf-label{ font-family:var(--font); font-weight:800; font-size:26px; fill:var(--ink); opacity:0; }
 .inf-label.teal-text{ fill:var(--teal); }
 .slide.visible .inf-label{ animation:fadeUp .8s ease 1.3s forwards; }
 .principles{ margin-top:38px; display:flex; gap:20px; flex-wrap:wrap; }
-.principle{ background:var(--paper-2); border:1px solid var(--rule); border-radius:44px; padding:20px 36px; font-family:var(--font); font-weight:700; font-size:22px; color:var(--ink); }
+.principle{ background:var(--paper-2); border:1px solid var(--rule); border-radius:46px; padding:21px 38px; font-family:var(--font); font-weight:700; font-size:24px; color:var(--ink); }
 .principle .n{ color:var(--terracotta); font-weight:800; margin-right:8px; }
 
 /* ===========================================
    SLIDE 3 — CIFRAS
    =========================================== */
-.cifras-row{ display:flex; gap:64px; margin-top:24px; align-items:flex-start; }
+.cifras-row{ display:flex; gap:56px; margin-top:14px; align-items:flex-start; }
 .cifras-chart{ flex:0 0 auto; }
 .cifras-side{ flex:1; display:flex; flex-direction:column; gap:22px; padding-top:36px; min-width:0; }
 
-.pie-chart{ cursor:pointer; width:480px; }
-.pie-chart svg{ width:480px; height:480px; display:block; }
-.pie-hint{ margin-top:12px; font-family:var(--font); font-weight:600; font-size:14px; color:var(--ink-soft); }
+.pie-chart{ cursor:pointer; width:450px; }
+.pie-chart svg{ width:450px; height:450px; display:block; }
+.pie-hint{ margin-top:8px; font-family:var(--font); font-weight:600; font-size:16px; color:var(--ink-soft); }
 .pie-hint::after{ content:' →'; }
-.pie-legend{ margin-top:10px; display:flex; flex-wrap:wrap; gap:6px 22px; max-width:480px; }
-.pie-legend .row{ display:flex; align-items:center; gap:9px; font-family:var(--font); font-weight:500; font-size:14px; color:var(--ink-soft); }
+.pie-legend{ margin-top:6px; display:flex; flex-wrap:wrap; gap:5px 22px; max-width:450px; }
+.pie-legend .row{ display:flex; align-items:center; gap:9px; font-family:var(--font); font-weight:500; font-size:15px; color:var(--ink-soft); }
 .pie-legend .sw{ width:12px; height:12px; border-radius:3px; flex:0 0 auto; }
 .pie-legend b{ color:var(--ink); font-weight:700; }
 
@@ -176,52 +176,52 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .slide.visible .pie-label{ animation:fadeUp .6s ease .75s forwards; }
 .pie-label.big{ font-size:23px; fill:#fff; }
 .pie-label.big .grp{ font-family:var(--font); font-weight:600; font-size:12.5px; letter-spacing:.05em; text-transform:uppercase; }
-.pie-label.soft{ font-size:15px; fill:var(--ink-soft); font-weight:700; }
+.pie-label.soft{ font-size:17px; fill:var(--ink-soft); font-weight:700; }
 
 .idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:84px; line-height:1; color:var(--ink); }
-.idx-box p{ margin-top:10px; font-family:var(--font); font-weight:400; font-size:17px; color:var(--ink-soft); max-width:38ch; }
+.idx-box p{ margin-top:10px; font-family:var(--font); font-weight:400; font-size:19px; color:var(--ink-soft); max-width:38ch; }
 .callout{ border:1px solid var(--terracotta); background:var(--terracotta-soft); border-radius:6px; padding:22px 26px; }
-.callout-kicker{ display:block; font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:8px; }
+.callout-kicker{ display:block; font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:8px; }
 .callout b{ display:block; font-family:var(--font); font-weight:900; font-size:66px; line-height:1; color:var(--terracotta); }
-.callout p{ margin-top:8px; font-family:var(--font); font-weight:500; font-size:16px; color:var(--ink); max-width:56ch; }
+.callout p{ margin-top:8px; font-family:var(--font); font-weight:500; font-size:18px; color:var(--ink); max-width:56ch; }
 
 .desafios-reveal{ max-height:0; overflow:hidden; opacity:0; transition:max-height .5s ease, opacity .4s ease; }
 .desafios-reveal.show{ max-height:220px; opacity:1; }
 .desafios-reveal .dr-label{ display:block; font-family:var(--font); font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:10px; }
 .desafios-reveal ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
-.desafios-reveal li{ font-family:var(--font); font-weight:600; font-size:18px; color:var(--ink); border-left:3px dotted var(--terracotta); padding-left:14px; }
+.desafios-reveal li{ font-family:var(--font); font-weight:600; font-size:20px; color:var(--ink); border-left:3px dotted var(--terracotta); padding-left:14px; }
 
 /* ===========================================
    SLIDE 4 — CONTEXTO Y DESAFÍOS
    =========================================== */
 .ctx-grid{ display:flex; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:52px; }
 .ctx-card{ flex:1; background:var(--paper); padding:36px 32px; }
-.ctx-card .tag{ font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); }
-.ctx-card h3{ font-family:var(--font); font-weight:700; font-size:27px; margin:12px 0 12px; color:var(--ink); }
-.ctx-card p{ font-family:var(--font); font-weight:400; font-size:18px; color:var(--ink-soft); line-height:1.5; }
+.ctx-card .tag{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.09em; text-transform:uppercase; color:var(--teal); }
+.ctx-card h3{ font-family:var(--font); font-weight:700; font-size:29px; margin:14px 0 12px; color:var(--ink); }
+.ctx-card p{ font-family:var(--font); font-weight:400; font-size:19px; color:var(--ink-soft); line-height:1.5; }
 .desafios{ margin-top:36px; }
-.desafios .label{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); }
+.desafios .label{ font-family:var(--font); font-weight:700; font-size:18px; letter-spacing:.09em; text-transform:uppercase; color:var(--terracotta); }
 .chip-row{ margin-top:16px; display:flex; gap:16px; flex-wrap:wrap; }
-.chip{ background:var(--ink); color:var(--paper); font-family:var(--font); font-weight:700; font-size:19px; padding:14px 28px; border-radius:8px; }
+.chip{ background:var(--ink); color:var(--paper); font-family:var(--font); font-weight:700; font-size:21px; padding:15px 30px; border-radius:8px; }
 
 /* ===========================================
    SLIDE 5 — MODELO 5R
    =========================================== */
 .r-grid{ display:flex; gap:1px; margin-top:60px; background:var(--rule); border:1px solid var(--rule); }
 .r-card{ flex:1; background:var(--paper); padding:40px 26px; }
-.r-card .rn{ font-family:var(--font); font-weight:900; font-size:42px; color:var(--terracotta); }
-.r-card h3{ font-family:var(--font); font-weight:700; font-size:26px; margin:16px 0 14px; color:var(--ink); }
-.r-card p{ font-family:var(--font); font-weight:400; font-size:17px; line-height:1.5; color:var(--ink-soft); }
+.r-card .rn{ font-family:var(--font); font-weight:900; font-size:46px; color:var(--terracotta); }
+.r-card h3{ font-family:var(--font); font-weight:700; font-size:28px; margin:16px 0 14px; color:var(--ink); }
+.r-card p{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.48; color:var(--ink-soft); }
 
 /* ===========================================
    SLIDE 6 — CATEGORIZACIÓN
    =========================================== */
 .cat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:52px; background:var(--rule); border:1px solid var(--rule); }
 .cat-card{ background:var(--paper); padding:38px 38px; }
-.cat-card .tag{ font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); }
-.cat-card h3{ font-family:var(--font); font-weight:800; font-size:32px; margin:10px 0 8px; color:var(--ink); }
-.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:18px; color:var(--terracotta); margin-bottom:12px; }
-.cat-card p{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.45; color:var(--ink-soft); }
+.cat-card .tag{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.09em; text-transform:uppercase; color:var(--teal); }
+.cat-card h3{ font-family:var(--font); font-weight:800; font-size:34px; margin:10px 0 8px; color:var(--ink); }
+.cat-card .sub{ font-family:var(--font); font-weight:600; font-size:19px; color:var(--terracotta); margin-bottom:12px; }
+.cat-card p{ font-family:var(--font); font-weight:400; font-size:19px; line-height:1.42; color:var(--ink-soft); }
 
 /* ===========================================
    SLIDE 7 — BUENAS PRÁCTICAS: GENERACIONES AL PLATO
@@ -231,7 +231,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .bp-photos img{ width:100%; height:460px; object-fit:cover; border-radius:10px; display:block; }
 .bp-photos .p1 img{ border:4px solid var(--terracotta); }
 .bp-photos .p2 img{ border:4px solid var(--teal); }
-.bp-caption{ margin-top:22px; font-family:var(--font); font-weight:500; font-size:17px; color:var(--ink-soft); }
+.bp-caption{ margin-top:22px; font-family:var(--font); font-weight:500; font-size:19px; color:var(--ink-soft); }
 .bp-caption b{ color:var(--ink); font-weight:800; }
 
 /* ===========================================
@@ -239,9 +239,9 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
    =========================================== */
 .ben-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:1px; margin-top:52px; background:var(--rule); border:1px solid var(--rule); }
 .ben-card{ grid-column:span 2; background:var(--paper); padding:32px 30px; }
-.ben-card .n{ font-family:var(--font); font-weight:900; font-size:32px; color:var(--terracotta); }
-.ben-card h3{ font-family:var(--font); font-weight:700; font-size:23px; margin:12px 0 10px; color:var(--ink); line-height:1.25; }
-.ben-card p{ font-family:var(--font); font-weight:400; font-size:17px; line-height:1.45; color:var(--ink-soft); }
+.ben-card .n{ font-family:var(--font); font-weight:900; font-size:34px; color:var(--terracotta); }
+.ben-card h3{ font-family:var(--font); font-weight:700; font-size:25px; margin:12px 0 10px; color:var(--ink); line-height:1.22; }
+.ben-card p{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.4; color:var(--ink-soft); }
 .ben-card.wide{ grid-column:span 3; }
 
 /* ===========================================
@@ -250,23 +250,23 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .obs-table{ margin-top:52px; border:1px solid var(--rule); }
 .obs-row{ display:flex; border-bottom:1px solid var(--rule); }
 .obs-row:last-child{ border-bottom:0; }
-.obs-dim{ width:380px; flex:0 0 auto; background:var(--paper-2); padding:32px 30px; font-family:var(--font); font-weight:800; font-size:26px; color:var(--ink); border-right:1px solid var(--rule); display:flex; align-items:center; }
+.obs-dim{ width:400px; flex:0 0 auto; background:var(--paper-2); padding:32px 30px; font-family:var(--font); font-weight:800; font-size:28px; color:var(--ink); border-right:1px solid var(--rule); display:flex; align-items:center; }
 .obs-conduct{ flex:1; padding:28px 34px; display:flex; flex-direction:column; gap:14px; justify-content:center; }
-.obs-conduct .c{ font-family:var(--font); font-weight:400; font-size:20px; color:var(--ink-soft); line-height:1.4; }
+.obs-conduct .c{ font-family:var(--font); font-weight:400; font-size:21px; color:var(--ink-soft); line-height:1.4; }
 .obs-conduct .c::before{ content:'—'; color:var(--terracotta); margin-right:10px; font-weight:700; }
 
 /* ===========================================
    SLIDE 9 — CIERRE Y FUENTES
    =========================================== */
-.close-quote{ font-family:var(--font); font-weight:600; font-size:42px; line-height:1.35; color:var(--ink); max-width:1250px; margin-top:8px; }
+.close-quote{ font-family:var(--font); font-weight:600; font-size:46px; line-height:1.32; color:var(--ink); max-width:1300px; margin-top:8px; }
 .close-quote em{ color:var(--teal); font-style:normal; font-weight:800; }
 .close-quote .em-t{ color:var(--terracotta); font-style:normal; font-weight:800; }
 .src-list{ margin-top:52px; border-top:1px solid var(--rule); }
 .src-item{ padding:18px 0; border-bottom:1px solid var(--rule); }
-.src-item .k{ font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); display:block; margin-bottom:6px; }
-.src-item .t{ font-family:var(--font); font-weight:400; font-size:18px; color:var(--ink-soft); line-height:1.45; }
+.src-item .k{ font-family:var(--font); font-weight:700; font-size:16px; letter-spacing:.07em; text-transform:uppercase; color:var(--teal); display:block; margin-bottom:6px; }
+.src-item .t{ font-family:var(--font); font-weight:400; font-size:19px; color:var(--ink-soft); line-height:1.45; }
 .src-item .t b{ font-weight:700; color:var(--ink); }
-.close-note{ margin-top:26px; font-family:var(--font); font-weight:500; font-size:14px; color:var(--ink-soft); }
+.close-note{ margin-top:26px; font-family:var(--font); font-weight:500; font-size:16px; color:var(--ink-soft); }
 
 /* ===========================================
    DECK CONTROLS — progress dots, outside the slide stage
@@ -401,7 +401,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
             </div>
           </div>
         </div>
-        <p class="footnote reveal" style="margin-top:20px">Fuente: Censo 2024 (INE), vía Reporte Comunal Providencia 2025 de la Biblioteca del Congreso Nacional. Ver fuentes completas al cierre.</p>
+        <p class="footnote reveal" style="margin-top:6px">Fuente: Censo 2024 (INE), vía Reporte Comunal Providencia 2025 de la Biblioteca del Congreso Nacional. Ver fuentes completas al cierre.</p>
       </div>
       <div class="foot-row" style="position:absolute;bottom:56px;left:130px;right:130px;"><span>Propuesta Programa Intergeneracional</span><span class="page">03 / 10</span></div>
     </section>
