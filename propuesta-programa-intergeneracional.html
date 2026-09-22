@@ -484,7 +484,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
     <section class="slide">
       <div class="slide-content">
         <div class="kicker reveal" style="margin-top:36px"><span class="mark"><span class="c a"></span><span class="c b"></span></span> Contexto y desafíos identificados</div>
-        <h2 class="sec reveal">De dónde partimos.</h2>
+        <h2 class="sec reveal">Lo que sabemos.</h2>
 
         <div class="ctx-grid reveal">
           <div class="ctx-card">
@@ -511,6 +511,14 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
             <span class="chip">Edadismo</span>
             <span class="chip">Cambios en las estructuras familiares</span>
             <button type="button" class="chip-add" id="chipAdd" title="Agregar un desafío (doble clic sobre un chip para eliminarlo)">+ Agregar</button>
+          </div>
+        </div>
+
+        <div class="desafios reveal">
+          <span class="label">Factores por conocer</span>
+          <div class="chip-row" id="chipRow2">
+            <span class="chip">Qué programas ya tienen enfoque intergeneracional</span>
+            <button type="button" class="chip-add" id="chipAdd2" title="Agregar un factor (doble clic sobre un chip para eliminarlo)">+ Agregar</button>
           </div>
         </div>
       </div>
@@ -971,9 +979,9 @@ new SlidePresentation();
    Click "+ Agregar" to create a new editable chip.
    Double-click any chip to remove it.
    =========================================== */
-(function () {
-    const row = document.getElementById('chipRow');
-    const addBtn = document.getElementById('chipAdd');
+function wireChipRow(rowId, addBtnId, newChipText) {
+    const row = document.getElementById(rowId);
+    const addBtn = document.getElementById(addBtnId);
     if (!row || !addBtn) return;
     const selectText = (el) => {
         el.focus();
@@ -987,7 +995,7 @@ new SlidePresentation();
         const chip = document.createElement('span');
         chip.className = 'chip';
         chip.contentEditable = 'true';
-        chip.textContent = 'Nuevo desafío';
+        chip.textContent = newChipText;
         row.insertBefore(chip, addBtn);
         selectText(chip);
         chip.addEventListener('blur', () => {
@@ -1001,7 +1009,9 @@ new SlidePresentation();
         const chip = e.target.closest('.chip');
         if (chip) chip.remove();
     });
-})();
+}
+wireChipRow('chipRow', 'chipAdd', 'Nuevo desafío');
+wireChipRow('chipRow2', 'chipAdd2', 'Nuevo factor');
 
 /* ===========================================
    OBJETIVOS ESPECÍFICOS (Slide 8B) — add / remove,
