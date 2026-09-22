@@ -156,17 +156,17 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    SLIDE 3 — CIFRAS
    =========================================== */
-.cifras-row{ display:flex; gap:56px; margin-top:6px; align-items:flex-start; }
+.cifras-row{ display:flex; gap:64px; margin-top:0; align-items:flex-start; }
 .cifras-chart{ flex:0 0 auto; }
-.cifras-side{ flex:1; display:flex; flex-direction:column; gap:22px; padding-top:36px; min-width:0; }
+.cifras-side{ flex:1; display:flex; flex-direction:column; gap:18px; padding-top:14px; min-width:0; }
 
-.pie-chart{ cursor:pointer; width:420px; }
-.pie-chart svg{ width:420px; height:420px; display:block; }
-.pie-hint{ margin-top:8px; font-family:var(--font); font-weight:600; font-size:18px; color:var(--ink-soft); }
+.pie-chart{ cursor:pointer; width:465px; }
+.pie-chart svg{ width:465px; height:465px; display:block; }
+.pie-hint{ margin-top:2px; font-family:var(--font); font-weight:600; font-size:22px; color:var(--ink-soft); }
 .pie-hint::after{ content:' →'; }
-.pie-legend{ margin-top:6px; display:flex; flex-wrap:wrap; gap:5px 22px; max-width:450px; }
-.pie-legend .row{ display:flex; align-items:center; gap:9px; font-family:var(--font); font-weight:500; font-size:17px; color:var(--ink-soft); }
-.pie-legend .sw{ width:12px; height:12px; border-radius:3px; flex:0 0 auto; }
+.pie-legend{ margin-top:3px; display:flex; flex-wrap:wrap; gap:2px 26px; max-width:500px; }
+.pie-legend .row{ display:flex; align-items:center; gap:10px; line-height:1.15; font-family:var(--font); font-weight:500; font-size:20px; color:var(--ink-soft); }
+.pie-legend .sw{ width:14px; height:14px; border-radius:3px; flex:0 0 auto; }
 .pie-legend b{ color:var(--ink); font-weight:700; }
 
 .pie-chart svg path.wedge{ transform-box:view-box; transform-origin:160px 160px; opacity:0; transform:scale(.2) rotate(-14deg); }
@@ -174,22 +174,22 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 @keyframes fanOpen{ to{ opacity:1; transform:scale(1) rotate(0deg); } }
 .pie-label{ font-family:var(--font); font-weight:800; text-anchor:middle; opacity:0; }
 .slide.visible .pie-label{ animation:fadeUp .6s ease .75s forwards; }
-.pie-label.big{ font-size:25px; fill:#fff; }
-.pie-label.big .grp{ font-family:var(--font); font-weight:600; font-size:12.5px; letter-spacing:.05em; text-transform:uppercase; }
-.pie-label.soft{ font-size:19px; fill:var(--ink-soft); font-weight:700; }
+.pie-label.big{ font-size:31px; fill:#fff; }
+.pie-label.big .grp{ font-family:var(--font); font-weight:600; font-size:15.5px; letter-spacing:.05em; text-transform:uppercase; }
+.pie-label.soft{ font-size:24px; fill:var(--ink-soft); font-weight:700; }
 
-.idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:84px; line-height:1; color:var(--ink); }
-.idx-box p{ margin-top:10px; font-family:var(--font); font-weight:400; font-size:21px; color:var(--ink-soft); max-width:38ch; }
+.idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:104px; line-height:1; color:var(--ink); }
+.idx-box p{ margin-top:10px; font-family:var(--font); font-weight:400; font-size:26px; line-height:1.35; color:var(--ink-soft); max-width:42ch; }
 .callout{ border:1px solid var(--terracotta); background:var(--terracotta-soft); border-radius:6px; padding:22px 26px; }
-.callout-kicker{ display:block; font-family:var(--font); font-weight:700; font-size:18px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:8px; }
-.callout b{ display:block; font-family:var(--font); font-weight:900; font-size:66px; line-height:1; color:var(--terracotta); }
-.callout p{ margin-top:8px; font-family:var(--font); font-weight:500; font-size:20px; color:var(--ink); max-width:56ch; }
+.callout-kicker{ display:block; font-family:var(--font); font-weight:700; font-size:21px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:8px; }
+.callout b{ display:block; font-family:var(--font); font-weight:900; font-size:82px; line-height:1; color:var(--terracotta); }
+.callout p{ margin-top:8px; font-family:var(--font); font-weight:500; font-size:25px; line-height:1.35; color:var(--ink); max-width:56ch; }
 
 .desafios-reveal{ max-height:0; overflow:hidden; opacity:0; transition:max-height .5s ease, opacity .4s ease; }
-.desafios-reveal.show{ max-height:220px; opacity:1; }
-.desafios-reveal .dr-label{ display:block; font-family:var(--font); font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:10px; }
-.desafios-reveal ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
-.desafios-reveal li{ font-family:var(--font); font-weight:600; font-size:22px; color:var(--ink); border-left:3px dotted var(--terracotta); padding-left:14px; }
+.desafios-reveal.show{ max-height:130px; opacity:1; }
+.desafios-reveal .dr-label{ display:block; font-family:var(--font); font-weight:700; font-size:15px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:6px; }
+.desafios-reveal ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+.desafios-reveal li{ font-family:var(--font); font-weight:600; font-size:22px; line-height:1.15; color:var(--ink); border-left:3px dotted var(--terracotta); padding-left:14px; }
 
 /* ===========================================
    SLIDE 4 — CONTEXTO Y DESAFÍOS
@@ -364,11 +364,11 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
                 <path class="wedge" style="animation-delay:.27s" fill="#D8CDB8" d="M160,160 L291.86,207.04 A140,140 0 0 1 65.29,263.10 Z"/>
                 <path class="wedge" style="animation-delay:.38s" fill="#C2B59C" d="M160,160 L65.29,263.10 A140,140 0 0 1 41.57,85.34 Z"/>
                 <path class="wedge" style="animation-delay:.49s" fill="var(--c-purple)" d="M160,160 L41.57,85.34 A140,140 0 0 1 160.00,20.00 Z"/>
-                <text class="pie-label soft" x="191.7" y="82">11,9%</text>
-                <text class="pie-label big" x="244.3" y="132">18,6%</text>
-                <text class="pie-label big grp" x="244.3" y="150">Jóvenes</text>
-                <text class="pie-label big" x="118.1" y="78">16,0%</text>
-                <text class="pie-label big grp" x="118.1" y="96">Mayores</text>
+                <text class="pie-label soft" x="188.5" y="45.5">11,9%</text>
+                <text class="pie-label big" x="248" y="138">18,6%</text>
+                <text class="pie-label big grp" x="248" y="160">Jóvenes</text>
+                <text class="pie-label big" x="102.5" y="60.4">16,0%</text>
+                <text class="pie-label big grp" x="102.5" y="90.4">Mayores</text>
               </svg>
             </div>
             <p class="pie-hint">Toca el gráfico para ver los desafíos</p>
@@ -403,7 +403,7 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         </div>
         <p class="footnote reveal" style="margin-top:0px">Fuente: Censo 2024 (INE), vía Reporte Comunal Providencia 2025 de la Biblioteca del Congreso Nacional. Ver fuentes completas al cierre.</p>
       </div>
-      <div class="foot-row" style="position:absolute;bottom:56px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">03 / 10</span></div>
+      <div class="foot-row" style="position:absolute;bottom:44px;left:96px;right:96px;"><span>Propuesta Programa Intergeneracional</span><span class="page">03 / 10</span></div>
     </section>
 
     <!-- ============ SLIDE 4 — CONTEXTO Y DESAFÍOS ============ -->
