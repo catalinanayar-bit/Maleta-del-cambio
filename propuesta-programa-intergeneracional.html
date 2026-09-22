@@ -141,12 +141,14 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
    =========================================== */
 .infinity-wrap{ margin-top:36px; max-width:640px; }
 .infinity-wrap svg{ width:100%; height:auto; display:block; overflow:visible; }
-.inf-loop{ fill:none; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; animation:drawInf 1.6s cubic-bezier(.3,.6,.3,1) forwards; }
+.inf-loop{ fill:none; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; }
 .inf-loop.terra{ stroke:var(--terracotta); }
 .inf-loop.teal{ stroke:var(--teal); animation-delay:.25s; }
+.slide.visible .inf-loop{ animation:drawInf 1.6s cubic-bezier(.3,.6,.3,1) forwards; }
 @keyframes drawInf{ to{ stroke-dashoffset:0; } }
-.inf-label{ font-family:var(--font); font-weight:800; font-size:24px; fill:var(--ink); opacity:0; animation:fadeUp .8s ease 1.3s forwards; }
+.inf-label{ font-family:var(--font); font-weight:800; font-size:24px; fill:var(--ink); opacity:0; }
 .inf-label.teal-text{ fill:var(--teal); }
+.slide.visible .inf-label{ animation:fadeUp .8s ease 1.3s forwards; }
 .principles{ margin-top:38px; display:flex; gap:20px; flex-wrap:wrap; }
 .principle{ background:var(--paper-2); border:1px solid var(--rule); border-radius:44px; padding:20px 36px; font-family:var(--font); font-weight:700; font-size:22px; color:var(--ink); }
 .principle .n{ color:var(--terracotta); font-weight:800; margin-right:8px; }
@@ -167,17 +169,21 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .pie-legend .sw{ width:12px; height:12px; border-radius:3px; flex:0 0 auto; }
 .pie-legend b{ color:var(--ink); font-weight:700; }
 
-.pie-label{ font-family:var(--font); font-weight:800; text-anchor:middle; }
+.pie-chart svg path.wedge{ transform-box:view-box; transform-origin:160px 160px; opacity:0; transform:scale(.2) rotate(-14deg); }
+.slide.visible .pie-chart svg path.wedge{ animation:fanOpen .6s cubic-bezier(.22,.85,.3,1) forwards; }
+@keyframes fanOpen{ to{ opacity:1; transform:scale(1) rotate(0deg); } }
+.pie-label{ font-family:var(--font); font-weight:800; text-anchor:middle; opacity:0; }
+.slide.visible .pie-label{ animation:fadeUp .6s ease .75s forwards; }
 .pie-label.big{ font-size:23px; fill:#fff; }
 .pie-label.big .grp{ font-family:var(--font); font-weight:600; font-size:12.5px; letter-spacing:.05em; text-transform:uppercase; }
 .pie-label.soft{ font-size:15px; fill:var(--ink-soft); font-weight:700; }
 
-.idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:52px; color:var(--ink); }
-.idx-box p{ margin-top:6px; font-family:var(--font); font-weight:400; font-size:15px; color:var(--ink-soft); max-width:36ch; }
-.callout{ border:1px solid var(--terracotta); background:var(--terracotta-soft); border-radius:6px; padding:20px 24px; }
-.callout-kicker{ display:block; font-family:var(--font); font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:8px; }
-.callout b{ display:block; font-family:var(--font); font-weight:900; font-size:40px; color:var(--terracotta); }
-.callout p{ margin-top:6px; font-family:var(--font); font-weight:500; font-size:15px; color:var(--ink); max-width:56ch; }
+.idx-box b{ display:block; font-family:var(--font); font-weight:900; font-size:84px; line-height:1; color:var(--ink); }
+.idx-box p{ margin-top:10px; font-family:var(--font); font-weight:400; font-size:17px; color:var(--ink-soft); max-width:38ch; }
+.callout{ border:1px solid var(--terracotta); background:var(--terracotta-soft); border-radius:6px; padding:22px 26px; }
+.callout-kicker{ display:block; font-family:var(--font); font-weight:700; font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:8px; }
+.callout b{ display:block; font-family:var(--font); font-weight:900; font-size:66px; line-height:1; color:var(--terracotta); }
+.callout p{ margin-top:8px; font-family:var(--font); font-weight:500; font-size:16px; color:var(--ink); max-width:56ch; }
 
 .desafios-reveal{ max-height:0; overflow:hidden; opacity:0; transition:max-height .5s ease, opacity .4s ease; }
 .desafios-reveal.show{ max-height:220px; opacity:1; }
@@ -353,11 +359,11 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           <div class="cifras-chart">
             <div class="pie-chart" id="pieChart" role="button" tabindex="0" aria-expanded="false" aria-controls="desafiosReveal">
               <svg viewBox="0 0 320 320" role="img" aria-label="Gráfico de torta: distribución de la población de Providencia por tramo de edad, Censo 2024">
-                <path fill="var(--c-yellow)" d="M160,160 L160.00,20.00 A140,140 0 0 1 255.15,57.30 Z"/>
-                <path fill="var(--c-orange)" d="M160,160 L255.15,57.30 A140,140 0 0 1 291.86,207.04 Z"/>
-                <path fill="#D8CDB8" d="M160,160 L291.86,207.04 A140,140 0 0 1 65.29,263.10 Z"/>
-                <path fill="#C2B59C" d="M160,160 L65.29,263.10 A140,140 0 0 1 41.57,85.34 Z"/>
-                <path fill="var(--c-purple)" d="M160,160 L41.57,85.34 A140,140 0 0 1 160.00,20.00 Z"/>
+                <path class="wedge" style="animation-delay:.05s" fill="var(--c-yellow)" d="M160,160 L160.00,20.00 A140,140 0 0 1 255.15,57.30 Z"/>
+                <path class="wedge" style="animation-delay:.16s" fill="var(--c-orange)" d="M160,160 L255.15,57.30 A140,140 0 0 1 291.86,207.04 Z"/>
+                <path class="wedge" style="animation-delay:.27s" fill="#D8CDB8" d="M160,160 L291.86,207.04 A140,140 0 0 1 65.29,263.10 Z"/>
+                <path class="wedge" style="animation-delay:.38s" fill="#C2B59C" d="M160,160 L65.29,263.10 A140,140 0 0 1 41.57,85.34 Z"/>
+                <path class="wedge" style="animation-delay:.49s" fill="var(--c-purple)" d="M160,160 L41.57,85.34 A140,140 0 0 1 160.00,20.00 Z"/>
                 <text class="pie-label soft" x="191.7" y="82">11,9%</text>
                 <text class="pie-label big" x="244.3" y="132">18,6%</text>
                 <text class="pie-label big grp" x="244.3" y="150">Jóvenes</text>
