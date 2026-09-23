@@ -319,13 +319,21 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    SLIDE 8 — PAUTA DE OBSERVACIÓN
    =========================================== */
-.obs-table{ margin-top:52px; border:1px solid var(--rule); }
+.eval-row{ display:flex; gap:40px; align-items:flex-start; margin-top:44px; }
+.obs-table{ flex:1.5; border:1px solid var(--rule); }
 .obs-row{ display:flex; border-bottom:1px solid var(--rule); }
 .obs-row:last-child{ border-bottom:0; }
-.obs-dim{ width:420px; flex:0 0 auto; background:var(--paper-2); padding:30px 28px; font-family:var(--font); font-weight:800; font-size:30px; color:var(--ink); border-right:1px solid var(--rule); display:flex; align-items:center; }
-.obs-conduct{ flex:1; padding:28px 34px; display:flex; flex-direction:column; gap:14px; justify-content:center; }
-.obs-conduct .c{ font-family:var(--font); font-weight:400; font-size:23px; color:var(--ink-soft); line-height:1.38; }
-.obs-conduct .c::before{ content:'—'; color:var(--terracotta); margin-right:10px; font-weight:700; }
+.obs-dim{ width:300px; flex:0 0 auto; background:var(--paper-2); padding:26px 24px; font-family:var(--font); font-weight:800; font-size:26px; line-height:1.2; color:var(--ink); border-right:1px solid var(--rule); display:flex; align-items:center; }
+.obs-conduct{ flex:1; padding:24px 28px; display:flex; flex-direction:column; gap:12px; justify-content:center; }
+.obs-conduct .c{ font-family:var(--font); font-weight:400; font-size:19px; color:var(--ink-soft); line-height:1.36; }
+.obs-conduct .c::before{ content:'—'; color:var(--terracotta); margin-right:8px; font-weight:700; }
+
+.quest-panel{ flex:1; border:1px solid var(--rule); background:var(--paper-2); padding:32px 34px; }
+.quest-label{ font-family:var(--font); font-weight:700; font-size:20px; letter-spacing:.08em; text-transform:uppercase; color:var(--terracotta); }
+.quest-intro{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.42; color:var(--ink-soft); margin-top:12px; }
+.quest-item{ display:flex; gap:16px; align-items:flex-start; margin-top:22px; }
+.quest-item .quest-n{ font-family:var(--font); font-weight:800; font-size:24px; color:var(--teal); flex:0 0 auto; min-width:28px; }
+.quest-item p{ font-family:var(--font); font-weight:600; font-size:21px; line-height:1.32; color:var(--ink); margin:0; }
 
 /* ===========================================
    SLIDE 9 — CIERRE Y FUENTES
@@ -751,26 +759,35 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
         <h2 class="sec reveal">¿Cómo sabremos que <em>funciona</em>?</h2>
         <p class="lede reveal" style="margin-bottom:0">Mediremos la efectividad a través de 3 dimensiones, cada una con conductas observables y medibles.</p>
 
-        <div class="obs-table reveal">
-          <div class="obs-row">
-            <div class="obs-dim">Compartir / iniciativa</div>
-            <div class="obs-conduct">
-              <span class="c">El/la participante se acerca a interactuar voluntariamente con otro/a de distinta edad</span>
-              <span class="c">Se registra un llamado a la interacción (ej: «acompañe a su compañero…»)</span>
+        <div class="eval-row reveal">
+          <div class="obs-table">
+            <div class="obs-row">
+              <div class="obs-dim">Compartir / iniciativa</div>
+              <div class="obs-conduct">
+                <span class="c">El/la participante se acerca a interactuar voluntariamente con otro/a de distinta edad</span>
+                <span class="c">Se registra un llamado a la interacción (ej: «acompañe a su compañero…»)</span>
+              </div>
+            </div>
+            <div class="obs-row">
+              <div class="obs-dim">Aprender / vínculo</div>
+              <div class="obs-conduct">
+                <span class="c">El/la participante muestra apertura al vínculo (v/s resistencia)</span>
+                <span class="c">El/la participante ejecuta la acción indicada</span>
+              </div>
+            </div>
+            <div class="obs-row">
+              <div class="obs-dim">Acompañar / trabajo en equipo</div>
+              <div class="obs-conduct">
+                <span class="c">Participantes realizan una actividad en conjunto (trabajo en equipo)</span>
+              </div>
             </div>
           </div>
-          <div class="obs-row">
-            <div class="obs-dim">Aprender / vínculo</div>
-            <div class="obs-conduct">
-              <span class="c">El/la participante muestra apertura al vínculo (v/s resistencia)</span>
-              <span class="c">El/la participante ejecuta la acción indicada</span>
-            </div>
-          </div>
-          <div class="obs-row">
-            <div class="obs-dim">Acompañar / trabajo en equipo</div>
-            <div class="obs-conduct">
-              <span class="c">Participantes realizan una actividad en conjunto (trabajo en equipo)</span>
-            </div>
+
+          <div class="quest-panel">
+            <span class="quest-label">Cuestionario autoinformado</span>
+            <p class="quest-intro">Propuesta de dos preguntas abiertas para que cada participante responda por su cuenta.</p>
+            <div class="quest-item"><span class="quest-n">1</span><p>¿Qué te gustaría hacer o saber de otras generaciones?</p></div>
+            <div class="quest-item"><span class="quest-n">2</span><p>¿Qué crees que podrías enseñar a las otras generaciones?</p></div>
           </div>
         </div>
       </div>
