@@ -207,6 +207,9 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .ctx-card .tag{ font-family:var(--font); font-weight:700; font-size:21px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal); }
 .ctx-card h3{ font-family:var(--font); font-weight:700; font-size:38px; margin:14px 0 12px; color:var(--ink); }
 .ctx-card p{ font-family:var(--font); font-weight:400; font-size:25px; color:var(--ink-soft); line-height:1.46; }
+.ctx-card .chip-row{ margin-top:14px; gap:8px; }
+.ctx-card .chip{ font-size:15px; padding:8px 14px; border-radius:6px; }
+.ctx-card .chip-add{ font-size:15px; padding:7px 13px; border-radius:6px; border-width:1.5px; }
 .desafios{ margin-top:36px; }
 .desafios .label{ font-family:var(--font); font-weight:700; font-size:22px; letter-spacing:.08em; text-transform:uppercase; color:var(--terracotta); }
 .chip-row{ margin-top:16px; display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
@@ -657,7 +660,13 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
           <div class="ctx-card">
             <span class="tag">Actores e instituciones</span>
             <h3>Posibles aliados</h3>
-            <p>Se han identificado posibles actores para participar en la iniciativa: colegios, instituciones de educación superior y organizaciones comunitarias.</p>
+            <div class="chip-row" id="chipRow3">
+              <span class="chip">Depto. de Personas Mayores</span>
+              <span class="chip">Colegios municipales/privados</span>
+              <span class="chip">Instituciones de educación superior</span>
+              <span class="chip">Organizaciones comunitarias</span>
+              <button type="button" class="chip-add" id="chipAdd3" title="Agregar un aliado (doble clic sobre un chip para eliminarlo)">+ Agregar</button>
+            </div>
           </div>
           <div class="ctx-card">
             <span class="tag">Programas existentes</span>
@@ -1070,6 +1079,7 @@ function wireChipRow(rowId, addBtnId, newChipText) {
 }
 wireChipRow('chipRow', 'chipAdd', 'Nuevo desafío');
 wireChipRow('chipRow2', 'chipAdd2', 'Nuevo factor');
+wireChipRow('chipRow3', 'chipAdd3', 'Nuevo aliado');
 
 /* ===========================================
    OBJETIVOS ESPECÍFICOS (Slide 8B) — add / remove,
