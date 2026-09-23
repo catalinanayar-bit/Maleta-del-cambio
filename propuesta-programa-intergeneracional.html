@@ -339,7 +339,9 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .quest-intro{ font-family:var(--font); font-weight:400; font-size:18px; line-height:1.42; color:var(--ink-soft); margin-top:12px; }
 .quest-item{ display:flex; gap:16px; align-items:flex-start; margin-top:22px; }
 .quest-item .quest-n{ font-family:var(--font); font-weight:800; font-size:24px; color:var(--teal); flex:0 0 auto; min-width:28px; }
-.quest-item p{ font-family:var(--font); font-weight:600; font-size:21px; line-height:1.32; color:var(--ink); margin:0; }
+.quest-item p{ font-family:var(--font); font-weight:600; font-size:21px; line-height:1.32; color:var(--ink); margin:0; flex:1; }
+.quest-add{ margin-top:18px; background:none; border:none; color:var(--terracotta); font-family:var(--font); font-weight:700; font-size:17px; cursor:pointer; padding:6px 0; text-align:left; }
+.quest-add:hover{ text-decoration:underline; }
 
 /* ===========================================
    SLIDE 9 — CIERRE Y FUENTES
@@ -801,9 +803,12 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 
           <div class="quest-panel">
             <span class="quest-label">Cuestionario autoinformado</span>
-            <p class="quest-intro">Propuesta de dos preguntas abiertas para que cada participante responda por su cuenta.</p>
-            <div class="quest-item"><span class="quest-n">1</span><p contenteditable="true">¿Qué te gustaría hacer o saber de otras generaciones?</p></div>
-            <div class="quest-item"><span class="quest-n">2</span><p contenteditable="true">¿Qué crees que podrías enseñar a las otras generaciones?</p></div>
+            <p class="quest-intro">Propuesta de preguntas abiertas para que cada participante responda por su cuenta.</p>
+            <div class="quest-list" id="questList">
+              <div class="quest-item"><span class="quest-n">1</span><p contenteditable="true">¿Qué te gustaría hacer o saber de otras generaciones?</p></div>
+              <div class="quest-item"><span class="quest-n">2</span><p contenteditable="true">¿Qué crees que podrías enseñar a las otras generaciones?</p></div>
+            </div>
+            <button type="button" class="quest-add" id="questAdd" title="Agregar una pregunta (doble clic sobre una pregunta para eliminarla)">+ Agregar pregunta</button>
           </div>
         </div>
       </div>
@@ -1137,6 +1142,51 @@ wireChipRow('chipRow3', 'chipAdd3', 'Nuevo aliado');
 })();
 
 /* ===========================================
+   CUESTIONARIO AUTOINFORMADO (Slide 12) — add /
+   remove open questions, same pattern as objetivos.
+   =========================================== */
+(function () {
+    const list = document.getElementById('questList');
+    const addBtn = document.getElementById('questAdd');
+    if (!list || !addBtn) return;
+    const renumber = () => {
+        list.querySelectorAll('.quest-item .quest-n').forEach((n, idx) => { n.textContent = String(idx + 1); });
+    };
+    const selectText = (el) => {
+        el.focus();
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    };
+    addBtn.addEventListener('click', () => {
+        const row = document.createElement('div');
+        row.className = 'quest-item';
+        const n = document.createElement('span');
+        n.className = 'quest-n';
+        const text = document.createElement('p');
+        text.contentEditable = 'true';
+        text.textContent = 'Nueva pregunta';
+        row.appendChild(n);
+        row.appendChild(text);
+        list.appendChild(row);
+        renumber();
+        selectText(text);
+        text.addEventListener('blur', () => {
+            if (!text.textContent.trim()) { row.remove(); renumber(); }
+        });
+        text.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); text.blur(); }
+        });
+    });
+    list.addEventListener('dblclick', (e) => {
+        const row = e.target.closest('.quest-item');
+        if (row) { row.remove(); renumber(); }
+    });
+})();
+
+/* ===========================================
    CATEGORÍAS EXPANDIBLES (Slide 6) — "Nivel de
    interacción" y "Continuo de Kaplan" muestran el
    detalle de sus niveles al hacer clic.
@@ -1274,7 +1324,7 @@ wireChipRow('chipRow3', 'chipAdd3', 'Nuevo aliado');
     }
 
     resetBtn.addEventListener('click', reset);
-    render();
+    reset();
 })();
 </script>
 </body>
