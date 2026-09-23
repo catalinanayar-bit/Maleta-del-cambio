@@ -959,7 +959,16 @@ class InlineEditor {
     restoreFromStorage() {
         try {
             const saved = localStorage.getItem('frontend-slides-content');
-            if (saved) document.getElementById('deckStage').innerHTML = saved;
+            if (!saved) return;
+            const stage = document.getElementById('deckStage');
+            const liveCount = stage.querySelectorAll('.slide').length;
+            const savedCount = (saved.match(/class="slide[ "]/g) || []).length;
+            if (savedCount !== liveCount) {
+                // Saved copy predates a slide add/remove in the published deck — stale, discard it.
+                localStorage.removeItem('frontend-slides-content');
+                return;
+            }
+            stage.innerHTML = saved;
         } catch (e) { /* localStorage unavailable — ignore */ }
     }
 
