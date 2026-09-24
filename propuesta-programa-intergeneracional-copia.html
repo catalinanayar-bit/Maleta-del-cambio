@@ -387,9 +387,23 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    TEXT-SIZE CONTROLS — edit-mode only, one row per typographic role
    =========================================== */
-.text-scale-panel{ position:fixed; top:74px; left:18px; z-index:10001; background:rgba(43,36,32,.94); backdrop-filter:blur(6px); border-radius:14px; padding:16px 18px; display:flex; flex-direction:column; gap:10px; opacity:0; transform:translateY(-8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease; min-width:250px; }
-.text-scale-panel.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+.text-scale-panel{ position:fixed; z-index:10001; background:rgba(43,36,32,.94); backdrop-filter:blur(6px); border-radius:14px; padding:16px 18px; display:flex; flex-direction:column; gap:10px; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; min-width:250px; }
+.text-scale-panel.show{ opacity:1; pointer-events:auto; }
+.text-scale-panel.pos-top-left{ top:74px; left:18px; right:auto; bottom:auto; transform:translateY(-8px); }
+.text-scale-panel.pos-top-left.show{ transform:translateY(0); }
+.text-scale-panel.pos-top-right{ top:18px; right:18px; left:auto; bottom:auto; transform:translateY(-8px); }
+.text-scale-panel.pos-top-right.show{ transform:translateY(0); }
+.text-scale-panel.pos-bottom-left{ bottom:100px; left:18px; top:auto; right:auto; transform:translateY(8px); }
+.text-scale-panel.pos-bottom-left.show{ transform:translateY(0); }
+.text-scale-panel.pos-bottom-right{ bottom:100px; right:18px; top:auto; left:auto; transform:translateY(8px); }
+.text-scale-panel.pos-bottom-right.show{ transform:translateY(0); }
 .text-scale-panel .ts-title{ font-family:var(--font); font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:rgba(243,236,225,.6); margin-bottom:2px; }
+.ts-move{ display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:2px; padding-bottom:10px; border-bottom:1px solid rgba(243,236,225,.18); }
+.ts-move span{ font-family:var(--font); font-weight:600; font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:rgba(243,236,225,.5); }
+.ts-move-btns{ display:flex; gap:5px; }
+.ts-move-btn{ width:22px; height:22px; border-radius:6px; border:1px solid rgba(243,236,225,.3); background:none; color:rgba(243,236,225,.75); font-size:12px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s ease, border-color .15s ease, color .15s ease; }
+.ts-move-btn:hover{ border-color:var(--teal); color:#fff; }
+.ts-move-btn.active{ background:var(--teal); border-color:var(--teal); color:#fff; }
 .ts-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .ts-label{ font-family:var(--font); font-weight:600; font-size:14px; color:#F3ECE1; }
 .ts-controls{ display:flex; align-items:center; gap:8px; }
@@ -1077,10 +1091,14 @@ class TextScaler {
         this.min = 0.7; this.max = 1.5; this.step = 0.05;
         this.panel = document.getElementById('textScalePanel');
         this.slideEls = Array.from(document.querySelectorAll('.slide'));
+        this.positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+        this.positionIcons = { 'top-left': '↖', 'top-right': '↗', 'bottom-left': '↙', 'bottom-right': '↘' };
         const loaded = this.loadFromStorage();
         this.scales = loaded.slides;
         this.replicateAll = loaded.replicateAll;
+        this.position = loaded.position;
         this.applyAll();
+        this.applyPosition();
         this.render();
         this.watchSlideChanges();
     }
@@ -1088,16 +1106,32 @@ class TextScaler {
     defaultSlideScales() { return { kicker: 1, heading: 1, lede: 1, body: 1 }; }
 
     loadFromStorage() {
-        const fresh = { replicateAll: false, slides: this.slideEls.map(() => this.defaultSlideScales()) };
+        const fresh = { replicateAll: false, position: 'top-left', slides: this.slideEls.map(() => this.defaultSlideScales()) };
         try {
             const saved = JSON.parse(localStorage.getItem('text-scale-settings-v2') || 'null');
             if (!saved || !Array.isArray(saved.slides) || saved.slides.length !== this.slideEls.length) return fresh;
-            return { replicateAll: !!saved.replicateAll, slides: saved.slides.map((s) => ({ ...this.defaultSlideScales(), ...s })) };
+            return {
+                replicateAll: !!saved.replicateAll,
+                position: this.positions.includes(saved.position) ? saved.position : 'top-left',
+                slides: saved.slides.map((s) => ({ ...this.defaultSlideScales(), ...s })),
+            };
         } catch (e) { return fresh; }
     }
 
     saveToStorage() {
-        try { localStorage.setItem('text-scale-settings-v2', JSON.stringify({ replicateAll: this.replicateAll, slides: this.scales })); } catch (e) { /* unavailable — ignore */ }
+        try { localStorage.setItem('text-scale-settings-v2', JSON.stringify({ replicateAll: this.replicateAll, position: this.position, slides: this.scales })); } catch (e) { /* unavailable — ignore */ }
+    }
+
+    applyPosition() {
+        this.panel.classList.remove(...this.positions.map((p) => `pos-${p}`));
+        this.panel.classList.add(`pos-${this.position}`);
+    }
+
+    setPosition(pos) {
+        this.position = pos;
+        this.applyPosition();
+        this.saveToStorage();
+        this.render();
     }
 
     currentSlideIndex() {
@@ -1163,12 +1197,17 @@ class TextScaler {
                 </div>
             </div>`;
         }).join('');
-        this.panel.innerHTML = `<span class="ts-title">Tamaño de texto — diapositiva ${i + 1}/${this.slideEls.length}</span>`
+        const moveBtns = this.positions.map((p) => `<button class="ts-move-btn${p === this.position ? ' active' : ''}" data-pos="${p}" title="Mover a esta esquina">${this.positionIcons[p]}</button>`).join('');
+        this.panel.innerHTML = `<div class="ts-move"><span>¿Tapa algo? Moverlo</span><div class="ts-move-btns">${moveBtns}</div></div>`
+            + `<span class="ts-title">Tamaño de texto — diapositiva ${i + 1}/${this.slideEls.length}</span>`
             + rows
             + `<label class="ts-replicate"><input type="checkbox" id="tsReplicate" ${this.replicateAll ? 'checked' : ''}> Aplicar a todas las diapositivas</label>`
             + `<button class="ts-reset" id="tsReset">${this.replicateAll ? 'Restablecer todas' : 'Restablecer esta diapositiva'}</button>`;
         this.panel.querySelectorAll('.ts-btn').forEach((btn) => {
             btn.addEventListener('click', () => this.adjust(btn.dataset.k, Number(btn.dataset.d)));
+        });
+        this.panel.querySelectorAll('.ts-move-btn').forEach((btn) => {
+            btn.addEventListener('click', () => this.setPosition(btn.dataset.pos));
         });
         this.panel.querySelector('#tsReplicate').addEventListener('change', (e) => {
             this.replicateAll = e.target.checked;
