@@ -197,6 +197,7 @@ The reference deck's audience edits it directly in the browser (municipal staff 
 - **Chip add/remove** (tags like "Desafíos identificados") — a `+ Agregar` button appends an editable chip, double-click removes one.
 - **Numbered list add/remove** (objectives, questionnaire questions) — same idea, renumbers on add/remove.
 - **Detail-below-grid on click** — when a card's expanded detail needs more room than half a card can give it (a 2-column grid card is too narrow for a readable list), move the expanded content to a shared full-width panel *below* the whole grid instead of growing the card inline. This was a real fix made mid-project after the inline version forced 16px text into a half-width card; the below-grid version let the same content run at 21px+ at full width.
+- **In-deck activity wording, editable like everything else** — when you add one of the §3 activities (components.md §8/§9), don't leave its questions/alternatives as JS-only data the user can't touch through the pencil icon. Add its text elements to `editableSelector` and give it its own persisted edit state — see "Making the questions/alternatives editable, like the rest of the deck" in components.md §8. The generic whole-stage-innerHTML snapshot below doesn't cover it, because the stepper only ever has one question in the DOM at a time.
 
 ### The inline editor's autosave has one sharp edge — always include this fix
 

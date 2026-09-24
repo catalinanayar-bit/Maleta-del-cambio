@@ -282,9 +282,24 @@ One question shown at a time; picking an alternative (or typing an open answer) 
 </div>
 ```
 ```js
-function wireStepperActivity(QUESTIONS) {
+function wireStepperActivity(QUESTIONS, storageKey) {
     const stepEl = document.getElementById('actStep'), qEl = document.getElementById('actQ'), altsEl = document.getElementById('actAlts');
     const doneEl = document.getElementById('actDone'), answeredEl = document.getElementById('actAnswered'), resetBtn = document.getElementById('actReset');
+
+    // load any previously-edited question/answer wording over the hardcoded defaults
+    try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+        if (Array.isArray(saved) && saved.length === QUESTIONS.length) {
+            saved.forEach((s, idx) => {
+                QUESTIONS[idx].q = s.q;
+                if (Array.isArray(s.alts) && s.alts.length === QUESTIONS[idx].alts.length) QUESTIONS[idx].alts = s.alts;
+            });
+        }
+    } catch (e) { /* unavailable — keep hardcoded defaults */ }
+    function persist() {
+        try { localStorage.setItem(storageKey, JSON.stringify(QUESTIONS.map((q) => ({ q: q.q, alts: q.alts })))); } catch (e) { /* ignore */ }
+    }
+
     let i = 0;
     function render() {
         const finished = i >= QUESTIONS.length;
@@ -294,11 +309,13 @@ function wireStepperActivity(QUESTIONS) {
         const item = QUESTIONS[i];
         stepEl.textContent = 'Pregunta ' + (i + 1) + ' de ' + QUESTIONS.length;
         qEl.textContent = item.q;
+        qEl.addEventListener('blur', () => { item.q = qEl.textContent.trim(); persist(); });
         altsEl.innerHTML = '';
-        item.alts.forEach((alt) => {
+        item.alts.forEach((alt, idx) => {
             const b = document.createElement('button');
             b.type = 'button'; b.className = 'act-alt'; b.textContent = alt;
-            b.addEventListener('click', () => choose(item, alt));
+            b.addEventListener('click', () => { if (!editor.isActive) choose(item, alt); }); // editing, not answering
+            b.addEventListener('blur', () => { item.alts[idx] = b.textContent.trim(); persist(); });
             altsEl.appendChild(b);
         });
     }
@@ -317,7 +334,18 @@ function wireStepperActivity(QUESTIONS) {
 ```
 Full version with an open-text "+ Otro" fallback per question: see `propuesta-programa-intergeneracional.html`'s `ACTIVIDAD PASO A PASO` script block — it adds `renderOpenInput()` and an `item.open`/`item.kap` (circular number-alternative) variant.
 
-**Always call `reset()`/`render()` on init, never trust restored DOM** — this is a live audience activity, not a one-time user customization; see the inline-editor sharp-edge note above.
+### Making the questions/alternatives editable, like the rest of the deck
+
+The stepper only keeps *one* question's markup in the DOM at a time (the rest live in the `QUESTIONS` array) — so simply adding `.act-active-q, .act-alt` to `InlineEditor`'s `editableSelector` isn't enough by itself: the deck's global save snapshots `#deckStage.innerHTML`, which only ever contains whatever question happens to be showing at save time, and a reload rebuilds the DOM from the original hardcoded `QUESTIONS` array anyway, discarding that snapshot's edits. The `wireStepperActivity` code above solves this properly instead of fighting the generic mechanism:
+
+1. **Add `.act-active-q, .act-alt` to `editableSelector`** so `InlineEditor.toggleEditMode()` makes them `contenteditable` exactly like every other text element when the pencil is active.
+2. **Guard the click handler** — an `.act-alt` button normally advances the stepper on click; while edit mode is active that would blow away the very question being edited, so the click handler checks `editor.isActive` first and only calls `choose()` when it's off.
+3. **Sync on blur, into the data, not just the DOM** — editing `qEl` or an alt button writes the change back into `QUESTIONS[i]` (the actual source `render()` reads from), so the edit survives re-renders within the session.
+4. **Persist that data under its own localStorage key** (`storageKey`, e.g. `'act-tipo-actividad-questions'` — one per activity if a deck has more than one), separate from the deck's generic content snapshot, with a length-mismatch guard mirroring the slide-count guard the inline editor already uses — so a stale save from a since-edited question count is discarded rather than partially applied.
+
+Call it as `wireStepperActivity(QUESTIONS, 'act-<slide-slug>-questions')`, one unique `storageKey` per activity on the deck.
+
+This only restores *authored* content (the wording someone typed while editing) — it does not and should not restore *audience progress*. The code above already keeps that split: it always starts at `i = 0` with `answeredEl` empty on init, never pre-filling a previous run's picks. Keep it that way — this is a live audience activity, not a one-time user customization; see the inline-editor sharp-edge note above.
 
 ## 9. In-deck activity — Verdadero / Falso
 
@@ -339,6 +367,8 @@ const isCorrect = alt === item.correct;
 row.querySelector('.a').classList.add(isCorrect ? 'correct' : 'incorrect');
 ```
 Ask the user for the questions and correct answers up front — never invent factual true/false claims about their program.
+
+Inherits the same editable-questions mechanism as §8 automatically (it's the same `wireStepperActivity`). One caveat specific to this variant: `item.correct` is compared against the alt's *text* (`alt === item.correct`), so if someone edits an alternative's wording in edit mode (e.g. retypes "Verdadero" as something else), `correct` won't follow along and the right/wrong check can silently break. Since this variant's alternatives are always exactly "Verdadero"/"Falso", the simplest fix is to not offer them as freely-editable text in the first place — only add `.act-active-q` (the question) to `editableSelector` for this variant, not `.act-alt`.
 
 ## 10. In-deck activity — lluvia de ideas (nube de palabras flotantes)
 
