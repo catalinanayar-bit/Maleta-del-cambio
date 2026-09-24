@@ -247,4 +247,153 @@ Each `<path class="wedge">` in an SVG pie/donut scales and rotates in from a fol
 ```
 `transform-origin` must match the pie's actual center in the SVG's own coordinate space (160,160 for a `viewBox="0 0 320 320"` pie) — get this wrong and wedges fan open around the wrong point instead of the chart's center.
 
+## 8. In-deck activity — stepped quiz (multiple-choice / open question)
+
+One question shown at a time; picking an alternative (or typing an open answer) records it in a running list below and advances to the next question, ending on a "done" state with a reset button. This is the reference deck's "Identifiquemos el tipo de actividad" slide, generalized. See "Before you build" in SKILL.md — ask whether the deck needs an activity like this before assuming it does, and which slide(s) it belongs on.
+
+```css
+.act-questions{ flex:0 0 560px; display:flex; flex-direction:column; gap:14px; }
+.act-questions .label{ font-weight:700; font-size:18px; letter-spacing:.08em; text-transform:uppercase; color:var(--terracotta); margin-bottom:2px; }
+.act-active{ background:var(--paper-2); border:2px solid var(--terracotta); border-radius:14px; padding:22px 24px; }
+.act-step{ display:block; font-weight:700; font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--terracotta); }
+.act-active-q{ font-weight:800; font-size:27px; color:var(--ink); margin:8px 0 16px; }
+.act-alts{ display:flex; flex-wrap:wrap; gap:10px; }
+.act-alt{ background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:12px 20px; font-weight:700; font-size:17px; color:var(--ink); cursor:pointer; transition:border-color .2s ease, transform .15s ease; }
+.act-alt:hover{ border-color:var(--terracotta); transform:translateY(-1px); }
+.act-alt.act-other{ background:none; border-style:dashed; color:var(--terracotta); }
+.act-open-input{ flex:1; min-width:220px; background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:12px 16px; font-size:17px; color:var(--ink); }
+.act-done{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.act-reset{ background:none; border:1.5px solid var(--terracotta); color:var(--terracotta); font-weight:700; font-size:14px; padding:8px 16px; border-radius:6px; cursor:pointer; }
+.act-answered{ display:flex; flex-direction:column; gap:8px; }
+.act-answered-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--paper-2); border:1px solid var(--rule); border-radius:8px; padding:10px 18px; font-size:15px; }
+.act-answered-row .q{ color:var(--ink-soft); font-weight:600; }
+.act-answered-row .a{ color:var(--terracotta); font-weight:800; text-align:right; }
+```
+```html
+<div class="act-questions">
+  <span class="label">Preguntas para la actividad</span>
+  <div class="act-active" id="actActive">
+    <span class="act-step" id="actStep"></span>
+    <div class="act-active-q" id="actQ"></div>
+    <div class="act-alts" id="actAlts"></div>
+    <div class="act-done" id="actDone" hidden><span>¡Listo!</span><button type="button" class="act-reset" id="actReset">Reiniciar</button></div>
+  </div>
+  <div class="act-answered" id="actAnswered"></div>
+</div>
+```
+```js
+function wireStepperActivity(QUESTIONS) {
+    const stepEl = document.getElementById('actStep'), qEl = document.getElementById('actQ'), altsEl = document.getElementById('actAlts');
+    const doneEl = document.getElementById('actDone'), answeredEl = document.getElementById('actAnswered'), resetBtn = document.getElementById('actReset');
+    let i = 0;
+    function render() {
+        const finished = i >= QUESTIONS.length;
+        [stepEl, qEl, altsEl].forEach((el) => el.style.display = finished ? 'none' : '');
+        doneEl.style.display = finished ? 'flex' : 'none';
+        if (finished) return;
+        const item = QUESTIONS[i];
+        stepEl.textContent = 'Pregunta ' + (i + 1) + ' de ' + QUESTIONS.length;
+        qEl.textContent = item.q;
+        altsEl.innerHTML = '';
+        item.alts.forEach((alt) => {
+            const b = document.createElement('button');
+            b.type = 'button'; b.className = 'act-alt'; b.textContent = alt;
+            b.addEventListener('click', () => choose(item, alt));
+            altsEl.appendChild(b);
+        });
+    }
+    function choose(item, alt) {
+        const row = document.createElement('div');
+        row.className = 'act-answered-row';
+        row.innerHTML = '<span class="q"></span><span class="a"></span>';
+        row.querySelector('.q').textContent = item.q;
+        row.querySelector('.a').textContent = alt;
+        answeredEl.appendChild(row);
+        i++; render();
+    }
+    resetBtn.addEventListener('click', () => { i = 0; answeredEl.innerHTML = ''; render(); });
+    render();
+}
+```
+Full version with an open-text "+ Otro" fallback per question: see `propuesta-programa-intergeneracional.html`'s `ACTIVIDAD PASO A PASO` script block — it adds `renderOpenInput()` and an `item.open`/`item.kap` (circular number-alternative) variant.
+
+**Always call `reset()`/`render()` on init, never trust restored DOM** — this is a live audience activity, not a one-time user customization; see the inline-editor sharp-edge note above.
+
+## 9. In-deck activity — Verdadero / Falso
+
+The same stepper as §8, reconfigured: exactly two alternatives per question, plus visual right/wrong feedback instead of just recording the pick. Reuse the §8 markup and CSS as-is and layer this in:
+
+```css
+.act-answered-row .a.correct{ color:var(--c-green); }
+.act-answered-row .a.correct::before{ content:'✓ '; }
+.act-answered-row .a.incorrect{ color:var(--c-pink); }
+.act-answered-row .a.incorrect::before{ content:'✗ '; }
+```
+```js
+const QUESTIONS = [
+    { q: 'Un programa intergeneracional requiere que ambas partes den y reciban.', alts: ['Verdadero', 'Falso'], correct: 'Verdadero' },
+    // ...
+];
+// in choose(item, alt), before appending the row:
+const isCorrect = alt === item.correct;
+row.querySelector('.a').classList.add(isCorrect ? 'correct' : 'incorrect');
+```
+Ask the user for the questions and correct answers up front — never invent factual true/false claims about their program.
+
+## 10. In-deck activity — lluvia de ideas (nube de palabras flotantes)
+
+An open brainstorm: each typed word joins a shared canvas as a floating chip at a random position, size, and palette color, drifting gently in place. Use this for open "what comes to mind" moments — not for anything with a right answer (use §8/§9 instead).
+
+```css
+.cloud-stage{ position:relative; height:420px; background:var(--paper-2); border:1px solid var(--rule); border-radius:16px; overflow:hidden; }
+.cloud-input-row{ display:flex; gap:12px; margin-top:20px; }
+.cloud-input{ flex:1; background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:14px 18px; font-size:20px; color:var(--ink); }
+.cloud-input:focus{ outline:none; border-color:var(--terracotta); }
+.cloud-add{ background:var(--terracotta); color:#fff; border:none; border-radius:8px; padding:14px 28px; font-weight:700; font-size:18px; cursor:pointer; }
+.cloud-word{ position:absolute; font-weight:800; white-space:nowrap; opacity:0; }
+.cloud-word.show{ animation:cloudFloat 6s ease-in-out infinite, cloudIn .5s ease forwards; }
+@keyframes cloudIn{ from{ opacity:0; transform:scale(.7); } to{ opacity:1; transform:scale(1); } }
+@keyframes cloudFloat{ 0%,100%{ transform:translate(0,0); } 50%{ transform:translate(var(--dx,8px), var(--dy,-10px)); } }
+```
+```html
+<div class="cloud-stage" id="cloudStage"></div>
+<div class="cloud-input-row">
+  <input type="text" class="cloud-input" id="cloudInput" placeholder="Escribe una palabra…">
+  <button type="button" class="cloud-add" id="cloudAdd">Agregar</button>
+</div>
+```
+```js
+function wireWordCloud() {
+    const stage = document.getElementById('cloudStage');
+    const input = document.getElementById('cloudInput');
+    const palette = ['var(--c-blue)', 'var(--c-turq)', 'var(--c-green)', 'var(--c-orange)', 'var(--c-pink)', 'var(--c-purple)'];
+    const sizes = [22, 28, 36, 46];
+    function addWord(text) {
+        const word = document.createElement('span');
+        word.className = 'cloud-word';
+        word.textContent = text;
+        word.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)] + 'px';
+        word.style.color = palette[Math.floor(Math.random() * palette.length)];
+        word.style.left = (5 + Math.random() * 80) + '%';
+        word.style.top = (5 + Math.random() * 75) + '%';
+        word.style.setProperty('--dx', (Math.random() * 16 - 8) + 'px');
+        word.style.setProperty('--dy', (Math.random() * 16 - 8) + 'px');
+        word.style.animationDelay = (Math.random() * -6) + 's';
+        stage.appendChild(word);
+        requestAnimationFrame(() => word.classList.add('show'));
+    }
+    function submit() {
+        const val = input.value.trim();
+        if (!val) return;
+        addWord(val);
+        input.value = '';
+        input.focus();
+    }
+    document.getElementById('cloudAdd').addEventListener('click', submit);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+}
+wireWordCloud();
+```
+Random `left`/`top` bounds (5–85%, 5–80%) keep words clear of the stage edges given their `white-space:nowrap` width — widen the stage or narrow the bounds if long words clip. Like §8/§9, this is a live audience activity: it starts empty every load, nothing to reset from storage.
+
 **Label placement inside wedges:** compute each label's `x = cx + r*sin(θ)`, `y = cy - r*cos(θ)` (θ in degrees, clockwise from 12 o'clock) at the wedge's mid-angle, then verify with real geometry, not eyeballing — see the verification workflow in SKILL.md. A label a few px outside its wedge's true radius at that height is a real, reported bug class in the reference deck, not a hypothetical.

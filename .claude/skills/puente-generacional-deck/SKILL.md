@@ -12,7 +12,11 @@ This captures the exact design system of `propuesta-programa-intergeneracional.h
 - The user asks for a deck "like the other one", "in this same format", or names this presentation.
 - The user wants a warm, paper-textured, editorial deck for a municipal/institutional/social-program audience, with hand-drawn-feeling SVG animations rather than generic slide-transition effects.
 
-## Before you build: ask what this deck is about
+## Before you build: three things to ask first
+
+Answer these before writing any slide — they shape the symbols, the índice, the kicker numbers, and whether any slide needs interactive JS. All four are far cheaper to settle upfront than to retrofit once slides exist.
+
+### 1. What is this deck about?
 
 The infinity symbol and the twin-circle brand mark are not generic decoration — they specifically encode "puente generacional" (two generations, endlessly connected). They only make sense on a deck that's actually about generations bridging together. Reused unchanged on an unrelated topic (recycling, digital literacy, public safety, a budget presentation...) they'd be meaningless at best, misleading at worst.
 
@@ -38,6 +42,20 @@ A few starting ideas by theme — adapt or replace freely, the goal is one shape
 | Presupuesto / gestión pública | balanza, gráfico de barras esquemático |
 
 If nothing on this list fits cleanly, a simple abstract shape (an arc, a wave, a knot) that echoes the deck's own central metaphor beats forcing the infinity symbol onto an unrelated topic.
+
+### 2. How do the slides group under the índice?
+
+This deck's índice groups multiple *physical* slides under one numbered topic whenever they cover the same subject from different angles — the reference deck does this itself: "Las 5R" and "Categorización" are two different slides but both sit under índice item 02, because they're two views of the same "claves de un programa efectivo" idea (see the Renumbering discipline section below for the mechanics). This grouping is never automatic and easy to get wrong after the fact, so **ask the user for a rough topic outline before writing a single kicker number**: "what are the 6–10 topics this deck covers, in order?" — then map physical slides onto those topics, some topics getting one slide and some getting two or three. Only once that's settled, write the índice slide and every kicker number from it, so they're consistent from the first draft instead of needing a reconciliation pass later.
+
+### 3. Does this deck need an in-deck activity?
+
+Ask: "¿Quieres generar una actividad interactiva dentro de la presentación?" Don't add one uninvited, and don't assume which kind fits — if the answer is yes, offer these methodologies (full working code for each is in [components.md](components.md)) and ask which slide(s) it belongs on, since a deck can have more than one activity, on different slides, using different methodologies:
+
+- **Quiz / paso a paso** — a stepper that asks one question at a time from a set of alternatives (or an open text field), records each answer below, and advances. Fits a structured knowledge-check or a "let's classify what we just saw" moment. (components.md §8)
+- **Verdadero / Falso** — the same stepper, configured with exactly two alternatives per question and right/wrong visual feedback. Fits testing a specific claim, not an open question. (components.md §9)
+- **Lluvia de ideas (nube de palabras flotantes)** — participants type a word each, which joins a shared canvas of accumulated words drifting slowly at varied sizes and colors. Fits an open brainstorm with no right answer. (components.md §10)
+
+Picking the wrong methodology for the moment undermines the activity — a quiz stepper forces a false right/wrong framing onto an open brainstorm, and a floating word cloud loses the "did we get this right" structure a true/false check needs. When it's a true/false or quiz activity, get the actual questions (and correct answers, for true/false) from the user rather than inventing factual claims about their program.
 
 ## Quick start
 
@@ -226,4 +244,4 @@ Every change gets checked in a real headless browser before it's considered fini
 | File | Purpose |
 |---|---|
 | [base-template.html](base-template.html) | Trimmed, working starter deck — stage, portada, índice, and one example of each signature component. Copy this as the first file of a new deck. |
-| [components.md](components.md) | Copy-pasteable HTML/CSS/JS for every reusable pattern: chip add/remove, numbered-list add/remove, expandable-detail-below-grid, animated connection-lines diagram, obs-table style side-by-side comparison. |
+| [components.md](components.md) | Copy-pasteable HTML/CSS/JS for every reusable pattern: chip add/remove, numbered-list add/remove, expandable-detail-below-grid, animated connection-lines diagram, obs-table style side-by-side comparison, and the three in-deck activity methodologies (quiz stepper, Verdadero/Falso, floating word-cloud brainstorm). |
