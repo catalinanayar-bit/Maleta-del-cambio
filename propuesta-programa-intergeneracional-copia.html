@@ -1011,7 +1011,7 @@ class InlineEditor {
         this.toggleBtn = document.getElementById('editToggle');
         this.hotzone = document.getElementById('editHotzone');
         this.toast = document.getElementById('saveToast');
-        this.editableSelector = 'h1, h2, h3, p, span.word, .chip, .principle, .obs-dim, .c, .k, .t, .n, .pi-spec-text';
+        this.editableSelector = 'h1, h2, h3, p, span.word, .chip, .principle, .obs-dim, .c, .k, .t, .n, .pi-spec-text, .act-active-q, .act-alt';
         this.restoreFromStorage();
         this.bindEvents();
     }
@@ -1489,6 +1489,22 @@ wireChipRow('chipRow3', 'chipAdd3', 'Nuevo aliado');
         { q: '¿Qué objetivo abordó?', alts: ['Cuidado', 'Educación', 'Tradiciones culturales', 'Medioambiente', 'Apoyo a familias'] },
         { q: '¿Qué tipos de PI buscamos realizar?', open: true }
     ];
+    const STORAGE_KEY = 'act-tipo-actividad-questions';
+
+    // load any previously-edited question/answer wording over the hardcoded defaults
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        if (Array.isArray(saved) && saved.length === QUESTIONS.length) {
+            saved.forEach((s, idx) => {
+                QUESTIONS[idx].q = s.q;
+                if (Array.isArray(s.alts) && QUESTIONS[idx].alts && s.alts.length === QUESTIONS[idx].alts.length) QUESTIONS[idx].alts = s.alts;
+            });
+        }
+    } catch (e) { /* unavailable — keep hardcoded defaults */ }
+    function persist() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(QUESTIONS.map((q) => ({ q: q.q, alts: q.alts })))); } catch (e) { /* ignore */ }
+    }
+
     let i = 0;
 
     function renderOpenInput(item) {
@@ -1525,18 +1541,20 @@ wireChipRow('chipRow3', 'chipAdd3', 'Nuevo aliado');
         const item = QUESTIONS[i];
         stepEl.textContent = 'Pregunta ' + (i + 1) + ' de ' + QUESTIONS.length;
         qEl.textContent = item.q;
+        qEl.onblur = () => { item.q = qEl.textContent.trim(); persist(); };
         altsEl.innerHTML = '';
         if (item.open) {
             renderOpenInput(item);
             return;
         }
         altsEl.className = 'act-alts' + (item.kap ? ' kap' : '');
-        item.alts.forEach((alt) => {
+        item.alts.forEach((alt, idx) => {
             const b = document.createElement('button');
             b.type = 'button';
             b.className = 'act-alt' + (item.kap ? ' kap-n' : '');
             b.textContent = alt;
-            b.addEventListener('click', () => choose(item, alt));
+            b.addEventListener('click', () => { if (!editor.isActive) choose(item, b.textContent.trim()); }); // read live text, not the stale closure — an edited-then-clicked alt must record its new wording
+            b.addEventListener('blur', () => { item.alts[idx] = b.textContent.trim(); persist(); });
             altsEl.appendChild(b);
         });
         const otherBtn = document.createElement('button');
