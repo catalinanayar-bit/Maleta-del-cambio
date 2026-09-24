@@ -12,6 +12,51 @@ This captures the exact design system of `propuesta-programa-intergeneracional.h
 - The user asks for a deck "like the other one", "in this same format", or names this presentation.
 - The user wants a warm, paper-textured, editorial deck for a municipal/institutional/social-program audience, with hand-drawn-feeling SVG animations rather than generic slide-transition effects.
 
+## Before you build: three things to ask first
+
+Answer these before writing any slide — they shape the symbols, the índice, the kicker numbers, and whether any slide needs interactive JS. All four are far cheaper to settle upfront than to retrofit once slides exist.
+
+### 1. What is this deck about?
+
+The infinity symbol and the twin-circle brand mark are not generic decoration — they specifically encode "puente generacional" (two generations, endlessly connected). They only make sense on a deck that's actually about generations bridging together. Reused unchanged on an unrelated topic (recycling, digital literacy, public safety, a budget presentation...) they'd be meaningless at best, misleading at worst.
+
+So before building anything, if the new deck's topic isn't already obvious from the request, **ask the user what the presentation is about** — its core theme or central idea. Everything else in this skill (the palette, typography, stage mechanics, chrome, animation techniques) is topic-agnostic and reusable as-is; only the two *symbolic* pieces below need to be re-chosen per deck:
+
+- The hero/diagram shape that "draws itself in" (§1, Signature components) — currently an infinity symbol. Pick a shape that represents the new topic's core idea, and apply the same `pathLength="1"` self-draw technique to it instead of the infinity path.
+- The small recurring brand mark (§3, Signature components) — currently two overlapping circles standing for two generations meeting. Pick an analogous minimal 1–3-element glyph that fits the new topic, built with the same construction technique (simple overlapping/adjacent shapes sized to sit inline with the kicker text).
+
+A few starting ideas by theme — adapt or replace freely, the goal is one shape that actually means something for this deck, not a literal match from this list:
+
+| Theme | Possible symbol |
+|---|---|
+| Medio ambiente / sustentabilidad | hoja, gota de agua, ciclo de reciclaje (flechas en círculo) |
+| Salud / bienestar | cruz, línea de pulso (latido), corazón |
+| Educación | libro abierto, birrete, lápiz |
+| Tecnología / innovación | nodo conectado, circuito, chip |
+| Comunidad / participación ciudadana | manos unidas, red de puntos conectados |
+| Vivienda / hábitat | techo, casa esquemática |
+| Empleo / trabajo | engranaje, maletín |
+| Seguridad | escudo |
+| Movilidad / transporte | flecha de ruta, rueda |
+| Cultura / patrimonio | columna, máscara, instrumento musical |
+| Presupuesto / gestión pública | balanza, gráfico de barras esquemático |
+
+If nothing on this list fits cleanly, a simple abstract shape (an arc, a wave, a knot) that echoes the deck's own central metaphor beats forcing the infinity symbol onto an unrelated topic.
+
+### 2. How do the slides group under the índice?
+
+This deck's índice groups multiple *physical* slides under one numbered topic whenever they cover the same subject from different angles — the reference deck does this itself: "Las 5R" and "Categorización" are two different slides but both sit under índice item 02, because they're two views of the same "claves de un programa efectivo" idea (see the Renumbering discipline section below for the mechanics). This grouping is never automatic and easy to get wrong after the fact, so **ask the user for a rough topic outline before writing a single kicker number**: "what are the 6–10 topics this deck covers, in order?" — then map physical slides onto those topics, some topics getting one slide and some getting two or three. Only once that's settled, write the índice slide and every kicker number from it, so they're consistent from the first draft instead of needing a reconciliation pass later.
+
+### 3. Does this deck need an in-deck activity?
+
+Ask: "¿Quieres generar una actividad interactiva dentro de la presentación?" Don't add one uninvited, and don't assume which kind fits — if the answer is yes, offer these methodologies (full working code for each is in [components.md](components.md)) and ask which slide(s) it belongs on, since a deck can have more than one activity, on different slides, using different methodologies:
+
+- **Quiz / paso a paso** — a stepper that asks one question at a time from a set of alternatives (or an open text field), records each answer below, and advances. Fits a structured knowledge-check or a "let's classify what we just saw" moment. (components.md §8)
+- **Verdadero / Falso** — the same stepper, configured with exactly two alternatives per question and right/wrong visual feedback. Fits testing a specific claim, not an open question. (components.md §9)
+- **Lluvia de ideas (nube de palabras flotantes)** — participants type a word each, which joins a shared canvas of accumulated words drifting slowly at varied sizes and colors. Fits an open brainstorm with no right answer. (components.md §10)
+
+Picking the wrong methodology for the moment undermines the activity — a quiz stepper forces a false right/wrong framing onto an open brainstorm, and a floating word cloud loses the "did we get this right" structure a true/false check needs. When it's a true/false or quiz activity, get the actual questions (and correct answers, for true/false) from the user rather than inventing factual claims about their program.
+
 ## Quick start
 
 1. Copy [base-template.html](base-template.html) as the starting file for the new deck.
@@ -101,7 +146,7 @@ Five concentric arcs draw themselves in on slide entry, each a different palette
 <path class="inf-ring" pathLength="1" style="animation-delay:.88s" stroke="#F7931E" d="M ... " />
 ```
 
-**This technique generalizes beyond an infinity symbol.** Any SVG path (a ring, a wheel, a connecting line, a custom icon outline) can "draw itself in" this way — `pathLength="1"` + the two CSS rules above is the whole recipe. Reuse it whenever a slide has a diagram whose *shape itself* is the point (a cycle of N components, a process arrow, a connections map), not just for literal infinity symbols. See [components.md](components.md) for the word-web / connection-lines variant used on the objectives slide.
+**This technique generalizes beyond an infinity symbol — the shape doesn't.** Any SVG path (a ring, a wheel, a connecting line, a custom icon outline) can "draw itself in" this way — `pathLength="1"` + the two CSS rules above is the whole recipe. Reuse the *technique* whenever a slide has a diagram whose shape itself is the point (a cycle of N components, a process arrow, a connections map) — but the literal infinity symbol only belongs on a deck actually about bridging generations. For any other topic, pick a shape that fits (see "Before you build" above) and self-draw *that* instead. See [components.md](components.md) for the word-web / connection-lines variant used on the objectives slide.
 
 ### 2. Moving dots over a hero image (portada)
 
@@ -115,7 +160,7 @@ An absolutely-positioned SVG sits over the hero illustration; each dot is a `<ci
 
 ### 3. Brand mark (twin circles)
 
-The recurring kicker mark — two overlapping circles, one terracotta, one teal with `mix-blend-mode:multiply` so the overlap darkens naturally instead of needing a third manually-picked color:
+The recurring kicker mark — two overlapping circles, one terracotta, one teal with `mix-blend-mode:multiply` so the overlap darkens naturally instead of needing a third manually-picked color. This specific pair of overlapping circles *is* the "two generations meeting" idea in miniature — on a deck about a different topic, swap it for a small glyph that fits that topic instead (see "Before you build" above), keeping the same inline-with-the-kicker sizing and the `mix-blend-mode:multiply` overlap trick if the new glyph has two shapes that meet:
 
 ```css
 .mark{ position:relative; display:inline-block; width:34px; height:20px; vertical-align:middle; }
@@ -152,6 +197,7 @@ The reference deck's audience edits it directly in the browser (municipal staff 
 - **Chip add/remove** (tags like "Desafíos identificados") — a `+ Agregar` button appends an editable chip, double-click removes one.
 - **Numbered list add/remove** (objectives, questionnaire questions) — same idea, renumbers on add/remove.
 - **Detail-below-grid on click** — when a card's expanded detail needs more room than half a card can give it (a 2-column grid card is too narrow for a readable list), move the expanded content to a shared full-width panel *below* the whole grid instead of growing the card inline. This was a real fix made mid-project after the inline version forced 16px text into a half-width card; the below-grid version let the same content run at 21px+ at full width.
+- **In-deck activity wording, editable like everything else** — when you add one of the §3 activities (components.md §8/§9), don't leave its questions/alternatives as JS-only data the user can't touch through the pencil icon. Add its text elements to `editableSelector` and give it its own persisted edit state — see "Making the questions/alternatives editable, like the rest of the deck" in components.md §8. The generic whole-stage-innerHTML snapshot below doesn't cover it, because the stepper only ever has one question in the DOM at a time.
 
 ### The inline editor's autosave has one sharp edge — always include this fix
 
@@ -199,4 +245,4 @@ Every change gets checked in a real headless browser before it's considered fini
 | File | Purpose |
 |---|---|
 | [base-template.html](base-template.html) | Trimmed, working starter deck — stage, portada, índice, and one example of each signature component. Copy this as the first file of a new deck. |
-| [components.md](components.md) | Copy-pasteable HTML/CSS/JS for every reusable pattern: chip add/remove, numbered-list add/remove, expandable-detail-below-grid, animated connection-lines diagram, obs-table style side-by-side comparison. |
+| [components.md](components.md) | Copy-pasteable HTML/CSS/JS for every reusable pattern: chip add/remove, numbered-list add/remove, expandable-detail-below-grid, animated connection-lines diagram, obs-table style side-by-side comparison, and the three in-deck activity methodologies (quiz stepper, Verdadero/Falso, floating word-cloud brainstorm). |
