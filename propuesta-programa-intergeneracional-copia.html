@@ -387,9 +387,9 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 /* ===========================================
    TEXT-SIZE CONTROLS — edit-mode only, one row per typographic role
    =========================================== */
-.text-scale-panel{ position:fixed; top:74px; left:18px; z-index:10001; background:rgba(43,36,32,.94); backdrop-filter:blur(6px); border-radius:14px; padding:16px 18px; display:flex; flex-direction:column; gap:10px; opacity:0; transform:translateY(-8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease; min-width:220px; }
+.text-scale-panel{ position:fixed; top:74px; left:18px; z-index:10001; background:rgba(43,36,32,.94); backdrop-filter:blur(6px); border-radius:14px; padding:16px 18px; display:flex; flex-direction:column; gap:10px; opacity:0; transform:translateY(-8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease; min-width:250px; }
 .text-scale-panel.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
-.text-scale-panel .ts-title{ font-family:var(--font); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:rgba(243,236,225,.6); margin-bottom:2px; }
+.text-scale-panel .ts-title{ font-family:var(--font); font-weight:700; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:rgba(243,236,225,.6); margin-bottom:2px; }
 .ts-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .ts-label{ font-family:var(--font); font-weight:600; font-size:14px; color:#F3ECE1; }
 .ts-controls{ display:flex; align-items:center; gap:8px; }
@@ -397,6 +397,8 @@ h2.sec em{ font-style:normal; color:var(--terracotta); }
 .ts-btn:hover{ background:var(--teal); color:#fff; }
 .ts-btn:disabled{ opacity:.35; cursor:default; background:#F3ECE1; color:var(--ink); }
 .ts-val{ font-family:var(--font); font-weight:700; font-size:13px; color:#F3ECE1; min-width:38px; text-align:center; }
+.ts-replicate{ display:flex; align-items:center; gap:8px; margin-top:4px; padding-top:10px; border-top:1px solid rgba(243,236,225,.18); font-family:var(--font); font-weight:500; font-size:12.5px; color:rgba(243,236,225,.85); cursor:pointer; line-height:1.3; }
+.ts-replicate input{ width:15px; height:15px; accent-color:var(--teal); cursor:pointer; flex:0 0 auto; }
 .ts-reset{ margin-top:2px; background:none; border:1px solid rgba(243,236,225,.4); color:#F3ECE1; font-family:var(--font); font-weight:600; font-size:12px; padding:7px 10px; border-radius:8px; cursor:pointer; transition:border-color .15s ease; }
 .ts-reset:hover{ border-color:#F3ECE1; }
 </style>
@@ -1060,10 +1062,13 @@ class InlineEditor {
 
 /* ===========================================
    TEXT-SIZE CONTROLS
-   One multiplier per typographic role (kicker/heading/lede/body), applied as
-   CSS custom properties on <html> so every font-size:calc(...) in the
-   stylesheet picks it up. Only shown while edit mode is on; persists per
-   browser via localStorage, independent of the inline-editor's own save.
+   One multiplier per typographic role (kicker/heading/lede/body) PER SLIDE —
+   applied as a CSS custom property set on each .slide element (not :root),
+   so every font-size:calc(...) inside that slide picks up its own value.
+   By default an adjustment only touches the slide currently on screen; the
+   "Aplicar a todas las diapositivas" checkbox opts into writing the same
+   value onto every slide at once. Only shown while edit mode is on; persists
+   per browser via localStorage, independent of the inline-editor's own save.
    =========================================== */
 class TextScaler {
     constructor() {
@@ -1071,63 +1076,106 @@ class TextScaler {
         this.labels = { kicker: 'Etiquetas', heading: 'Títulos', lede: 'Subtítulos', body: 'Texto general' };
         this.min = 0.7; this.max = 1.5; this.step = 0.05;
         this.panel = document.getElementById('textScalePanel');
-        this.scales = this.loadFromStorage();
+        this.slideEls = Array.from(document.querySelectorAll('.slide'));
+        const loaded = this.loadFromStorage();
+        this.scales = loaded.slides;
+        this.replicateAll = loaded.replicateAll;
         this.applyAll();
         this.render();
+        this.watchSlideChanges();
     }
 
+    defaultSlideScales() { return { kicker: 1, heading: 1, lede: 1, body: 1 }; }
+
     loadFromStorage() {
-        const defaults = { kicker: 1, heading: 1, lede: 1, body: 1 };
+        const fresh = { replicateAll: false, slides: this.slideEls.map(() => this.defaultSlideScales()) };
         try {
-            const saved = JSON.parse(localStorage.getItem('text-scale-settings') || '{}');
-            return { ...defaults, ...saved };
-        } catch (e) { return defaults; }
+            const saved = JSON.parse(localStorage.getItem('text-scale-settings-v2') || 'null');
+            if (!saved || !Array.isArray(saved.slides) || saved.slides.length !== this.slideEls.length) return fresh;
+            return { replicateAll: !!saved.replicateAll, slides: saved.slides.map((s) => ({ ...this.defaultSlideScales(), ...s })) };
+        } catch (e) { return fresh; }
     }
 
     saveToStorage() {
-        try { localStorage.setItem('text-scale-settings', JSON.stringify(this.scales)); } catch (e) { /* unavailable — ignore */ }
+        try { localStorage.setItem('text-scale-settings-v2', JSON.stringify({ replicateAll: this.replicateAll, slides: this.scales })); } catch (e) { /* unavailable — ignore */ }
+    }
+
+    currentSlideIndex() {
+        const i = this.slideEls.findIndex((el) => el.classList.contains('active'));
+        return i === -1 ? 0 : i;
+    }
+
+    applySlide(index, key, value) {
+        this.slideEls[index].style.setProperty(`--fs-scale-${key}`, value);
     }
 
     applyAll() {
-        this.keys.forEach((k) => document.documentElement.style.setProperty(`--fs-scale-${k}`, this.scales[k]));
+        this.scales.forEach((slideScales, i) => {
+            this.keys.forEach((k) => this.applySlide(i, k, slideScales[k]));
+        });
     }
 
     adjust(key, dir) {
-        const next = Math.round((this.scales[key] + dir * this.step) * 100) / 100;
-        this.scales[key] = Math.min(this.max, Math.max(this.min, next));
-        document.documentElement.style.setProperty(`--fs-scale-${key}`, this.scales[key]);
+        const i = this.currentSlideIndex();
+        const next = Math.min(this.max, Math.max(this.min, Math.round((this.scales[i][key] + dir * this.step) * 100) / 100));
+        if (this.replicateAll) {
+            this.scales.forEach((slideScales, idx) => { slideScales[key] = next; this.applySlide(idx, key, next); });
+        } else {
+            this.scales[i][key] = next;
+            this.applySlide(i, key, next);
+        }
         this.saveToStorage();
         this.render();
     }
 
-    resetAll() {
-        this.keys.forEach((k) => {
-            this.scales[k] = 1;
-            document.documentElement.style.setProperty(`--fs-scale-${k}`, 1);
-        });
+    resetCurrentOrAll() {
+        if (this.replicateAll) {
+            this.scales.forEach((slideScales, idx) => {
+                this.keys.forEach((k) => { slideScales[k] = 1; this.applySlide(idx, k, 1); });
+            });
+        } else {
+            const i = this.currentSlideIndex();
+            this.keys.forEach((k) => { this.scales[i][k] = 1; this.applySlide(i, k, 1); });
+        }
         this.saveToStorage();
         this.render();
     }
 
     setVisible(visible) { this.panel.classList.toggle('show', visible); }
 
+    watchSlideChanges() {
+        new MutationObserver(() => this.render()).observe(document.getElementById('deckStage'), {
+            attributes: true, attributeFilter: ['class'], subtree: true,
+        });
+    }
+
     render() {
+        const i = this.currentSlideIndex();
+        const current = this.scales[i];
         const rows = this.keys.map((k) => {
-            const pct = Math.round(this.scales[k] * 100);
+            const pct = Math.round(current[k] * 100);
             return `<div class="ts-row">
                 <span class="ts-label">${this.labels[k]}</span>
                 <div class="ts-controls">
-                    <button class="ts-btn" data-k="${k}" data-d="-1" ${this.scales[k] <= this.min ? 'disabled' : ''}>−</button>
+                    <button class="ts-btn" data-k="${k}" data-d="-1" ${current[k] <= this.min ? 'disabled' : ''}>−</button>
                     <span class="ts-val">${pct}%</span>
-                    <button class="ts-btn" data-k="${k}" data-d="1" ${this.scales[k] >= this.max ? 'disabled' : ''}>+</button>
+                    <button class="ts-btn" data-k="${k}" data-d="1" ${current[k] >= this.max ? 'disabled' : ''}>+</button>
                 </div>
             </div>`;
         }).join('');
-        this.panel.innerHTML = '<span class="ts-title">Tamaño de texto</span>' + rows + '<button class="ts-reset" id="tsReset">Restablecer</button>';
+        this.panel.innerHTML = `<span class="ts-title">Tamaño de texto — diapositiva ${i + 1}/${this.slideEls.length}</span>`
+            + rows
+            + `<label class="ts-replicate"><input type="checkbox" id="tsReplicate" ${this.replicateAll ? 'checked' : ''}> Aplicar a todas las diapositivas</label>`
+            + `<button class="ts-reset" id="tsReset">${this.replicateAll ? 'Restablecer todas' : 'Restablecer esta diapositiva'}</button>`;
         this.panel.querySelectorAll('.ts-btn').forEach((btn) => {
             btn.addEventListener('click', () => this.adjust(btn.dataset.k, Number(btn.dataset.d)));
         });
-        this.panel.querySelector('#tsReset').addEventListener('click', () => this.resetAll());
+        this.panel.querySelector('#tsReplicate').addEventListener('change', (e) => {
+            this.replicateAll = e.target.checked;
+            this.saveToStorage();
+            this.render();
+        });
+        this.panel.querySelector('#tsReset').addEventListener('click', () => this.resetCurrentOrAll());
     }
 }
 
