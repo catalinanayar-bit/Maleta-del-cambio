@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Díptico — Programa Intergeneracional para Jóvenes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===========================================
+   Same institutional palette as
+   "Propuesta Programa Intergeneracional"
+   =========================================== */
+:root{
+    --paper:#F3ECE1;
+    --paper-2:#EAE0D0;
+    --ink:#2B2420;
+    --ink-soft:#5B5147;
+
+    --c-blue:#3E96B4;
+    --c-turq:#03C2AE;
+    --c-green:#8BB844;
+    --c-orange:#F7931E;
+    --c-yellow:#FFCC33;
+    --c-pink:#ED1E79;
+    --c-purple:#662D91;
+
+    --terracotta:var(--c-blue);
+    --terracotta-soft:#D6E9ED;
+    --teal:var(--c-turq);
+    --rule:rgba(43,36,32,.18);
+
+    --font:'Raleway', sans-serif;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+    font-family:var(--font);
+    color:var(--ink);
+    background:#d8d2c4;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:24px;
+    padding:28px 16px 60px;
+}
+
+/* on-screen chrome, hidden on print */
+.toolbar{
+    display:flex; align-items:center; gap:14px;
+    font-size:13px; color:var(--ink-soft);
+}
+.toolbar button{
+    font-family:var(--font); font-weight:700; font-size:14px;
+    background:var(--terracotta); color:#fff; border:none;
+    padding:11px 22px; border-radius:999px; cursor:pointer;
+    letter-spacing:.02em;
+}
+.toolbar button:hover{ background:#347c96; }
+.hint{ max-width:297mm; font-size:12.5px; line-height:1.5; color:var(--ink-soft); text-align:center; }
+
+/* ===========================================
+   The díptico itself — A4 landscape, one fold
+   down the middle -> two A5 panels
+   =========================================== */
+.diptico{
+    width:297mm; height:210mm;
+    display:flex;
+    background:var(--paper);
+    box-shadow:0 8px 32px rgba(0,0,0,.28);
+    position:relative;
+}
+.fold{
+    position:absolute; top:0; bottom:0; left:50%;
+    width:0; border-left:1px dashed var(--rule);
+    display:flex; align-items:center; justify-content:center;
+}
+.fold-tag{
+    position:absolute; top:8mm; background:var(--paper);
+    padding:2px 6px; font-size:8px; letter-spacing:.12em;
+    color:var(--ink-soft); font-weight:700; transform:translateX(-50%);
+    text-transform:uppercase;
+}
+
+.panel{
+    width:148.5mm; height:210mm;
+    padding:14mm 13mm;
+    display:flex; flex-direction:column;
+    position:relative;
+}
+
+/* brand mark — twin circles, "two generations meeting" */
+.mark{ position:relative; display:inline-block; width:22px; height:13px; vertical-align:middle; }
+.mark .c{ position:absolute; top:0; width:13px; height:13px; border-radius:50%; }
+.mark .c.a{ left:0; background:var(--terracotta); }
+.mark .c.b{ left:9px; background:var(--teal); mix-blend-mode:multiply; }
+
+.kicker{
+    display:flex; align-items:center; gap:9px;
+    font-weight:700; font-size:10.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--teal);
+}
+.org-row{ margin-top:auto; padding-top:8mm; }
+.org{ font-size:9.5px; font-weight:600; color:var(--ink-soft); letter-spacing:.04em; text-transform:uppercase; }
+.org + .org{ margin-left:10px; padding-left:10px; border-left:1px solid var(--rule); }
+
+/* ---------- LEFT PANEL — portada ---------- */
+.p-left .badge{
+    align-self:flex-start;
+    background:var(--terracotta-soft); color:var(--terracotta);
+    font-weight:700; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+    padding:5px 12px; border-radius:999px; margin-top:16px;
+}
+.p-left h1{
+    font-size:34px; font-weight:800; line-height:1.12; margin-top:14px; max-width:112mm;
+}
+.p-left h1 em{ font-style:normal; color:var(--terracotta); }
+.p-left .lede{
+    font-size:14.5px; line-height:1.5; color:var(--ink-soft); margin-top:12px; max-width:112mm;
+}
+.stat-box{
+    margin-top:16px; background:var(--paper-2); border-radius:12px;
+    padding:14px 16px; display:flex; align-items:center; gap:14px;
+}
+.stat-box .n{ font-size:30px; font-weight:800; color:var(--c-purple); white-space:nowrap; }
+.stat-box p{ font-size:11.5px; line-height:1.4; color:var(--ink-soft); }
+.footnote{ font-size:8.5px; color:var(--ink-soft); opacity:.85; margin-top:6px; }
+.tagline{
+    margin-top:14px; font-size:15px; font-weight:700; color:var(--ink);
+}
+.tagline em{ color:var(--teal); font-style:normal; }
+
+.dotgrid{
+    margin-top:20px; display:grid; grid-template-columns:repeat(10,1fr);
+    gap:6px; max-width:98mm;
+}
+.dot{ width:7.5px; height:7.5px; border-radius:50%; border:1.5px solid var(--c-turq); box-sizing:border-box; }
+.dot.filled{ background:var(--c-purple); border-color:var(--c-purple); }
+.dotgrid-legend{ margin-top:9px; display:flex; gap:16px; font-size:9.5px; color:var(--ink-soft); }
+.dotgrid-legend span{ display:inline-flex; align-items:center; gap:5px; }
+.dotgrid-legend i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+.dotgrid-legend .i-turq{ border:1.5px solid var(--c-turq); box-sizing:border-box; }
+.dotgrid-legend .i-purple{ background:var(--c-purple); }
+
+/* ---------- RIGHT PANEL — beneficios ---------- */
+.p-right h2{ font-size:24px; font-weight:800; margin-top:14px; max-width:118mm; }
+.p-right h2 em{ font-style:normal; color:var(--teal); }
+.p-right .lede{ font-size:13px; line-height:1.5; color:var(--ink-soft); margin-top:8px; max-width:118mm; }
+
+.ben-list{ margin-top:14px; display:flex; flex-direction:column; gap:11px; }
+.ben-card{
+    display:flex; gap:12px; align-items:flex-start;
+    background:var(--paper-2); border-radius:12px; padding:12px 14px;
+}
+.ben-card .n{
+    font-size:20px; font-weight:800; line-height:1; flex-shrink:0; width:26px;
+}
+.ben-card h3{ font-size:13.5px; font-weight:700; margin-bottom:3px; }
+.ben-card p{ font-size:11px; line-height:1.42; color:var(--ink-soft); }
+
+.pullquote{
+    margin-top:26px; padding-left:16px; border-left:3px solid var(--teal);
+    max-width:112mm;
+}
+.pullquote p{ font-size:16px; font-weight:700; line-height:1.4; color:var(--ink); }
+.pullquote em{ color:var(--terracotta); font-style:normal; }
+
+.cta{
+    margin-top:auto; padding-top:12px; border-top:1px solid var(--rule);
+}
+.cta .q{ font-size:15px; font-weight:800; }
+.cta .a{ font-size:11.5px; color:var(--ink-soft); margin-top:4px; line-height:1.5; }
+.cta .a b{ color:var(--ink); }
+
+@media print{
+    @page{ size:A4 landscape; margin:0; }
+    body{ background:#fff; padding:0; gap:0; }
+    .toolbar, .hint{ display:none; }
+    .diptico{ box-shadow:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">Imprimir / Guardar como PDF</button>
+</div>
+<p class="hint">Formato A4 horizontal — imprime a doble cara y dobla por la línea punteada del centro para obtener el díptico (portada a la izquierda, beneficios a la derecha).</p>
+
+<div class="diptico">
+  <div class="fold"><span class="fold-tag">dobla aquí</span></div>
+
+  <!-- LEFT PANEL — portada / qué es -->
+  <div class="panel p-left">
+    <div class="kicker"><span class="mark"><span class="c a"></span><span class="c b"></span></span> Programa Intergeneracional</div>
+
+    <span class="badge">Para jóvenes de Providencia</span>
+    <h1>¿Qué es un <em>Programa Intergeneracional</em>?</h1>
+    <p class="lede">Es una forma de organizar encuentros entre personas de distintas edades — como tú y las personas mayores de tu comuna — para que no solo compartan un espacio, sino que <b>hagan cosas juntas</b>: conversar, aprender, colaborar. El objetivo es generar beneficios reales para ambos lados y fortalecer los lazos de la comunidad.</p>
+
+    <div class="stat-box">
+      <div class="n">86</div>
+      <p>personas mayores de 65 años por cada 100 jóvenes de 15 a 29 años en Providencia — casi una persona mayor por cada joven de la comuna.</p>
+    </div>
+    <p class="footnote">Fuente: Censo 2024 (INE), vía Reporte Comunal Providencia 2025, Biblioteca del Congreso Nacional de Chile.</p>
+
+    <p class="tagline">No solo <em>estar juntas</em>, sino <em>hacer juntas</em>.</p>
+
+    <div class="dotgrid" id="dotgrid" aria-hidden="true"></div>
+    <div class="dotgrid-legend">
+      <span><i class="i-turq"></i> 100 jóvenes (15–29 años)</span>
+      <span><i class="i-purple"></i> 86 personas mayores (65+)</span>
+    </div>
+
+    <div class="org-row">
+      <span class="org">Municipalidad de Providencia</span><span class="org">Oficina de la Juventud</span>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL — beneficios para jóvenes -->
+  <div class="panel p-right">
+    <div class="kicker"><span class="mark"><span class="c a"></span><span class="c b"></span></span> Lo que ganas tú</div>
+
+    <h2>Por qué te <em>conviene</em> participar</h2>
+    <p class="lede">Un programa intergeneracional no es solo un favor a las personas mayores — trae beneficios concretos también para ti.</p>
+
+    <div class="ben-list">
+      <div class="ben-card">
+        <span class="n" style="color:var(--c-blue)">01</span>
+        <div>
+          <h3>Un adulto que te acompaña</h3>
+          <p>Ganas contención emocional y el apoyo de un adulto significativo fuera de tu entorno familiar, mientras le devuelves a una persona mayor un rol activo, útil y valorado.</p>
+        </div>
+      </div>
+      <div class="ben-card">
+        <span class="n" style="color:var(--c-turq)">02</span>
+        <div>
+          <h3>Más habilidades y pertenencia</h3>
+          <p>Los encuentros continuados fortalecen tus habilidades sociales y comunicativas, y aumentan tu sentido de pertenencia e integración con tu comuna.</p>
+        </div>
+      </div>
+      <div class="ben-card">
+        <span class="n" style="color:var(--c-green)">03</span>
+        <div>
+          <h3>Menos prejuicios de edad</h3>
+          <p>Ayudas a desmontar los prejuicios y la discriminación basados en la edad — el edadismo — en ambas direcciones, y te llevas una mirada más amplia sobre otras generaciones.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pullquote">
+      <p>Una propuesta para que personas de diferentes edades de Providencia no solo <em>estén juntas</em>, sino que <em>hagan juntas</em>.</p>
+    </div>
+
+    <div class="cta">
+      <p class="q">¿Te interesa participar?</p>
+      <p class="a">Escríbele a la <b>Oficina de la Juventud</b> de la Municipalidad de Providencia y súmate a construir puentes entre generaciones.</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  var el = document.getElementById('dotgrid');
+  for (var i = 0; i < 100; i++) {
+    var d = document.createElement('span');
+    d.className = 'dot' + (i < 86 ? ' filled' : '');
+    el.appendChild(d);
+  }
+})();
+</script>
+</body>
+</html>
