@@ -1155,7 +1155,7 @@
     if(btn){ btn.disabled = true; btn.textContent = '⏳ Generando…'; }
 
     try{
-      const canvas = await html2canvas(container, { backgroundColor: '#FFFCF6', scale: 2, useCORS: true });
+      const canvas = await html2canvas(container, { backgroundColor: '#FFFCF6', scale: 3, useCORS: true });
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
       const filename = `photocard-${id === 'bias' ? 'bias' : 'mia'}.png`;
       await guardarArchivo(filename, blob);
