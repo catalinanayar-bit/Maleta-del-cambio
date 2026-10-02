@@ -605,19 +605,19 @@
   <div class="intro">
     <span class="badge">OFICINA DE LA JUVENTUD</span>
     <h1>Tu comeback empieza contigo 💜</h1>
-    <p>Ser fan del k-pop —sí, con tu bias y todo— es un hobby sano, entretenido, y una forma real de conectar contigo mismo/a.</p>
-    <p>Primero arma la photocard de tu bias, y después la tuya.</p>
+    <p>Ser fan del k-pop —sí, con tu ídolo y todo— es un hobby sano, entretenido, y una forma real de conectar contigo mismo/a.</p>
+    <p>Primero arma la photocard de tu ídolo, y después la tuya.</p>
   </div>
 
-  <p class="note">💡 Primero selecciona una foto de tu bias. Luego elige un marco y decóralo con las gemas que quieras — arrastra esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más. Usa "Descargar imagen" para guardar tu photocard completa (la foto y tus respuestas) como una sola imagen.</p>
+  <p class="note">💡 Primero selecciona una foto de tu ídolo. Luego elige un marco y decóralo con las gemas que quieras — arrastra esas tiras para ver todas las opciones.<br>Arrastra tu foto para ajustar qué parte se ve. Toca una gema para agregarla, arrástrala para moverla y tócala de nuevo para quitarla. Puedes tocar "Volver" para ver de nuevo el frente y mostrarle tu photocard a alguien más. Usa "Descargar imagen" para guardar tu photocard completa (la foto y tus respuestas) como una sola imagen.</p>
 
   <!-- ============ SECTION 1: BIAS PHOTOCARD ============ -->
   <div class="card-section">
     <span class="section-step">1️⃣ PRIMERO</span>
-    <h2 class="section-title">Photocard de tu bias</h2>
-    <p class="section-sub">Sube una foto de tu bias y cuéntanos por qué te inspira.</p>
+    <h2 class="section-title">Photocard de tu ídolo</h2>
+    <p class="section-sub">Sube una foto de tu ídolo y cuéntanos por qué te inspira.</p>
 
-    <div class="coach-mark" id="bias-coachMark" aria-hidden="true">1) Primero selecciona una foto de tu bias</div>
+    <div class="coach-mark" id="bias-coachMark" aria-hidden="true">1) Primero selecciona una foto de tu ídolo</div>
     <div class="coach-mark" id="bias-coachMarkDecorar" aria-hidden="true" style="display:none">2) Ahora decora tu photocard con un marco y gemas</div>
 
     <div class="card-with-decor">
@@ -635,26 +635,26 @@
             <div class="photo-clip">
               <div class="photo-placeholder" id="bias-photoPlaceholder">
                 <span style="font-size:2.6rem">📷</span>
-                <span class="ph-label">Aún no tienes foto de tu bias</span>
+                <span class="ph-label">Aún no tienes foto de tu ídolo</span>
               </div>
-              <img class="photo-img" id="bias-photoImg" alt="Foto de tu bias" style="display:none">
+              <img class="photo-img" id="bias-photoImg" alt="Foto de tu ídolo" style="display:none">
               <img class="frame-overlay-clip" id="bias-frameOverlayClip" alt="" style="display:none">
             </div>
             <img class="frame-overlay" id="bias-frameOverlay" alt="" style="display:none">
             <div class="sticker-layer" id="bias-stickerLayer"></div>
-            <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('bias-fileInput').click()">📷 Subir foto de tu bias</button>
+            <button type="button" class="upload-btn" onclick="event.stopPropagation(); document.getElementById('bias-fileInput').click()">📷 Subir foto de tu ídolo</button>
             <input type="file" id="bias-fileInput" accept="image/*" style="display:none" onclick="event.stopPropagation()" onchange="cargarFoto('bias', event)">
           </div>
 
           <div class="face flip-back">
             <div class="back-scroll">
               <div class="nameplate">
-                <span class="title">MI BIAS</span>
+                <span class="title">MI ÍDOLO</span>
                 <button class="back-btn" type="button" onclick="event.stopPropagation(); voltear('bias')">↩ Volver</button>
               </div>
 
               <div class="field">
-                <div class="label">💜 ¿Quién es tu bias?</div>
+                <div class="label">💜 ¿Quién es tu ídolo?</div>
                 <input type="text" onclick="event.stopPropagation()">
               </div>
               <div class="field">
@@ -662,11 +662,11 @@
                 <input type="text" onclick="event.stopPropagation()">
               </div>
               <div class="field">
-                <div class="label">🌿 ¿Qué actividad o hobby disfruta tu bias para sentirse bien, descansar o desconectarse?</div>
+                <div class="label">🌿 ¿Qué actividad o hobby disfruta tu ídolo para sentirse bien, descansar o desconectarse?</div>
                 <input type="text" onclick="event.stopPropagation()">
               </div>
               <div class="field">
-                <div class="label">🎧 ¿Cuál es tu canción favorita de tu bias? ¿Por qué la elegiste?</div>
+                <div class="label">🎧 ¿Cuál es tu canción favorita de tu ídolo? ¿Por qué la elegiste?</div>
                 <textarea rows="2" onclick="event.stopPropagation()"></textarea>
               </div>
 
@@ -843,15 +843,18 @@
   }
 
   // The uploaded photo is sized (in JS, not object-fit) to exactly cover its
-  // frame at the same scale object-fit:cover would use, then shifted by a
-  // stored pan offset so users can drag it to recenter which part shows.
+  // frame at the same scale object-fit:cover would use, times a user-
+  // controlled zoom factor, then shifted by a stored pan offset so users
+  // can drag (or pinch, for zoom) to choose which part shows.
   function medirCoberturaFoto(id){
     const img = document.getElementById(id + '-photoImg');
     const container = img.parentElement;
     if(!img.naturalWidth || !container) return null;
     const rect = container.getBoundingClientRect();
     if(!rect.width || !rect.height) return null;
-    const scale = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
+    const baseScale = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
+    const zoom = getEstado(id).fotoZoom || 1;
+    const scale = baseScale * zoom;
     const dispW = img.naturalWidth * scale;
     const dispH = img.naturalHeight * scale;
     return {
@@ -873,44 +876,95 @@
     img.style.transform = `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px)`;
   }
 
+  const ZOOM_MIN = 1, ZOOM_MAX = 4;
+
   function habilitarArrastreFoto(id){
     const img = document.getElementById(id + '-photoImg');
-    let dragging = false, moved = false, startX, startY, startPanX, startPanY;
     img.draggable = false;
     img.addEventListener('dragstart', e => e.preventDefault());
-    // like the placed stickers: a plain tap should still flip the card to
-    // show the questions, but a drag (moved === true) must not flip it.
-    img.addEventListener('click', e => { if(moved) e.stopPropagation(); });
-    img.addEventListener('pointerdown', e => {
-      dragging = true;
-      moved = false;
-      img.classList.add('dragging');
-      img.setPointerCapture(e.pointerId);
-      startX = e.clientX;
-      startY = e.clientY;
+
+    // Active pointers, keyed by pointerId -> {x, y}. One active pointer is
+    // a drag (pan); two is a pinch (zoom), the iPad/iPhone gesture users
+    // naturally try on a photo.
+    const pointers = new Map();
+    let moved = false;
+    let dragStartX, dragStartY, dragStartPanX, dragStartPanY;
+    let pinchStartDist = null, pinchStartZoom = 1;
+
+    function distancia(){
+      const pts = [...pointers.values()];
+      return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+    }
+    function reiniciarArrastreDesdeUnPuntero(){
+      const [p] = pointers.values();
+      dragStartX = p.x; dragStartY = p.y;
       const pan = getEstado(id).fotoPan || (getEstado(id).fotoPan = { x: 0, y: 0 });
-      startPanX = pan.x;
-      startPanY = pan.y;
-    });
-    img.addEventListener('pointermove', e => {
-      if(!dragging) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-      if(Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
-      if(moved){
-        const info = medirCoberturaFoto(id);
-        if(!info) return;
-        const pan = getEstado(id).fotoPan;
-        pan.x = Math.max(-info.maxX, Math.min(info.maxX, startPanX + dx));
-        pan.y = Math.max(-info.maxY, Math.min(info.maxY, startPanY + dy));
-        img.style.transform = `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px)`;
+      dragStartPanX = pan.x; dragStartPanY = pan.y;
+    }
+
+    // like the placed stickers: a plain tap should still flip the card to
+    // show the questions, but a drag/pinch (moved === true) must not flip it.
+    img.addEventListener('click', e => { if(moved) e.stopPropagation(); });
+
+    img.addEventListener('pointerdown', e => {
+      img.setPointerCapture(e.pointerId);
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      img.classList.add('dragging');
+      if(pointers.size === 1){
+        moved = false;
+        reiniciarArrastreDesdeUnPuntero();
+      } else if(pointers.size === 2){
+        pinchStartDist = distancia();
+        pinchStartZoom = getEstado(id).fotoZoom || 1;
       }
     });
-    img.addEventListener('pointerup', e => {
-      dragging = false;
-      img.classList.remove('dragging');
-      img.releasePointerCapture(e.pointerId);
+
+    img.addEventListener('pointermove', e => {
+      if(!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if(pointers.size === 2){
+        const dist = distancia();
+        if(pinchStartDist){
+          moved = true;
+          const estado = getEstado(id);
+          const nuevoZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, pinchStartZoom * (dist / pinchStartDist)));
+          estado.fotoZoom = nuevoZoom;
+          actualizarFotoTransform(id);
+        }
+        return;
+      }
+
+      if(pointers.size === 1){
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+        if(Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+        if(moved){
+          const info = medirCoberturaFoto(id);
+          if(!info) return;
+          const pan = getEstado(id).fotoPan;
+          pan.x = Math.max(-info.maxX, Math.min(info.maxX, dragStartPanX + dx));
+          pan.y = Math.max(-info.maxY, Math.min(info.maxY, dragStartPanY + dy));
+          img.style.transform = `translate(-50%, -50%) translate(${pan.x}px, ${pan.y}px)`;
+        }
+      }
     });
+
+    function soltarPuntero(e){
+      pointers.delete(e.pointerId);
+      try { img.releasePointerCapture(e.pointerId); } catch(err){}
+      if(pointers.size === 0){
+        img.classList.remove('dragging');
+        pinchStartDist = null;
+      } else if(pointers.size === 1){
+        // went from pinching (2 fingers) to dragging (1 finger) — restart
+        // the pan baseline from here so the image doesn't jump
+        pinchStartDist = null;
+        reiniciarArrastreDesdeUnPuntero();
+      }
+    }
+    img.addEventListener('pointerup', soltarPuntero);
+    img.addEventListener('pointercancel', soltarPuntero);
   }
 
   function posicionarMarcoOverflow(id){
@@ -1205,6 +1259,7 @@
       mostrarCoach(id, 'Decorar');
       const img = document.getElementById(id + '-photoImg');
       getEstado(id).fotoPan = { x: 0, y: 0 };
+      getEstado(id).fotoZoom = 1;
       img.onload = () => actualizarFotoTransform(id);
       img.src = ev.target.result;
       img.style.display = 'block';
