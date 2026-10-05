@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Acompañémonos en el cambio</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<script type="importmap">
+{"imports":{"react":"https://esm.sh/react@19.0.0","react-dom/client":"https://esm.sh/react-dom@19.0.0/client?external=react","motion/react":"https://esm.sh/motion@12.23.12/react?external=react,react-dom"}}
+</script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'DM Sans', sans-serif; background: #EAF4FB; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 4rem; }
@@ -75,6 +78,9 @@ h1 { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; col
 .print-btn.enviando { background: #2E7D32; }
 .print-btn.error { background: #C62828; }
 @media print { .print-btn,.add-row,.add-row-small,.btn-cerrar,.tapa-abierta{display:none!important} .view-closed{display:none!important} .view-open{display:block!important;opacity:1!important} .maleta-interior{box-shadow:none} .val-opt.blocked{display:none} .val-counter{display:none} }
+/* React Bits: GradientText (MIT + Commons Clause, David Haz) */
+.animated-gradient-text { position: relative; margin: 0 auto; display: flex; max-width: fit-content; flex-direction: row; align-items: center; justify-content: center; }
+.animated-gradient-text .text-content { display: inline-block; position: relative; z-index: 2; background-clip: text; -webkit-background-clip: text; color: transparent; }
 #vanta-bg { position: fixed; inset: 0; z-index: -1; }
 </style>
 </head>
@@ -237,6 +243,36 @@ async function enviarMaleta(){const btn=document.getElementById('btnEnviar');con
     }
   }catch(e){console.warn('Efectos visuales no disponibles',e);}
 })();
+</script>
+<script type="module">
+// React Bits (https://github.com/DavidHDev/react-bits): GradientText, portado a createElement para usarlo sin compilar
+try{
+  const React=await import('react');
+  const {createRoot}=await import('react-dom/client');
+  const {motion,useMotionValue,useAnimationFrame,useTransform}=await import('motion/react');
+  const {createElement:h,useRef,useEffect}=React;
+  function GradientText({children,colors,animationSpeed=8}){
+    const progress=useMotionValue(0);
+    const elapsed=useRef(0),last=useRef(null);
+    const dur=animationSpeed*1000;
+    useAnimationFrame(t=>{
+      if(last.current===null){last.current=t;return;}
+      elapsed.current+=t-last.current;last.current=t;
+      const c=elapsed.current%(dur*2);
+      progress.set(c<dur?(c/dur)*100:100-((c-dur)/dur)*100);
+    });
+    useEffect(()=>{progress.set(0);},[progress]);
+    const pos=useTransform(progress,p=>p+'% 50%');
+    const style={backgroundImage:'linear-gradient(to right, '+[...colors,colors[0]].join(', ')+')',backgroundSize:'300% 100%',backgroundRepeat:'repeat',backgroundPosition:pos};
+    return h(motion.div,{className:'animated-gradient-text'},h(motion.div,{className:'text-content',style},children));
+  }
+  const titulo=document.querySelector('h1');
+  if(titulo&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const texto=titulo.textContent;
+    titulo.textContent='';
+    createRoot(titulo).render(h(GradientText,{colors:['#1A3A5C','#3BB8D4','#F5A623','#1A3A5C'],animationSpeed:6},texto));
+  }
+}catch(e){console.warn('React Bits no disponible',e);}
 </script>
 </body>
 </html>
