@@ -75,9 +75,11 @@ h1 { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; col
 .print-btn.enviando { background: #2E7D32; }
 .print-btn.error { background: #C62828; }
 @media print { .print-btn,.add-row,.add-row-small,.btn-cerrar,.tapa-abierta{display:none!important} .view-closed{display:none!important} .view-open{display:block!important;opacity:1!important} .maleta-interior{box-shadow:none} .val-opt.blocked{display:none} .val-counter{display:none} }
+#vanta-bg { position: fixed; inset: 0; z-index: -1; }
 </style>
 </head>
 <body>
+<div id="vanta-bg"></div>
 <h1>Acompañémonos en el cambio</h1>
 <p class="subtitle">Taller Final · INGER – HDS</p>
 <div class="wrap">
@@ -212,6 +214,29 @@ function loadPhoto(e){const f=e.target.files[0];if(!f)return;const r=new FileRea
 buildGrids();
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbz25Z6qq8yfkf9YkEEIOAlxECmtORSb9de_AQZETsKORKppbie3IxZs4VhUjMww15qp/exec';
 async function enviarMaleta(){const btn=document.getElementById('btnEnviar');const unidad=document.getElementById('unidadEquipo').value||'';const anio=document.getElementById('anioEquipo').value||'';const integrantes=Array.from(document.querySelectorAll('.integ-tag')).map(el=>el.childNodes[0].textContent.trim()).join(', ');const llevan=Array.from(document.querySelectorAll('#tagsWrap .tag')).map(el=>el.childNodes[0].textContent.trim()).join(', ');const recuerdo=document.querySelector('.recuerdo-in')?document.querySelector('.recuerdo-in').value:'';const repEl=document.querySelector('#gridRepresenta .selected-rep .vname');const valRep=repEl?repEl.textContent:'';const devEls=document.querySelectorAll('#gridDesarrollar .selected-dev .vname');const valDev=Array.from(devEls).map(el=>el.textContent).join(', ');if(!unidad){alert('Por favor selecciona el equipo antes de enviar.');return;}btn.textContent='⏳ Enviando...';btn.disabled=true;btn.classList.add('enviando');try{await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({equipo:unidad,anio:anio,integrantes:integrantes,llevan:llevan,recuerdo:recuerdo,valorRepresenta:valRep,valoresDesarrollar:valDev})});btn.textContent='✅ Enviado — generando PDF...';btn.classList.remove('enviando');setTimeout(()=>{window.print();btn.textContent='📤 Enviar y guardar PDF';btn.disabled=false;},1000);}catch(err){btn.textContent='❌ Error al enviar';btn.classList.remove('enviando');btn.classList.add('error');setTimeout(()=>{btn.textContent='📤 Enviar y guardar PDF';btn.disabled=false;btn.classList.remove('error');},3000);}}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.clouds.min.js"></script>
+<script>
+(function(){
+  try{
+    if(window.Lenis){
+      const lenis=new Lenis();
+      if(window.gsap){gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);}
+      else{(function raf(t){lenis.raf(t);requestAnimationFrame(raf);})(0);}
+    }
+    if(window.VANTA&&window.THREE&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+      VANTA.CLOUDS({el:'#vanta-bg',mouseControls:false,touchControls:false,minHeight:200,minWidth:200,
+        skyColor:0xbfe0f5,cloudColor:0xeaf4fb,cloudShadowColor:0x7fb3d5,sunColor:0xf5a623,sunGlareColor:0xf5a623,sunlightColor:0xffffff,speed:0.6});
+    }
+    if(window.gsap){
+      gsap.from('h1,.subtitle',{y:-20,opacity:0,duration:0.7,stagger:0.12,ease:'power2.out'});
+      gsap.from('.wrap',{y:30,opacity:0,duration:0.8,delay:0.25,ease:'power3.out'});
+    }
+  }catch(e){console.warn('Efectos visuales no disponibles',e);}
+})();
 </script>
 </body>
 </html>
